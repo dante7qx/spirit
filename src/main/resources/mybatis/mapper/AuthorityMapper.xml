@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ymrs.spirit.ffx.mapper.sysmgr.AuthorityMapper">
+	<select id="findAuthorityRoleByRoleId" resultType="AuthorityRoleBO">
+		select 
+		t.id, 
+		t.name, 
+		t.code,
+		t.authority_desc as authorityDesc, 
+		t.show_order as showOrder, 
+		t.pid,
+		t1.role_id as roleId
+		from t_authority t
+		left join t_authority t2 on t.pid = t2.id
+		left join t_role_authority t1 on t.id = t1.authority_id and t1.role_id = #{roleId}
+		order by t2.show_order asc, t.show_order asc
+	</select>
+</mapper>
