@@ -19,7 +19,7 @@ import com.ymrs.spirit.ffx.exception.SpiritServiceException;
 import com.ymrs.spirit.ffx.po.sysmgr.AuthorityPO;
 import com.ymrs.spirit.ffx.po.sysmgr.UserPO;
 import com.ymrs.spirit.ffx.pub.PageReq;
-import com.ymrs.spirit.ffx.pub.PageResp;
+import com.ymrs.spirit.ffx.pub.PageResult;
 import com.ymrs.spirit.ffx.service.sysmgr.AuthorityService;
 import com.ymrs.spirit.ffx.util.DateUtils;
 
@@ -39,7 +39,7 @@ public class AuthorityServiceImpl implements AuthorityService {
 	private AuthorityDAO authorityDAO;
 
 	@Override
-	public PageResp<AuthorityRespDTO> findPage(PageReq pageReq) throws SpiritServiceException {
+	public PageResult<AuthorityRespDTO> findPage(PageReq pageReq) throws SpiritServiceException {
 		return null;
 	}
 

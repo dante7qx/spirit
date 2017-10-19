@@ -26,7 +26,7 @@ import com.ymrs.spirit.ffx.po.sysmgr.AuthorityPO;
 import com.ymrs.spirit.ffx.po.sysmgr.RolePO;
 import com.ymrs.spirit.ffx.po.sysmgr.UserPO;
 import com.ymrs.spirit.ffx.pub.PageReq;
-import com.ymrs.spirit.ffx.pub.PageResp;
+import com.ymrs.spirit.ffx.pub.PageResult;
 import com.ymrs.spirit.ffx.service.sysmgr.UserService;
 import com.ymrs.spirit.ffx.template.SpiritServiceTemplate;
 import com.ymrs.spirit.ffx.util.DateUtils;
@@ -49,8 +49,8 @@ public class UserServiceImpl extends SpiritServiceTemplate<UserReqDTO, UserRespD
 	 * 分页查询用户
 	 */
 	@Override
-	public PageResp<UserRespDTO> findPage(PageReq pageReq) throws SpiritServiceException {
-		return super.findPage(pageReq);
+	public PageResult<UserRespDTO> findPage(PageReq pageReq) throws SpiritServiceException {
+		return super.findEasyUIPage(pageReq);
 	}
 
 	/**

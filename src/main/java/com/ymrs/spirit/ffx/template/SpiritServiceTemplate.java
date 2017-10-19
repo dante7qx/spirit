@@ -16,6 +16,7 @@ import com.google.common.collect.Lists;
 import com.ymrs.spirit.ffx.exception.SpiritServiceException;
 import com.ymrs.spirit.ffx.pub.PageReq;
 import com.ymrs.spirit.ffx.pub.PageResp;
+import com.ymrs.spirit.ffx.pub.PageResult;
 import com.ymrs.spirit.ffx.util.SpiritDaoUtils;
 
 /**
@@ -40,7 +41,7 @@ public abstract class SpiritServiceTemplate<REQ, RESP, P> {
 	 * @param pageReq
 	 * @return
 	 */
-	protected PageResp<RESP> findPage(PageReq pageReq) throws SpiritServiceException {
+	protected PageResp<RESP> findCommonPage(PageReq pageReq) throws SpiritServiceException {
 		int pageNo = pageReq.getPageNo();
 		int pageSize = pageReq.getPageSize();
 		String sortCol = pageReq.getSort();
@@ -69,6 +70,21 @@ public abstract class SpiritServiceTemplate<REQ, RESP, P> {
 		pageResp.setTotalPage(page.getTotalPages());
 		pageResp.setTotalCount(Integer.valueOf(page.getTotalElements() + ""));
 		return pageResp;
+	}
+	
+	/**
+	 * Easyui分页公共模板
+	 * 
+	 * @param pageReq
+	 * @return
+	 * @throws SpiritServiceException
+	 */
+	protected PageResult<RESP> findEasyUIPage(PageReq pageReq) throws SpiritServiceException {
+		PageResp<RESP> pageResp = findCommonPage(pageReq);
+		PageResult<RESP> pageResult = new PageResult<>();
+		pageResult.setRows(pageResp.getResult());
+		pageResult.setTotal(pageResp.getTotalCount());
+		return pageResult;
 	}
 	
 	/**

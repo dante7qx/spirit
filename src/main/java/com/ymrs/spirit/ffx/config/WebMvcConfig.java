@@ -26,6 +26,16 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter {
 		registry.addViewController("/login").setViewName("login");
 		registry.addViewController(ERROR_404).setViewName("common/error/404");
 		registry.addViewController(ERROR_500).setViewName("common/error/500");
+		
+		/**
+		 * 系统管理页面配置
+		 */
+		registry.addViewController("/sysmgr/user").setViewName("sysmgr/user/userlist");
+		registry.addViewController("/sysmgr/edituser").setViewName("sysmgr/user/userdetail");
+		registry.addViewController("/sysmgr/authority").setViewName("sysmgr/authority/authoritymanager");
+		registry.addViewController("/sysmgr/role").setViewName("sysmgr/role/rolelist");
+		registry.addViewController("/sysmgr/editrole").setViewName("sysmgr/role/roledetail");
+		registry.addViewController("/sysmgr/menu").setViewName("sysmgr/resource/resourcemanager");
 	}
 
 	/**

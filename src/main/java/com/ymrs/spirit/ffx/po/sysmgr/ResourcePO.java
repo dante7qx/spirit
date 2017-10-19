@@ -55,12 +55,6 @@ public class ResourcePO implements Serializable {
 	 * 更新时间
 	 */
 	private Date updateDate;
-	/**
-	 * 服务模块
-	 */
-	@ManyToOne(cascade = { CascadeType.REFRESH }, fetch = FetchType.LAZY)
-	@JoinColumn(name = "service_module_id")
-	private ServiceModulePO serviceModule;
 
 	/**
 	 * 父节点
@@ -75,6 +69,11 @@ public class ResourcePO implements Serializable {
 	@ManyToOne(cascade = { CascadeType.REFRESH }, fetch = FetchType.LAZY)
 	@JoinColumn(name = "authority_id")
 	private AuthorityPO authority;
+	
+	/**
+	 * 菜单图标
+	 */
+	private String iconClass;
 
 	public ResourcePO() {
 		// 默认构造函数

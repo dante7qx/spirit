@@ -2,7 +2,7 @@ package com.ymrs.spirit.ffx.template;
 
 import com.ymrs.spirit.ffx.exception.SpiritServiceException;
 import com.ymrs.spirit.ffx.pub.PageReq;
-import com.ymrs.spirit.ffx.pub.PageResp;
+import com.ymrs.spirit.ffx.pub.PageResult;
 
 /**
  * 抽象API业务接口，所有业务Service接口需要继承此接口
@@ -21,7 +21,7 @@ public abstract interface SpiritAbstractService<ReqDTO, RespDTO> {
 	 * @return
 	 * @throws SpiritAPIServiceException
 	 */
-	public PageResp<RespDTO> findPage(PageReq pageReq) throws SpiritServiceException;
+	public PageResult<RespDTO> findPage(PageReq pageReq) throws SpiritServiceException;
 	
 	/**
 	 * 持久化（新增、更新）

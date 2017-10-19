@@ -86,3 +86,11 @@ table.tbcontent .tbtitle {
 .p-hide, .combo-hide {
 	margin: 0;
 }
+
+.textbox-text{
+	color:#000;
+}
+
+.datagrid-row-selected a{
+	color:#fff;
+}

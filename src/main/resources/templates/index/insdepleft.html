@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head>
+	<meta content="text/html;charset=UTF-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta name="viewport" content="width=device-width,user-scalable=no,initial-scale=1" />
+	<link th:href="@{insdep/easyui.css}" rel="stylesheet" />
+	<link th:href="@{insdep/easyui_animation.css}" rel="stylesheet" />
+	<link th:href="@{insdep/easyui_plus.css}" rel="stylesheet" />
+	<link th:href="@{insdep/insdep_theme_default.css}" rel="stylesheet" />
+	<link th:href="@{insdep/icon.css}" rel="stylesheet" />
+	<link th:href="@{insdep/font-awesome/css/font-awesome.min.css}" rel="stylesheet" />
+	<link th:href="@{ux/insdep/css/insdepleft.css}" rel="stylesheet" />
+	<title>精灵-FFX</title>
+</head>
+<body>
+	<div id="master-layout">
+        <div data-options="region:'north',border:false,bodyCls:'theme-header-layout'">
+        	<div class="theme-navigate">
+                <div class="left">
+                    <select id="cc1" class="easyui-combobox theme-navigate-combobox" name="dept" style="width:120px;">   
+                        <option>选择样式</option>   
+                        <option>Insdep</option>   
+                        <option>Bootstrap</option> 
+                        <option>Gray</option> 
+                        <option>Metro</option> 
+                        <option>Material</option> 
+                    </select>  
+                </div>
+                <div class="right">
+                	<label style="color: #fff;">欢迎，<span sec:authentication="principal.spiritLoginUser.name"></span></label>
+                	<label id="sysDate" style="color: #fff;"></label>
+                    <a href="javascript:;" class="easyui-menubutton theme-navigate-more-button" data-options="menu:'#more',hasDownArrow:false"></a>
+                    <div id="more" class="theme-navigate-more-panel">
+                    	<div>
+                    		<label>修改密码</label>
+                    		<span sec:authentication="principal.spiritLoginUser.id" style="display:none;"></span>
+                    	</div>
+                        <div onclick="$('#sysLogoutForm').submit();">注销</div>
+                        <form id="sysLogoutForm" th:action="@{/syslogout}" method="post"></form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div data-options="region:'west',border:false,bodyCls:'theme-left-layout'" style="width:200px;">
+            <div class="theme-left-normal">
+                <div class="easyui-layout" data-options="border:false,fit:true"> 
+                    <div data-options="region:'north',border:false">
+                        <div class="theme-left-fold">
+                    		<a href="javascript:;" class="easyui-linkbutton left-control-switch" data-options="width:'100%'"><i class="fa fa-bars fa-rotate-90 fa-lg"></i></a>
+                    	</div>
+                    </div>   
+                    <div data-options="region:'center',border:false">
+                        <div th:each="menu,menuStat : ${menus}" class="easyui-accordion" data-options="border:false,fit:true"> 
+                        	<div th:if="${#lists.isEmpty(menu.children)}" th:title="${menu.name}"></div>
+                        	<div th:unless="${#lists.isEmpty(menu.children)}" th:title="${menu.name}">
+                        		<ul class="easyui-datalist" data-options="border:false,fit:true">
+                        			<li th:if="${#lists.isEmpty(childmenu.children)}" th:each="childmenu : ${menu.children}">
+                        				<!--  
+                        				<i th:class="${childmenu.iconClass}"></i>
+                        				-->
+                        				<a onclick="javascript:MainPage.openTab(this)" th:url="@{'/'+${childmenu.url}}" th:text="${childmenu.name}"></a>
+                        			</li>
+                        		</ul>
+                        	</div>
+                        </div>
+                    </div>
+                </div>  
+            </div>
+            <!--最小化菜单--> 
+            <div class="theme-left-minimal">
+                <ul class="easyui-datalist" data-options="border:false,fit:true">
+                    <li><a class="left-control-switch"><i class="fa fa-bars fa-lg"></i></a></li>
+                    <li><i class="fa fa-home fa-2x"></i><p>主题</p></li>
+                    <li><i class="fa fa-book fa-2x"></i><p>组件</p></li>
+                    <li><i class="fa fa-pencil fa-2x"></i><p>编辑</p></li>
+                    <li><i class="fa fa-cog fa-2x"></i><p>设置</p></li>
+                </ul>
+            </div>
+        </div>
+        <!--结束左侧菜单--> 
+        <div data-options="region:'center',border:false"  id="control" style="background:#fff;">
+        	<div class="easyui-tabs" id="mainTabs" data-options="fit:true,plain:true,border:false,tabHeight:29,onContextMenu:MainPage.tabContextMenu">
+		        <div title="首页" data-options="iconCls:'fa fa-home'">
+		        	<h2 align="center" style="margin-top: 200px;">欢迎来到 Spirit - FFX</h2>
+		        </div>
+		    </div>
+        </div>
+    </div>
+	<script th:src="@{webjars/jquery/1.11.3/jquery.min.js}" type="text/javascript"></script>
+	<script th:src="@{insdep/jquery.easyui.min.js}" type="text/javascript"></script>
+	<script th:src="@{insdep/jquery.insdep-extend.min.js}" type="text/javascript"></script>
+	<script th:src="@{ux/insdep/js/insdepleft.js}" type="text/javascript"></script>
+    <script th:line="javascript">
+    	$(function(){
+    		MainPage.init();
+		});
+    </script>
+</body>
+</html>

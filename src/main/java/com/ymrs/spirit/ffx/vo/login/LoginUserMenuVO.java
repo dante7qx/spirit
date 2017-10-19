@@ -17,6 +17,7 @@ public class LoginUserMenuVO {
 	private Long id;
 	private String name;
 	private String url;
+	private String iconClass;
 	private List<LoginUserMenuVO> children;
 
 	public List<LoginUserMenuVO> getChildren() {

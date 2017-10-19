@@ -19,10 +19,10 @@ public class UserRespDTO {
 	private String name;
 	private String email;
 	private Boolean ldapUser;
-	private String updateUserName;
-	private String updateDate;
 	private Set<Long> roleIds;
 	private String status;
+	private String updateUserName;
+	private String updateDate;
 	
 	public Set<Long> getRoleIds() {
 		if(this.roleIds == null) {

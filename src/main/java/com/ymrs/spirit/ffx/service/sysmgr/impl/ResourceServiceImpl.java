@@ -23,10 +23,9 @@ import com.ymrs.spirit.ffx.exception.SpiritDaoException;
 import com.ymrs.spirit.ffx.exception.SpiritServiceException;
 import com.ymrs.spirit.ffx.po.sysmgr.AuthorityPO;
 import com.ymrs.spirit.ffx.po.sysmgr.ResourcePO;
-import com.ymrs.spirit.ffx.po.sysmgr.ServiceModulePO;
 import com.ymrs.spirit.ffx.po.sysmgr.UserPO;
 import com.ymrs.spirit.ffx.pub.PageReq;
-import com.ymrs.spirit.ffx.pub.PageResp;
+import com.ymrs.spirit.ffx.pub.PageResult;
 import com.ymrs.spirit.ffx.service.sysmgr.ResourceService;
 import com.ymrs.spirit.ffx.util.DateUtils;
 
@@ -46,7 +45,7 @@ public class ResourceServiceImpl implements ResourceService {
 	private ResourceDAO resourceDAO;
 
 	@Override
-	public PageResp<ResourceRespDTO> findPage(PageReq pageReq) throws SpiritServiceException {
+	public PageResult<ResourceRespDTO> findPage(PageReq pageReq) throws SpiritServiceException {
 		return null;
 	}
 
@@ -161,9 +160,6 @@ public class ResourceServiceImpl implements ResourceService {
 			if (pid != null && pid > 0) {
 				resourcePO.setParentResource(new ResourcePO(pid));
 			}
-			if (resourceReqDTO.getServiceModuleId() != null) {
-				resourcePO.setServiceModule(new ServiceModulePO(resourceReqDTO.getServiceModuleId()));
-			}
 			if (resourceReqDTO.getAuthorityId() != null) {
 				resourcePO.setAuthority(new AuthorityPO(resourceReqDTO.getAuthorityId()));
 			}
@@ -177,30 +173,17 @@ public class ResourceServiceImpl implements ResourceService {
 	protected ResourceRespDTO convertPoToRespDto(ResourcePO resourcePO) {
 		ResourceRespDTO resourceRespDTO = new ResourceRespDTO();
 		BeanUtils.copyProperties(resourcePO, resourceRespDTO);
-		resourceRespDTO.setServiceModuleId(resourcePO.getServiceModule().getId());
 		resourceRespDTO.setAuthorityId(resourcePO.getAuthority().getId());
 		ResourcePO parentResourcePO = resourcePO.getParentResource();
 		if (parentResourcePO != null) {
 			resourceRespDTO.setPid(parentResourcePO.getId());
-		}
-		ServiceModulePO serviceModulePO = resourcePO.getServiceModule();
-		if(serviceModulePO != null) {
-			resourceRespDTO.setServiceModuleId(serviceModulePO.getId());
-			resourceRespDTO.setServiceModuleName(serviceModulePO.getName());
-			resourceRespDTO.setServiceModuleUrl(serviceModulePO.getUrl());
 		}
 		return resourceRespDTO;
 	}
 
 	protected UserResourceRespDTO convertPoToUserResourceRespDTO(ResourcePO resourcePO) {
 		UserResourceRespDTO userResourceRespDTO = new UserResourceRespDTO();
-		StringBuilder urlBuilder = new StringBuilder();
 		BeanUtils.copyProperties(resourcePO, userResourceRespDTO);
-		ServiceModulePO serviveModulePO = resourcePO.getServiceModule();
-		if (serviveModulePO != null) {
-			urlBuilder.append(serviveModulePO.getUrl()).append("/").append(userResourceRespDTO.getUrl());
-			userResourceRespDTO.setUrl(urlBuilder.toString());
-		}
 		ResourcePO parentResourcePO = resourcePO.getParentResource();
 		if (parentResourcePO != null) {
 			userResourceRespDTO.setPid(parentResourcePO.getId());

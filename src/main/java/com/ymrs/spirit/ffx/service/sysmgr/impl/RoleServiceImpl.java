@@ -28,7 +28,7 @@ import com.ymrs.spirit.ffx.po.sysmgr.AuthorityPO;
 import com.ymrs.spirit.ffx.po.sysmgr.RolePO;
 import com.ymrs.spirit.ffx.po.sysmgr.UserPO;
 import com.ymrs.spirit.ffx.pub.PageReq;
-import com.ymrs.spirit.ffx.pub.PageResp;
+import com.ymrs.spirit.ffx.pub.PageResult;
 import com.ymrs.spirit.ffx.service.sysmgr.RoleService;
 import com.ymrs.spirit.ffx.template.SpiritServiceTemplate;
 import com.ymrs.spirit.ffx.util.DateUtils;
@@ -49,8 +49,8 @@ public class RoleServiceImpl extends SpiritServiceTemplate<RoleReqDTO, RoleRespD
 	private AuthorityMapper authorityMapper;
 
 	@Override
-	public PageResp<RoleRespDTO> findPage(PageReq pageReq) throws SpiritServiceException {
-		return super.findPage(pageReq);
+	public PageResult<RoleRespDTO> findPage(PageReq pageReq) throws SpiritServiceException {
+		return super.findEasyUIPage(pageReq);
 	}
 
 	@Override

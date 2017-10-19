@@ -38,7 +38,7 @@ public class LoginController {
 	@RequestMapping(value = "/loginpage", method = RequestMethod.GET)
 	public String login(HttpServletRequest request, Model model) {
 		model.addAttribute("kaptcha", spiritProperties.getKaptcha());
-		return "login";
+		return "login/spirit";
 	}
 	
 	/**
@@ -51,7 +51,7 @@ public class LoginController {
 	@RequestMapping(value = "/loginpage2", method = RequestMethod.GET)
 	public String login2(HttpServletRequest request, Model model) {
 		model.addAttribute("kaptcha", spiritProperties.getKaptcha());
-		return "login2";
+		return "login/cloud";
 	}
 	
 	/**
