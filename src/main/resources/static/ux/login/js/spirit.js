@@ -6,10 +6,8 @@ var LoginPage = {
 		this.registerEvt();
 	},
 	initLocation: function() {
-		console.log('---->'+self.location+", ---->"+top.location);
-		if(this.location && top.location != this.location){
+		if(self.location && top.location != self.location){
     	    top.location.replace('loginpage');
-			console.log('top->'+top.location + ', this->'+this.location);
 			return;
     	}
 	},

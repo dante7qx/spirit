@@ -6,10 +6,8 @@ var LoginPage = {
 		this.registerEvt();
 	},
 	initLocation: function() {
-		console.log('---->'+self.location+", ---->"+top.location);
-		if(this.location && top.location != this.location){
-    	    top.location.replace('loginpage2');
-			console.log('top->'+top.location + ', this->'+this.location);
+		if(self.location && top.location != self.location){
+    	    top.location.replace('loginpage');
 			return;
     	}
 	},
@@ -18,7 +16,6 @@ var LoginPage = {
             if( event.keyCode == 13 ) {
                 $('#loginBtn').click();
             }
-             
 		});
 		
 		$("form").submit( function(event){

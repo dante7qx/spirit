@@ -37,7 +37,11 @@ public class RedisHttpSessionEventPublisher extends HttpSessionEventPublisher {
 
 	public void sessionDestroyed(HttpSessionEvent event) {
 		HttpSession session = event.getSession();
-		SecurityContext sc = (SecurityContext) session.getAttribute(HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY);
+		Object obj = session.getAttribute(HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY);
+		if(obj == null) {
+			return;
+		}
+		SecurityContext sc = (SecurityContext) obj;
 		if(sc != null) {
 			String principal = sc.getAuthentication().getPrincipal().toString();
 			LOGGER.info("session ({})->{} destroy.", session.getId(), principal);
