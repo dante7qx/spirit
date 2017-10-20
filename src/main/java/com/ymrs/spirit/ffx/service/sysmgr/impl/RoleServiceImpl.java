@@ -1,5 +1,6 @@
 package com.ymrs.spirit.ffx.service.sysmgr.impl;
 
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -14,12 +15,12 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import com.ymrs.spirit.ffx.bo.sysmgr.AuthorityRoleBO;
 import com.ymrs.spirit.ffx.dao.sysmgr.RoleDAO;
 import com.ymrs.spirit.ffx.dto.req.sysmgr.RoleReqDTO;
 import com.ymrs.spirit.ffx.dto.req.sysmgr.specification.RoleSpecification;
-import com.ymrs.spirit.ffx.dto.resp.sysmgr.AuthorityRoleRespDTO;
 import com.ymrs.spirit.ffx.dto.resp.sysmgr.RoleRespDTO;
 import com.ymrs.spirit.ffx.exception.SpiritDaoException;
 import com.ymrs.spirit.ffx.exception.SpiritServiceException;
@@ -32,6 +33,8 @@ import com.ymrs.spirit.ffx.pub.PageResult;
 import com.ymrs.spirit.ffx.service.sysmgr.RoleService;
 import com.ymrs.spirit.ffx.template.SpiritServiceTemplate;
 import com.ymrs.spirit.ffx.util.DateUtils;
+import com.ymrs.spirit.ffx.vo.sysmgr.AuthorityRoleTreeVO;
+import com.ymrs.spirit.ffx.vo.sysmgr.RoleTreeVO;
 
 /**
  * 角色服务实现类
@@ -70,24 +73,45 @@ public class RoleServiceImpl extends SpiritServiceTemplate<RoleReqDTO, RoleRespD
 	public RoleRespDTO findById(Long id) throws SpiritServiceException {
 		return convertPoToRespDto(roleDAO.findOne(id));
 	}
-
+	
 	@Override
-	public List<AuthorityRoleRespDTO> findAuthorityRoleByRoleId(Long roleId) throws SpiritServiceException {
-		List<AuthorityRoleRespDTO> authorityRoleRespDtos = Lists.newArrayList();
+	public List<AuthorityRoleTreeVO> findAuthoritysByRoleId(Long roleId) throws SpiritServiceException {
+		List<AuthorityRoleTreeVO> authRoleTrees = Lists.newArrayList();
 		try {
-//			List<AuthorityRoleBO> authorityRoleBOs = JpaEntityConvertUtils.castEntity(authorityDAO.findAuthorityRoleByRoleId(roleId), AuthorityRoleBO.class);
 			List<AuthorityRoleBO> authorityRoleBOs = authorityMapper.findAuthorityRoleByRoleId(roleId);
-			if (!CollectionUtils.isEmpty(authorityRoleBOs)) {
-				for (AuthorityRoleBO authorityRoleBO : authorityRoleBOs) {
-					AuthorityRoleRespDTO authorityRoleRespDTO = new AuthorityRoleRespDTO();
-					BeanUtils.copyProperties(authorityRoleBO, authorityRoleRespDTO);
-					authorityRoleRespDtos.add(authorityRoleRespDTO);
+			Map<String, AuthorityRoleTreeVO> treeMap = Maps.newLinkedHashMap();
+			for (AuthorityRoleBO authorityRole : authorityRoleBOs) {
+				AuthorityRoleTreeVO roleAuthTree = new AuthorityRoleTreeVO(authorityRole);
+				treeMap.put("_"+authorityRole.getId(), roleAuthTree);
+			}
+			Set<String> keySet = treeMap.keySet();
+			Iterator<String> iterNode = keySet.iterator();
+			while(iterNode.hasNext()) {
+				String key = (String) iterNode.next();
+				AuthorityRoleTreeVO tempTree = treeMap.get(key);
+				Long pid = tempTree.getPid();
+				if(pid == null) {
+					authRoleTrees.add(tempTree);
+				} else {
+					Set<String> childKeySet = treeMap.keySet();
+					Iterator<String> iterChild = childKeySet.iterator();
+					while(iterChild.hasNext()) {
+						String childKey = (String) iterChild.next();
+						AuthorityRoleTreeVO sameTree = treeMap.get(childKey);
+						if(childKey.equals("_"+pid)) {
+							if(CollectionUtils.isEmpty(sameTree.getChildren())) {
+								sameTree.setChildren(Lists.newArrayList(tempTree));
+							} else {
+								sameTree.getChildren().add(tempTree);
+							}
+						}
+					}
 				}
 			}
 		} catch (SpiritDaoException e) {
 			throw new SpiritServiceException(e);
 		}
-		return authorityRoleRespDtos;
+		return authRoleTrees;
 	}
 
 	@Override
@@ -100,6 +124,21 @@ public class RoleServiceImpl extends SpiritServiceTemplate<RoleReqDTO, RoleRespD
 			}
 		}
 		return roleRespDTOs;
+	}
+	
+	@Override
+	public List<RoleTreeVO> findRoleTree() throws SpiritServiceException {
+		List<RolePO> rolePOs = roleDAO.findAll(new Sort(Direction.ASC, "name"));
+		List<RoleTreeVO> roleTreeVOs = Lists.newLinkedList();
+		if(!CollectionUtils.isEmpty(rolePOs)) {
+			for (RolePO rolePO : rolePOs) {
+				RoleTreeVO roleTreeVO = new RoleTreeVO();
+				roleTreeVO.setId(rolePO.getId());
+				roleTreeVO.setText(rolePO.getName());
+				roleTreeVOs.add(roleTreeVO);
+			}
+		}
+		return roleTreeVOs;
 	}
 
 	@Override
@@ -153,4 +192,5 @@ public class RoleServiceImpl extends SpiritServiceTemplate<RoleReqDTO, RoleRespD
 	public void delete(RoleReqDTO reqDTO) throws SpiritServiceException {
 		// 逻辑删除，此功能使用物理删除，故本方法不做实现
 	}
+
 }

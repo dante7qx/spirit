@@ -14,6 +14,7 @@ import org.springframework.util.CollectionUtils;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import com.ymrs.spirit.ffx.constant.EasyUITreeConsts;
 import com.ymrs.spirit.ffx.dao.sysmgr.ResourceDAO;
 import com.ymrs.spirit.ffx.dto.req.sysmgr.ResourceReqDTO;
 import com.ymrs.spirit.ffx.dto.req.sysmgr.specification.ResourceSpecification;
@@ -24,10 +25,12 @@ import com.ymrs.spirit.ffx.exception.SpiritServiceException;
 import com.ymrs.spirit.ffx.po.sysmgr.AuthorityPO;
 import com.ymrs.spirit.ffx.po.sysmgr.ResourcePO;
 import com.ymrs.spirit.ffx.po.sysmgr.UserPO;
+import com.ymrs.spirit.ffx.pub.EasyUIDragTreeReq;
 import com.ymrs.spirit.ffx.pub.PageReq;
 import com.ymrs.spirit.ffx.pub.PageResult;
 import com.ymrs.spirit.ffx.service.sysmgr.ResourceService;
 import com.ymrs.spirit.ffx.util.DateUtils;
+import com.ymrs.spirit.ffx.vo.sysmgr.ResourceTreeVO;
 
 /**
  * 资源服务实现类
@@ -150,6 +153,70 @@ public class ResourceServiceImpl implements ResourceService {
 		}
 		return userResources;
 	}
+	
+	@Override
+	public List<ResourceTreeVO> findResourceTrees() throws SpiritServiceException {
+		List<ResourceTreeVO> roots = Lists.newArrayList();
+		try {
+			List<ResourcePO> resourcePOs = resourceDAO.findRootResource();
+			if (CollectionUtils.isEmpty(resourcePOs)) {
+				return roots;
+			}
+			for (ResourcePO resourcePO : resourcePOs) {
+				ResourceTreeVO treeVO = convertToResourceTreeVO(resourcePO);
+				roots.add(treeVO);
+				buildResourceTree(treeVO);
+			}
+		} catch (SpiritDaoException e) {
+			LOGGER.error("ResourceDAO findRootResource error.", e);
+			throw new SpiritServiceException("ResourceDAO findRootResource error.", e);
+		}
+		return roots;
+	}
+
+	@Override
+	public void updateResourceWhenDrag(EasyUIDragTreeReq dragTreeReq) throws SpiritServiceException {
+		String point = dragTreeReq.getPoint();
+		if (EasyUITreeConsts.POINT_APPEND.equalsIgnoreCase(point)) {
+			handleDragAppend(dragTreeReq.getTargetId(), dragTreeReq.getSourceId(), dragTreeReq.getUpdateUser());
+		} else if (EasyUITreeConsts.POINT_TOP.equalsIgnoreCase(point)) {
+			handleDragTop(dragTreeReq.getTargetPid(), dragTreeReq.getTargetShowOrder(), dragTreeReq.getSourceId(),
+					dragTreeReq.getUpdateUser());
+		} else if (EasyUITreeConsts.POINT_BOTTOM.equalsIgnoreCase(point)) {
+			handleDragBottom(dragTreeReq.getTargetPid(), dragTreeReq.getTargetShowOrder(), dragTreeReq.getSourceId(),
+					dragTreeReq.getUpdateUser());
+		} else {
+			throw new SpiritServiceException("Drag point mush match 'append' 'top' 'bottom'");
+		}
+	}
+	
+	private void buildResourceTree(ResourceTreeVO tree) throws SpiritServiceException {
+		Long id = tree.getId();
+		List<ResourcePO> childResources;
+		try {
+			childResources = resourceDAO.findByPid(id);
+			if (!CollectionUtils.isEmpty(childResources)) {
+				for (ResourcePO childResource : childResources) {
+					ResourceTreeVO childTree = convertToResourceTreeVO(childResource);
+					tree.getChildren().add(childTree);
+					buildResourceTree(childTree);
+				}
+			}
+		} catch (SpiritDaoException e) {
+			LOGGER.error("ResourceDAO findByPid {} error.", id, e);
+			throw new SpiritServiceException("ResourceDAO findByPid error.", e);
+		}
+		
+	}
+	
+	private ResourceTreeVO convertToResourceTreeVO(ResourcePO resourcePO) {
+		ResourceTreeVO tree = new ResourceTreeVO();
+		tree.setId(resourcePO.getId());
+		tree.setText(resourcePO.getName());
+		tree.setIconCls(resourcePO.getIconClass());
+		tree.setAttributes(convertPoToRespDto(resourcePO));
+		return tree;
+	}
 
 	protected ResourcePO convertReqDtoToPo(ResourceReqDTO resourceReqDTO) {
 		ResourcePO resourcePO = new ResourcePO();
@@ -232,6 +299,60 @@ public class ResourceServiceImpl implements ResourceService {
 	@Override
 	public void delete(ResourceReqDTO reqDTO) throws SpiritServiceException {
 		// 逻辑删除，业务为物理删除，本方法不做实现
+	}
+	
+	/**
+	 * 将源节点移动到目标节点的上方 showOrder(source) = showOrder(target) - 1, pid(source) =
+	 * pid(target)
+	 * 
+	 * @param targetPid
+	 * @param targetShowOrder
+	 * @param sourceId
+	 * @throws SpiritServiceException
+	 */
+	private void handleDragTop(Long targetPid, int targetShowOrder, Long sourceId, Long updateUser)
+			throws SpiritServiceException {
+		ResourcePO sourceResource = resourceDAO.findOne(sourceId);
+		sourceResource.setParentResource(new ResourcePO(targetPid));
+		sourceResource.setShowOrder(targetShowOrder > 1 ? targetShowOrder - 1 : 1);
+		sourceResource.setUpdateUser(new UserPO(updateUser));
+		resourceDAO.save(sourceResource);
+	}
+
+	/**
+	 * 将源节点移动到目标节点的下方 showOrder(source) = showOrder(target) - 1, pid(source) =
+	 * pid(target)
+	 * 
+	 * @param targetPid
+	 * @param targetShowOrder
+	 * @param sourceId
+	 * @throws SpiritServiceException
+	 */
+	private void handleDragBottom(Long targetPid, int targetShowOrder, Long sourceId, Long updateUser)
+			throws SpiritServiceException {
+		ResourcePO sourceResource = resourceDAO.findOne(sourceId);
+		sourceResource.setParentResource(new ResourcePO(targetPid));
+		sourceResource.setShowOrder(targetShowOrder + 1);
+		sourceResource.setUpdateUser(new UserPO(updateUser));
+		resourceDAO.save(sourceResource);
+	}
+
+	/**
+	 * 将源节点移动到目标节点内 pid(source) = id(target)
+	 * 
+	 * @param targetId
+	 * @param sourceId
+	 * @throws SpiritServiceException
+	 */
+	private void handleDragAppend(Long targetId, Long sourceId, Long updateUser) throws SpiritServiceException {
+		ResourcePO sourceResource = resourceDAO.findOne(sourceId);
+		if (targetId > 0) {
+			sourceResource.setParentResource(new ResourcePO(targetId));
+		} else {
+			sourceResource.setParentResource(null);
+		}
+		sourceResource.setUpdateUser(new UserPO(updateUser));
+		resourceDAO.save(sourceResource);
 	}
 
 }

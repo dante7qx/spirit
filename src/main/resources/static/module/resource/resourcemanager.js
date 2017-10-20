@@ -1,12 +1,11 @@
 var ResourcePage = {
 	MENU_MAX_LEVEL: 3,
 	initPage: function() {
-		this.initServiceModuleCombo();
 		this.loadTree();
 	},
 	loadTree: function() {
 		$('#resourceTree').tree({
-		    url: 'resource/query_tree',
+		    url: ctx+'/sysmgr/resource/query_tree',
 		    animate: true,
 		    dnd: true,
 		    onSelect: function(node){
@@ -26,18 +25,9 @@ var ResourcePage = {
             }
 		});
 	},
-	initServiceModuleCombo: function() {
-		$('#serviceModuleId','#resourceForm').combobox({
-			url: 'servicemodule/query_commbo',
-			method: 'post',
-			valueField: 'id',
-		    textField: 'name',
-		    editable: false
-		});
-	},
 	initAuthorityCombotree: function(authorityId) {
 		$('#authorityId','#resourceForm').combotree({
-		    url: 'authority/query_combotree',
+		    url: ctx+'/sysmgr/authority/query_combotree',
 		    required: true,
 		    editable: false,
 		    panelHeight: 450,
@@ -63,11 +53,11 @@ var ResourcePage = {
 		} else {
 			$('#resourceContainer').show();
 			this.limitNodeLevel(node);
-			hnasys.util.controlFormBtn(editable, 'resourceFormBtnContainer');
+			spirit.util.controlFormBtn(editable, 'resourceFormBtnContainer');
 			$('#resourceForm').form('clear').form('load', node['attributes']);
 			this.initAuthorityCombotree( node['attributes']['authorityId']);
 			$('#pid','#resourceForm').val(node['attributes']['pid']);
-			hnasys.util.isEditForm('resourceForm', editable);
+			spirit.util.isEditForm('resourceForm', editable);
 		}
 	},
 	limitNodeLevel: function(node) {
@@ -102,7 +92,7 @@ var ResourcePage = {
 		$.messager.confirm('提示', '本操作会删除当前节点及其子节点，您确定要删除吗?', function(r){
 			if (r){
 				$.ajax({
-					url: 'resource/delete_by_id',
+					url: ctx+'/sysmgr/resource/delete_by_id',
 					type: 'post',
 					data: {
 						id: curNode['id']
@@ -149,7 +139,6 @@ var ResourcePage = {
 		newNodeAttr['id'] = data['id'];
 		newNodeAttr['name'] = data['name'];
 		newNodeAttr['url'] = data['url'];
-		newNodeAttr['serviceModuleId'] = data['serviceModuleId'];
 		newNodeAttr['authorityId'] = data['authorityId'];
 		newNodeAttr['pid'] = data['pid'];
 		newNodeAttr['fullId'] = data['fullId'];
@@ -174,7 +163,7 @@ var ResourcePage = {
 	submit: function() {
 		$('#resourceForm').form('submit', {
 			iframe: false,
-		    url: 'resource/update_resource',
+		    url: ctx+'/sysmgr/resource/update_resource',
 		    success:function(result){
 		    	var result = eval('(' + result + ')');
 		    	if(result['resultCode'] != COMMON_CONFIG['SUCCESS']) {
@@ -183,8 +172,8 @@ var ResourcePage = {
 				}
 	        	ResourcePage.appendNode(result['data']);
 	        	$('#resourceForm').form('load', result['data']);
-	        	hnasys.util.controlFormBtn(false, 'resourceFormBtnContainer');
-	        	hnasys.util.isEditForm('resourceForm', false);
+	        	spirit.util.controlFormBtn(false, 'resourceFormBtnContainer');
+	        	spirit.util.isEditForm('resourceForm', false);
 		    }
 		});
 	},
@@ -199,8 +188,8 @@ var ResourcePage = {
 		}
 	},
 	edit: function() {
-		hnasys.util.controlFormBtn(true, 'resourceFormBtnContainer');
-		hnasys.util.isEditForm('resourceForm', true);
+		spirit.util.controlFormBtn(true, 'resourceFormBtnContainer');
+		spirit.util.isEditForm('resourceForm', true);
 	},
 	dragNode: function(targetNode, sourceNode, point) {
 		var targetId = targetNode['id'];
@@ -212,7 +201,7 @@ var ResourcePage = {
 		}
 		var targetShowOrder = targetId > 0 ? targetNode['attributes']['showOrder'] : 1;
 		$.ajax({
-			url: 'resource/update_when_drag',
+			url: ctx+'/sysmgr/resource/update_when_drag',
 			type: 'post',
 			data: {
 				point: point,

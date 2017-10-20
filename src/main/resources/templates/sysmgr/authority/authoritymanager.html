@@ -63,8 +63,8 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
         <div sec:authorize="hasAuthority('sysmgr.authority.delete')" data-options="iconCls:'icon-remove'" onclick="AuthorityPage.delNode();">删除</div>
     </div>
     
-    <script th:src="@{ux/util/hnasys-util.js}" type="text/javascript"></script>
-	<script th:src="@{module/authority/authoritymanager.js}" type="text/javascript"></script>
+    <script th:src="@{/ux/spirit/spirit-util.js}" type="text/javascript"></script>
+	<script th:src="@{/module/authority/authoritymanager.js}" type="text/javascript"></script>
 	<script th:line="javascript">
 		$(function() {
 			AuthorityPage.loadTree();

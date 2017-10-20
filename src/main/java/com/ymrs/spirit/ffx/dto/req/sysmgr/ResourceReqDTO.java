@@ -14,7 +14,7 @@ public class ResourceReqDTO {
 	private String name;
 	private String url;
 	private Long authorityId;
-	private Long serviceModuleId;
+	private String iconClass;
 	private String fullId;
 	private Integer showOrder;
 	private Long pid;

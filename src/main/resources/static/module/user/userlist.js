@@ -4,6 +4,12 @@ var UserPage = {
 			LOCK: 'LOCK',
 			DEL: 'DEL'
 		},
+		init: function() {
+			$(window).resize(function(){
+				$('#userGridlist').datagrid({fitColumns:true});
+			});
+			this.loadUserList();
+		},
 		loadUserList: function() {
 			$('#userGridlist').datagrid({
 			    url: ctx+'/sysmgr/user/query_page',

@@ -21,12 +21,6 @@ var MainPage = {
             }
             $("#master-layout").layout('resize', {width:'100%'})
         });
-        /*右侧菜单控制结束*/
-		$(".theme-navigate-user-modify").on("click",function(){
-            $('.theme-navigate-user-panel').menu('hide');
-			$.insdep.window({id:"personal-set-window",href:"user.html",title:"修改资料"});
-        });
-		
 		var cc1=$('#cc1').combo('panel');
 		cc1.panel({cls:"theme-navigate-combobox-panel"}); 
 	},
@@ -55,7 +49,7 @@ var MainPage = {
 	        content: content
 	    });
 	},
-	tabContextMenu:function(e, title,index){
+	tabContextMenu: function(e, title,index){
 		e.preventDefault();
         $('#mainMenuButton').menu('show',{
             left: e.pageX,
@@ -63,18 +57,18 @@ var MainPage = {
         });
         MainPage.currentTabTitle = title;
 	},
-	closeOthers:function(){
+	closeOthers: function(){
 		var targetTab= $("#mainTabs");
 		var tabPanels=targetTab.tabs("tabs");
 		var panelTit= null;
 		for(var index=tabPanels.length-1;index>=0;index--){
 			panelTit = tabPanels[index].panel("options").title;
-			if(panelTit != mainPage.currentTabTitle){
+			if(panelTit != MainPage.currentTabTitle){
 				$("#mainTabs").tabs("close",panelTit);
 			}
 		};
 	},
-	closeAll:function(){
+	closeAll: function(){
 		var targetTab= $("#mainTabs");
 		var tabPanels=targetTab.tabs("tabs");
 		var panelTit= null;

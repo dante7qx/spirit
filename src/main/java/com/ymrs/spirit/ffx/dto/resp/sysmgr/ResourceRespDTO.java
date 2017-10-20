@@ -14,9 +14,6 @@ public class ResourceRespDTO {
 	private String name;
 	private String url;
 	private Long authorityId;
-	private Long serviceModuleId;
-	private String serviceModuleName;
-	private String serviceModuleUrl;
 	private String fullId;
 	private Integer showOrder;
 	private Long pid;

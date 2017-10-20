@@ -18,4 +18,11 @@ public class AuthorityRoleBO {
 	private Integer showOrder;
 	private Long roleId;
 	private Boolean hasRelRole = false;
+	
+	public Boolean getHasRelRole() {
+		if (roleId != null) {
+			hasRelRole = true;
+		}
+		return hasRelRole;
+	}
 }

@@ -7,7 +7,7 @@ var RoleDetailPage = {
 		},
 		initPageWidget: function() {
 			$('#authorityTree').tree({
-				url: 'role/query_role_authority',
+				url: ctx+'/sysmgr/role/query_role_authority',
 				method: 'post',
 				animate: true,
 				checkbox: true,
@@ -17,16 +17,16 @@ var RoleDetailPage = {
 		loadData: function() {
 			this.initPageWidget();
 			if(this.paramRoleId) {
-				hnasys.util.controlFormBtn(false, 'roleFormBtnContainer');
+				spirit.util.controlFormBtn(false, 'roleFormBtnContainer');
 				this.loadDataById(false);
 			} else {
-				hnasys.util.controlFormBtn(true, 'roleFormBtnContainer');
+				spirit.util.controlFormBtn(true, 'roleFormBtnContainer');
 				$('#roleDetailForm').form('clear');
 			}
 		},
 		loadDataById: function(editable) {
 			$.ajax({
-				url: 'role/query_by_id',
+				url: ctx+'/sysmgr/role/query_by_id',
 				type: 'post',
 				data: {
 					id: RoleDetailPage.paramRoleId
@@ -38,7 +38,7 @@ var RoleDetailPage = {
 					}
 					$('#roleDetailForm').form('clear').form('load', result['data']);
 					RoleDetailPage.loadUpdateInfo(result['data']);
-					hnasys.util.isEditForm('roleDetailForm', editable);
+					spirit.util.isEditForm('roleDetailForm', editable);
 				}
 			});
 		},
@@ -90,7 +90,7 @@ var RoleDetailPage = {
 			$.messager.confirm('提示', '您确定要删除吗?', function(r){
 				if (r){
 					$.ajax({
-						url: 'role/delete_by_id',
+						url: ctx+'/sysmgr/role/delete_by_id',
 						type: 'post',
 						data: {
 							id: $('#id','#roleDetailForm').val()
@@ -108,8 +108,8 @@ var RoleDetailPage = {
 			});
 		},
 		edit: function() {
-			hnasys.util.controlFormBtn(true, 'roleFormBtnContainer');
-			hnasys.util.isEditForm('roleDetailForm', true);
+			spirit.util.controlFormBtn(true, 'roleFormBtnContainer');
+			spirit.util.isEditForm('roleDetailForm', true);
 		},
 		getSelectedAuthority: function() {
 			var checkNodeIds = [];

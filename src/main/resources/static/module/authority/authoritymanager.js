@@ -2,7 +2,7 @@ var AuthorityPage = {
 	PUBLIC: 'public',
 	loadTree: function() {
 		$('#authorityTree').tree({
-		    url: 'authority/query_tree',
+		    url: ctx+'/sysmgr/authority/query_tree',
 		    dnd: true,
 		    onSelect: function(node){
 		    	AuthorityPage.loadData(node, false);
@@ -25,12 +25,12 @@ var AuthorityPage = {
 			$('#authorityContainer').css('display', 'none');
 		} else {
 			$('#authorityContainer').show();
-			hnasys.util.controlFormBtn(editable, 'authorityFormBtnContainer');
+			spirit.util.controlFormBtn(editable, 'authorityFormBtnContainer');
 			$('#authorityForm').form('clear').form('load', node['attributes']);
 			if(node['attributes']['pid']) {
 				$('#pid','#authorityForm').val(node['attributes']['pid']);
 			}
-			hnasys.util.isEditForm('authorityForm', editable);
+			spirit.util.isEditForm('authorityForm', editable);
 		}
 	},
 	addNode: function() {
@@ -58,7 +58,7 @@ var AuthorityPage = {
 		$.messager.confirm('提示', '本操作会删除当前节点及其子节点，您确定要删除吗?', function(r){
 			if (r){
 				$.ajax({
-					url: 'authority/delete_by_id',
+					url: ctx+'/sysmgr/authority/delete_by_id',
 					type: 'post',
 					data: {
 						id: curNode['id']
@@ -116,14 +116,14 @@ var AuthorityPage = {
 	submit: function() {
 		$('#authorityForm').form('submit', {
 			iframe: false,
-		    url: 'authority/update_authority',
+		    url: ctx+'/sysmgr/authority/update_authority',
 		    success:function(result){
 		    	var result = eval('(' + result + ')');
 		    	if(result['resultCode'] == COMMON_CONFIG['SUCCESS']) {
 		        	AuthorityPage.appendNode(result['data']);
 		        	$('#authorityForm').form('load', result['data']);
-		        	hnasys.util.controlFormBtn(false, 'authorityFormBtnContainer');
-		        	hnasys.util.isEditForm('authorityForm', false);
+		        	spirit.util.controlFormBtn(false, 'authorityFormBtnContainer');
+		        	spirit.util.isEditForm('authorityForm', false);
 		        } else {
 		        	$.messager.alert('错误','系统错误，请联系系统管理员', 'error');
 		        }
@@ -141,8 +141,8 @@ var AuthorityPage = {
 		}
 	},
 	edit: function() {
-		hnasys.util.controlFormBtn(true, 'authorityFormBtnContainer');
-		hnasys.util.isEditForm('authorityForm', true);
+		spirit.util.controlFormBtn(true, 'authorityFormBtnContainer');
+		spirit.util.isEditForm('authorityForm', true);
 	},
 	dragNode: function(targetNode, sourceNode, point) {
 		var targetId = targetNode['id'];
@@ -154,7 +154,7 @@ var AuthorityPage = {
 		}
 		var targetShowOrder = targetId > 0 ? targetNode['attributes']['showOrder'] : 1;
 		$.ajax({
-			url: 'authority/update_when_drag',
+			url: ctx+'/sysmgr/authority/update_when_drag',
 			type: 'post',
 			data: {
 				point: point,

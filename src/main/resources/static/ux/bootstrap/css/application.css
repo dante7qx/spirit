@@ -14,7 +14,12 @@ body {
 	margin: 10px;
 }
 
-a.bdhref:link {
+.bdupdate{
+	margin-right: 20px;
+	text-align: right;
+}
+
+/* a.bdhref:link {
 	color: #337ab7;
 	text-decoration: none;
 }
@@ -31,7 +36,7 @@ a.bdhref:hover {
 
 a.bdhref:active {
 	color: #337ab7;
-}
+} */
 
 .bdgridtoolbar {
 	padding:5px;
@@ -60,6 +65,8 @@ table.tbcontent .tbtitle {
 	text-align: right;
 	background-color: #FFFFFF
 }
+
+
 
 .searchtitle {
 	padding:0 3px 0 10px;
