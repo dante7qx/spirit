@@ -7,7 +7,9 @@ import org.springframework.util.CollectionUtils;
 import com.ymrs.spirit.ffx.bo.sysmgr.AuthorityRoleBO;
 import com.ymrs.spirit.ffx.constant.EasyUITreeConsts;
 
+import lombok.Data;
 
+@Data
 public class AuthorityRoleTreeVO {
 
 	private Long id;
@@ -25,51 +27,11 @@ public class AuthorityRoleTreeVO {
 		this.checked = authorityRole.getHasRelRole();
 	}
 
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-	public String getText() {
-		return text;
-	}
-
-	public void setText(String text) {
-		this.text = text;
-	}
-
 	public String getState() {
 		if(CollectionUtils.isEmpty(children)) {
 			state = EasyUITreeConsts.STATE_OPEN;
 		}
 		return state;
-	}
-
-	public void setState(String state) {
-		this.state = state;
-	}
-
-	public Long getPid() {
-		return pid;
-	}
-
-	public void setPid(Long pid) {
-		this.pid = pid;
-	}
-
-	public Boolean getChecked() {
-		return checked;
-	}
-
-	public void setChecked(Boolean checked) {
-		this.checked = checked;
-	}
-
-	public List<AuthorityRoleTreeVO> getChildren() {
-		return children;
 	}
 
 	public void setChildren(List<AuthorityRoleTreeVO> children) {
