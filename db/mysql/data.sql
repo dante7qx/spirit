@@ -40,7 +40,8 @@ insert into t_resource(id, name, url, pid, authority_id, full_id, show_order, ic
 (2, '用户管理', 'sysmgr/user', 1, 4, '2-1', 1, 'fa fa-user', '用户管理', 1, now()),
 (3, '角色管理', 'sysmgr/role', 1, 8, '3-1', 2, 'fa fa-users', '角色管理', 1, now()),
 (4, '权限管理', 'sysmgr/authority', 1, 12, '4-1', 3, 'fa fa-puzzle-piece', '权限管理', 1, now()),
-(5, '菜单管理', 'sysmgr/menu', 1, 16, '5-1', 4, 'fa fa-bars', '菜单管理', 1, now());
+(5, '菜单管理', 'sysmgr/menu', 1, 16, '5-1', 4, 'fa fa-bars', '菜单管理', 1, now()),
+(6, '在线用户管理', 'sysmgr/online', 1, 4, '6-1', 5, 'fa fa-user', '在线用户管理', 1, now());
 
 alter table t_resource add constraint pk_t_resource primary key (id) ;
 alter table t_resource add constraint fk_t_resource_authority_id foreign key (authority_id) references t_authority (id);
