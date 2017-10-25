@@ -17,6 +17,7 @@ import com.ymrs.spirit.ffx.exception.KaptchaException;
 import com.ymrs.spirit.ffx.exception.SpiritServiceException;
 import com.ymrs.spirit.ffx.prop.SpiritProperties;
 import com.ymrs.spirit.ffx.service.login.LdapAuthenticationService;
+import com.ymrs.spirit.ffx.service.sysmgr.OnlineUserService;
 import com.ymrs.spirit.ffx.service.sysmgr.UserService;
 import com.ymrs.spirit.ffx.util.EncryptUtils;
 
@@ -36,6 +37,8 @@ public class SpiritLoginFilter extends UsernamePasswordAuthenticationFilter {
 	private LdapAuthenticationService ldapAuthenticationService;
 //	@Autowired
 //	private SysLogService sysLogService;
+	@Autowired
+	private OnlineUserService onlineUserService;
 	@Autowired
 	private SpiritProperties spiritProperties;
 
@@ -81,15 +84,18 @@ public class SpiritLoginFilter extends UsernamePasswordAuthenticationFilter {
 				username, password);
 		super.setDetails(request, authRequest);
 		Authentication authentication = this.getAuthenticationManager().authenticate(authRequest);
-		/*
 		if(authentication.isAuthenticated()) {
+			onlineUserService.addOnlineUser(username, request);
+			/*
 			try {
 				sysLogService.recordUserVisitLog(SysLogUtils.buildSysLoginLog(username, loginUser.getLdapUser(), request));
 			} catch (SpiritServiceException e) {
 				LOGGER.error("系统日志记录失败，{}", username, e);
 			}
+			*/
 		}
-		*/
+		
+		
 		return authentication;
 	}
 	

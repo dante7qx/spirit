@@ -1,7 +1,5 @@
 package com.ymrs.spirit.ffx.config;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -11,23 +9,19 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.core.session.SessionRegistry;
-import org.springframework.security.core.session.SessionRegistryImpl;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.security.web.authentication.session.CompositeSessionAuthenticationStrategy;
 import org.springframework.security.web.authentication.session.ConcurrentSessionControlAuthenticationStrategy;
-import org.springframework.security.web.authentication.session.RegisterSessionAuthenticationStrategy;
-import org.springframework.security.web.authentication.session.SessionAuthenticationStrategy;
-import org.springframework.security.web.authentication.session.SessionFixationProtectionStrategy;
 import org.springframework.security.web.session.ConcurrentSessionFilter;
+import org.springframework.security.web.session.SessionInformationExpiredStrategy;
+import org.springframework.security.web.session.SimpleRedirectSessionInformationExpiredStrategy;
 
-import com.google.common.collect.Lists;
 import com.ymrs.spirit.ffx.constant.SecurityConsts;
 import com.ymrs.spirit.ffx.security.SpiritLoginFilter;
 import com.ymrs.spirit.ffx.security.SpiritPasswordEncoder;
+import com.ymrs.spirit.ffx.security.SpiritSessionBackedSessionRegistry;
 import com.ymrs.spirit.ffx.security.SpiritUserDetailsService;
 
 
@@ -36,6 +30,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	
 	@Autowired
 	private AuthenticationManager authenticationManager;
+	@Autowired
+	private SpiritSessionBackedSessionRegistry sessionRegistry;
 	
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
@@ -63,11 +59,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 //					.deleteCookies("JSESSIONID")
 //				.permitAll()
 			.and()
-				.addFilterBefore(spiritLoginFilter(), UsernamePasswordAuthenticationFilter.class)
+				.addFilterAt(spiritLoginFilter(), UsernamePasswordAuthenticationFilter.class)
 				.addFilterAt(concurrencyFilter(), ConcurrentSessionFilter.class)
-				.sessionManagement()
-				.sessionAuthenticationStrategy(compositeSessionAuthenticationStrategy())
-				.invalidSessionUrl(SecurityConsts.SESSION_TIMEOUT);
+				;
 	}
 	
 	@Override
@@ -100,6 +94,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		spiritLoginFilter.setAuthenticationManager(authenticationManager);
 		spiritLoginFilter.setAuthenticationSuccessHandler(authenticationSuccessHandler());
 		spiritLoginFilter.setAuthenticationFailureHandler(authenticationFailureHandler());
+		spiritLoginFilter.setSessionAuthenticationStrategy(concurrentSessionControlAuthenticationStrategy());
 		return spiritLoginFilter;
 	}
 	
@@ -119,46 +114,22 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	}
 	
 	@Bean
-	public SessionRegistry sessionRegistry() {
-		SessionRegistry sessionRegistry = new SessionRegistryImpl();
-		return sessionRegistry;
-	}
-
-	@Bean
 	public ConcurrentSessionFilter concurrencyFilter() {
-		ConcurrentSessionFilter concurrentSessionFilter = new ConcurrentSessionFilter(sessionRegistry());
+		ConcurrentSessionFilter concurrentSessionFilter = new ConcurrentSessionFilter(this.sessionRegistry, sessionInformationExpiredStrategy());
 		return concurrentSessionFilter;
 	}
+	
+	private SessionInformationExpiredStrategy sessionInformationExpiredStrategy() {
+        return new SimpleRedirectSessionInformationExpiredStrategy(SecurityConsts.SESSION_TIMEOUT);
+    }
+	
 
-	@Bean
-	public CompositeSessionAuthenticationStrategy compositeSessionAuthenticationStrategy() {
-		List<SessionAuthenticationStrategy> delegateStrategies = Lists.newLinkedList();
-		delegateStrategies.add(concurrentSessionControlAuthenticationStrategy());
-		delegateStrategies.add(sessionFixationProtectionStrategy());
-		delegateStrategies.add(registerSessionAuthenticationStrategy());
-		CompositeSessionAuthenticationStrategy compositeSessionAuthenticationStrategy = new CompositeSessionAuthenticationStrategy(
-				delegateStrategies);
-		return compositeSessionAuthenticationStrategy;
-	}
-
-	@Bean
-	public ConcurrentSessionControlAuthenticationStrategy concurrentSessionControlAuthenticationStrategy() {
+	private ConcurrentSessionControlAuthenticationStrategy concurrentSessionControlAuthenticationStrategy() {
 		ConcurrentSessionControlAuthenticationStrategy concurrentSessionControlAuthenticationStrategy = new ConcurrentSessionControlAuthenticationStrategy(
-				sessionRegistry());
-		concurrentSessionControlAuthenticationStrategy.setMaximumSessions(20); // 单个用户最大并行会话数
+				this.sessionRegistry);
+		concurrentSessionControlAuthenticationStrategy.setMaximumSessions(10); // 单个用户最大并行会话数
 		concurrentSessionControlAuthenticationStrategy.setExceptionIfMaximumExceeded(false); // 设置为true时会报错且后登录的会话不能登录，默认为false不报错且将前一会话置为失效
 		return concurrentSessionControlAuthenticationStrategy;
 	}
 
-	@Bean
-	public SessionFixationProtectionStrategy sessionFixationProtectionStrategy() {
-		SessionFixationProtectionStrategy sessionFixationProtectionStrategy = new SessionFixationProtectionStrategy();
-		sessionFixationProtectionStrategy.setMigrateSessionAttributes(true);
-		return sessionFixationProtectionStrategy;
-	}
-
-	@Bean
-	public RegisterSessionAuthenticationStrategy registerSessionAuthenticationStrategy() {
-		return new RegisterSessionAuthenticationStrategy(sessionRegistry());
-	}
 }

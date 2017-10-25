@@ -19,6 +19,7 @@
 *.rar
 *.project
 *.classpath
+*.rdb
 
 logs/
 target/
