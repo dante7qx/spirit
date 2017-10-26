@@ -18,14 +18,20 @@ import org.springframework.data.redis.core.SetOperations;
 import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.data.redis.core.ZSetOperations;
 import org.springframework.data.redis.core.ZSetOperations.TypedTuple;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-@Service
+/**
+ * Redis 访问操作工具类
+ * 
+ * @author dante
+ *
+ */
+@Component
 public class JedisUtils {
 
 	@Autowired  
@@ -82,9 +88,7 @@ public class JedisUtils {
      * 保存失败，返回 false 
      */
     public boolean saveNX(String key, String val) {  
-        return redisTemplate.execute((RedisCallback<Boolean>) connection -> {  
-            return connection.setNX(key.getBytes(), val.getBytes());  
-        });  
+    	return valOpsStr.setIfAbsent(key, val);
     }  
     
     /** 
