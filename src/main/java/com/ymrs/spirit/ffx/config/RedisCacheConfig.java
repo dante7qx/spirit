@@ -3,8 +3,6 @@ package com.ymrs.spirit.ffx.config;
 import java.lang.reflect.Method;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.data.redis.RedisProperties;
-import org.springframework.boot.autoconfigure.data.redis.RedisProperties.Pool;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.CachingConfigurerSupport;
 import org.springframework.cache.annotation.EnableCaching;
@@ -14,7 +12,7 @@ import org.springframework.cache.interceptor.KeyGenerator;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.cache.RedisCacheManager;
-import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
+import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
@@ -23,34 +21,13 @@ import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import redis.clients.jedis.JedisPoolConfig;
-
 @Configuration
 @EnableCaching
 public class RedisCacheConfig extends CachingConfigurerSupport {
-
-	@Autowired
-	private RedisProperties redisProperties;
-
-	public JedisPoolConfig jedisPoolConfig() {
-		JedisPoolConfig jedisPoolConfig = new JedisPoolConfig();
-		Pool pool = redisProperties.getPool();
-		if (pool != null) {
-			jedisPoolConfig.setMinIdle(pool.getMinIdle());
-			jedisPoolConfig.setMaxIdle(pool.getMaxIdle());
-			jedisPoolConfig.setMaxTotal(pool.getMaxActive());
-			jedisPoolConfig.setMaxWaitMillis(pool.getMaxWait());
-			jedisPoolConfig.setTestOnBorrow(true);
-		}
-		return jedisPoolConfig;
-	}
-
-	@Bean
-	public JedisConnectionFactory connectionFactory() {
-		JedisConnectionFactory connectionFactory = new JedisConnectionFactory(jedisPoolConfig());
-		return connectionFactory;
-	}
 	
+	@Autowired
+	private RedisConnectionFactory connectionFactory;
+
 	/**
 	 * 缓存管理器
 	 */
@@ -63,7 +40,7 @@ public class RedisCacheConfig extends CachingConfigurerSupport {
 	@Bean(name = "redisTemplate")
 	RedisTemplate<String, Object> redisTemplate() {
 		RedisTemplate<String, Object> redisTemplate = new RedisTemplate<>();
-		redisTemplate.setConnectionFactory(connectionFactory());
+		redisTemplate.setConnectionFactory(connectionFactory);
 		redisTemplate.setKeySerializer(new StringRedisSerializer());
 //		redisTemplate.setValueSerializer(jackson2JsonRedisSerializer());
 		return redisTemplate;
@@ -73,7 +50,7 @@ public class RedisCacheConfig extends CachingConfigurerSupport {
 	public RedisTemplate<String, String> cacheRedisTemplate() {
 		RedisTemplate<String, String> template = new RedisTemplate<String, String>();
 		// 设置redis连接Factory
-		template.setConnectionFactory(connectionFactory());
+		template.setConnectionFactory(connectionFactory);
 		// Redis value 序列化
 		Jackson2JsonRedisSerializer<?> jackson2JsonRedisSerializer = new Jackson2JsonRedisSerializer<>(Object.class);  
         ObjectMapper om = new ObjectMapper();  
