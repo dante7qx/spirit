@@ -123,11 +123,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         return new SimpleRedirectSessionInformationExpiredStrategy(SecurityConsts.SESSION_TIMEOUT);
     }
 	
-
 	private ConcurrentSessionControlAuthenticationStrategy concurrentSessionControlAuthenticationStrategy() {
 		ConcurrentSessionControlAuthenticationStrategy concurrentSessionControlAuthenticationStrategy = new ConcurrentSessionControlAuthenticationStrategy(
 				this.sessionRegistry);
-		concurrentSessionControlAuthenticationStrategy.setMaximumSessions(10); // 单个用户最大并行会话数
+		concurrentSessionControlAuthenticationStrategy.setMaximumSessions(3); // 单个用户最大并行会话数
 		concurrentSessionControlAuthenticationStrategy.setExceptionIfMaximumExceeded(false); // 设置为true时会报错且后登录的会话不能登录，默认为false不报错且将前一会话置为失效
 		return concurrentSessionControlAuthenticationStrategy;
 	}
