@@ -30,20 +30,18 @@ public class OnlineUserController {
 	@Autowired
 	private JedisUtils JedisUtils;
 	@Autowired
-    private FindByIndexNameSessionRepository<? extends ExpiringSession> sessions;
+	private FindByIndexNameSessionRepository<? extends ExpiringSession> sessions;
 
 	@PreAuthorize("hasAuthority('sysmgr.user.query')")
 	@PostMapping(value = "/query_page")
 	public List<OnlineUserVO> queryOnlineUser() {
-//		List<OnlineUserVO> onlineUsers = onlineUserService.onlineUser();
-//		return onlineUsers;
 		List<OnlineUserVO> onlineUsers = Lists.newArrayList();
 		Map<String, Object> onlineMap = JedisUtils.hGetAll(OnlineUserConsts.ONLINE_KEY);
 		try {
-			for (String sessionId : onlineMap.keySet()) {  
-				OnlineUserVO vo = mapper.readValue(onlineMap.get(sessionId).toString(), OnlineUserVO.class); 
+			for (String sessionId : onlineMap.keySet()) {
+				OnlineUserVO vo = mapper.readValue(onlineMap.get(sessionId).toString(), OnlineUserVO.class);
 				ExpiringSession expiringSession = sessions.getSession(sessionId);
-				if(expiringSession != null) {
+				if (expiringSession != null) {
 					vo.setLastAccessedTime(DateUtils.formatDateTime(new Date(expiringSession.getLastAccessedTime())));
 				}
 				onlineUsers.add(vo);
@@ -53,6 +51,5 @@ public class OnlineUserController {
 		}
 		return onlineUsers;
 	}
-	
-	
+
 }
