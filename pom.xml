@@ -6,7 +6,6 @@
 	<groupId>com.ymrs.spirit</groupId>
 	<artifactId>ffx</artifactId>
 	<version>1.0</version>
-	<packaging>jar</packaging>
 
 	<name>spirit</name>
 	<description>Spirit Web Framework for rabit develop</description>

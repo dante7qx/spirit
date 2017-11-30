@@ -3,5 +3,3 @@ spring:
     active: dev
   thymeleaf:
     mode: HTML
-server:
-  context-path: /spirit

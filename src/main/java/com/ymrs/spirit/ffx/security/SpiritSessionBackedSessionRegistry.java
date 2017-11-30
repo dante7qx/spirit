@@ -19,6 +19,11 @@ public class SpiritSessionBackedSessionRegistry implements SessionRegistry {
 
 	private FindByIndexNameSessionRepository<? extends ExpiringSession> sessionRepository;
 	
+	/*
+	public SpiritSessionBackedSessionRegistry() {
+	}
+	*/
+	
 	public SpiritSessionBackedSessionRegistry(FindByIndexNameSessionRepository<? extends ExpiringSession> sessionRepository) {
 		Assert.notNull(sessionRepository, "sessionRepository cannot be null");
 		this.sessionRepository = sessionRepository;

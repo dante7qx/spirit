@@ -1,6 +1,6 @@
-CREATE DATABASE IF NOT EXISTS `spirit-ffx` DEFAULT CHARSET utf8 COLLATE utf8_general_ci;
+CREATE DATABASE IF NOT EXISTS `spirit_ffx` DEFAULT CHARSET utf8 COLLATE utf8_general_ci;
 
-USE `spirit-ffx`;
+USE `spirit_ffx`;
 
 DROP TABLE IF EXISTS t_user_role;
 CREATE TABLE t_user_role (
