@@ -5,6 +5,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.util.Date;
 
 /**
@@ -164,6 +165,94 @@ public class DateUtils {
      */
     private static LocalDateTime dateToLocalDateTime(Date date) {
     	return LocalDateTime.ofInstant(date.toInstant(), ZoneId.systemDefault());
+    }
+    
+    /**
+     * Date 转 LocalDate
+     * 
+     * @param date
+     * @return
+     */
+    private static LocalDate dateToLocalDate(Date date) {
+    	return dateToLocalDateTime(date).toLocalDate();
+    }
+    
+    /**
+     * 为指定日期添加指定天数 (时分秒为0)
+     * 
+     * @param sourceDate
+     * @param day
+     * @return
+     */
+    public static Date addDayNoTime(Date sourceDate, int day) {
+    	LocalDate localDate = dateToLocalDate(sourceDate);
+    	LocalDate targetDate = localDate.plus(day, ChronoUnit.DAYS);
+    	return localDateToDate(targetDate);
+    }
+    
+    /**
+     * 为指定日期添加指定月数 (时分秒为0)
+     * 
+     * @param sourceDate
+     * @param month
+     * @return
+     */
+    public static Date addMonthNoTime(Date sourceDate, int month) {
+    	LocalDate localDate = dateToLocalDate(sourceDate);
+    	LocalDate targetDate = localDate.plus(month, ChronoUnit.MONTHS);
+    	return localDateToDate(targetDate);
+    }
+    
+    /**
+     * 为指定日期添加指定年数 (时分秒为0)
+     * 
+     * @param sourceDate
+     * @param month
+     * @return
+     */
+    public static Date addYearNoTime(Date sourceDate, int year) {
+    	LocalDate localDate = dateToLocalDate(sourceDate);
+    	LocalDate targetDate = localDate.plus(year, ChronoUnit.YEARS);
+    	return localDateToDate(targetDate);
+    }
+    
+    /**
+     * 为指定日期添加指定天数
+     * 
+     * @param sourceDate
+     * @param day
+     * @return
+     */
+    public static Date addDayWithTime(Date sourceDate, int day) {
+    	LocalDateTime localDate = dateToLocalDateTime(sourceDate);
+    	LocalDateTime targetDate = localDate.plusDays(day);
+    	return localDateTimeToDate(targetDate);
+    }
+    
+    /**
+     * 为指定日期添加指定月数
+     * 
+     * @param sourceDate
+     * @param month
+     * @return
+     */
+    public static Date addMonthWithTime(Date sourceDate, int month) {
+    	LocalDateTime localDate = dateToLocalDateTime(sourceDate);
+    	LocalDateTime targetDate = localDate.plusMonths(month);
+    	return localDateTimeToDate(targetDate);
+    }
+    
+    /**
+     * 为指定日期添加指定年数
+     * 
+     * @param sourceDate
+     * @param year
+     * @return
+     */
+    public static Date addYearWithTime(Date sourceDate, int year) {
+    	LocalDateTime localDate = dateToLocalDateTime(sourceDate);
+    	LocalDateTime targetDate = localDate.plusYears(year);
+    	return localDateTimeToDate(targetDate);
     }
     
 	/**

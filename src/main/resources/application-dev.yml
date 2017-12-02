@@ -34,7 +34,7 @@ spring:
         login-username: druid
         login-password: 123456
   jpa:
-    show-sql: true
+    show-sql: false
     properties:
       hibernate:
         format_sql: true
@@ -49,6 +49,14 @@ spring:
       max-idle: 50
       max-active: 200
       max-wait: 3000
+  data:
+    mongodb:
+      host: localhost
+      port: 27017
+      database: spiritsyslog
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
 mybatis:
   mapper-locations:
   - classpath:mybatis/mapper/*.xml
