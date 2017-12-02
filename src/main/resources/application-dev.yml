@@ -4,7 +4,7 @@ spring:
   datasource:
     url: jdbc:mysql://127.0.0.1/spirit_ffx
     username: root
-    password: iamdante
+    password: ENC@[rDGU93pTlUIbTcYYQJq9cdF4yCP74ykj]
     driver-class-name: com.mysql.jdbc.Driver
     druid:
       initial-size: 10

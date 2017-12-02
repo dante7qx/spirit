@@ -3,3 +3,9 @@ spring:
     active: dev
   thymeleaf:
     mode: HTML
+jasypt:
+  encryptor:
+    bean: spiritEncryptorBean
+    property:
+      prefix: "ENC@["
+      suffix: "]"
