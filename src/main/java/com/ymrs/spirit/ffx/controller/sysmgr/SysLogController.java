@@ -22,7 +22,7 @@ public class SysLogController {
 	@Autowired
 	private SysLogService sysLogService;
 	
-	@PreAuthorize("hasAuthority('sysmgr.role.query')")
+	@PreAuthorize("hasAuthority('sysmgr.syslog.query')")
 	@PostMapping(value = "/query_page")
 	public PageResult<SysLogPO> querySysLogPage(PageReq pageReq) {
 		PageResult<SysLogPO> result = null;

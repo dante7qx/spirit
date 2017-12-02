@@ -1,3 +1,14 @@
+var pc;
+$.parser.onComplete = function () {
+    if (pc) {
+        clearTimeout(pc);
+    }
+    pc = setTimeout(function(){
+    	$("#loading").fadeOut("normal", function () {
+            $(this).remove();
+        });
+    }, 0);
+}
 var MainPage = {
 	init: function() {
 		/*布局部分*/
@@ -32,12 +43,24 @@ var MainPage = {
 		this.openTab2(url,text,iconCls);
 	},
 	openTab2: function(url, text, iconCls) {
-	    if ($("#mainTabs").tabs("exists", text)) {
-	        $("#mainTabs").tabs("close", text);
-	        this.addTab(url, text, iconCls);
+		if ($("#mainTabs").tabs("exists", text)) {
+//	        $("#mainTabs").tabs("close", text);
+//	        this.addTab(url, text, iconCls);
 	        $("#mainTabs").tabs("select", text);
 	    } else {
-	        this.addTab(url, text, iconCls);
+//	        this.addTab(url, text, iconCls);
+	    	$("#mainTabs").tabs("addIframeTab",  {
+	    		tab:{
+	                title: text,
+	                iconCls: iconCls,
+	                closable:true
+	            },
+	            iframe:{
+            		src:url,
+            		delay:'fast',
+            		message:'努力加载中，请稍后...'
+            	}
+	    	});
 	    }
 	},
 	addTab: function(url, text, iconCls) {

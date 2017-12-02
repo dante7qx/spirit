@@ -1,3 +1,7 @@
 theme-left-fold .l-btn-text{ color:#c3c3c3; margin: 3px 5px;}
 .theme-left-fold .l-btn,.theme-left-fold .l-btn:hover{border:none;background:#000000;}
 .theme-left-fold .l-btn:hover,.theme-navigate .m-btn-plain-active{ background:#000000;}
+.main-loading{
+	background-color:#fff;position:absolute;right:0;bottom:0;left:0;top:0;z-index:999;
+	padding:20px;
+}

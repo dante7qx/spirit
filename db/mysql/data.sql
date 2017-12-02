@@ -28,7 +28,8 @@ insert into t_authority(id, code, name, authority_desc, pid, show_order, update_
 (15, 'public', '菜单管理', '菜单管理', 2, 4, 1, now()),
 (16, 'sysmgr.resource.query', '查询菜单', '查询菜单', 15, 1, 1, now()),
 (17, 'sysmgr.resource.update', '更新菜单', '更新菜单', 15, 2, 1, now()),
-(18, 'sysmgr.resource.delete', '删除菜单', '删除菜单', 15, 3, 1, now())
+(18, 'sysmgr.resource.delete', '删除菜单', '删除菜单', 15, 3, 1, now()),
+(19, 'sysmgr.syslog.query', '系统日志管理', '系统日志管理', 2, 5, 1, now())
 ;
 
 alter table t_authority add constraint pk_t_authority primary key (id) ;
@@ -41,7 +42,8 @@ insert into t_resource(id, name, url, pid, authority_id, full_id, show_order, ic
 (3, '角色管理', 'sysmgr/role', 1, 8, '3-1', 2, 'fa fa-users', '角色管理', 1, now()),
 (4, '权限管理', 'sysmgr/authority', 1, 12, '4-1', 3, 'fa fa-puzzle-piece', '权限管理', 1, now()),
 (5, '菜单管理', 'sysmgr/menu', 1, 16, '5-1', 4, 'fa fa-bars', '菜单管理', 1, now()),
-(6, '在线用户管理', 'sysmgr/online', 1, 4, '6-1', 5, 'fa fa-user', '在线用户管理', 1, now());
+(6, '在线用户管理', 'sysmgr/online', 1, 4, '6-1', 5, 'fa fa-user', '在线用户管理', 1, now()),
+(7, '系统日志管理', 'sysmgr/syslog', 1, 19, '7-1', 6, 'fa fa-gear', '系统日志管理', 1, now());
 
 alter table t_resource add constraint pk_t_resource primary key (id) ;
 alter table t_resource add constraint fk_t_resource_authority_id foreign key (authority_id) references t_authority (id);
@@ -69,7 +71,8 @@ insert into t_role_authority(id, role_id, authority_id) values
 (10, 1, 14),
 (11, 1, 16),
 (12, 1, 17),
-(13, 1, 18)
+(13, 1, 18),
+(14, 1, 19)
 ;
 
 alter table t_role_authority add constraint t_role_authority_pk primary key (id);
