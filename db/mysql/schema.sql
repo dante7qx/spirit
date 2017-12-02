@@ -33,10 +33,8 @@ CREATE TABLE t_user (
 	email varchar(128) NOT NULL COMMENT '邮箱', 
 	status varchar(6) NOT NULL DEFAULT 'NORMAL' COMMENT 'NORMAL: 正常。LOCK: 锁定。DEL: 删除。',
 	last_pwd_update_date datetime NOT NULL COMMENT '密码最后修改时间',
-	create_user bigint(20) NOT NULL default 1 COMMENT '创建人',
-	create_date datetime NOT NULL default now() COMMENT '创建时间',
 	update_user bigint(20) NOT NULL default 1 COMMENT '更新人',
-	update_date datetime NOT NULL default now() COMMENT '更新时间',
+	update_date timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
 	CONSTRAINT un_t_user_account UNIQUE KEY (account),
 	CONSTRAINT un_t_user_email UNIQUE KEY (email)
 ) 
@@ -57,7 +55,7 @@ CREATE TABLE t_resource (
 	resource_desc varchar(128) NOT NULL DEFAULT '' COMMENT '资源描述',
 	icon_class varchar(64) NOT NULL DEFAULT '' COMMENT '资源图标',
 	update_user bigint(20) not null DEFAULT 1 COMMENT '更新人',
-	update_date datetime not null DEFAULT now() COMMENT '更新时间'
+	update_date timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间'
 ) 
 ENGINE=InnoDB 
 DEFAULT CHARSET=utf8 
@@ -70,7 +68,7 @@ CREATE TABLE t_role (
 	name varchar(64) NOT NULL COMMENT '层级Id',
 	role_desc varchar(128) NOT NULL COMMENT '角色描述',
 	update_user bigint(20) not null DEFAULT 1 COMMENT '更新人',
-	update_date datetime not null DEFAULT now() COMMENT '更新时间'
+	update_date timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间'
 ) 
 ENGINE=InnoDB 
 DEFAULT CHARSET=utf8 
@@ -82,13 +80,39 @@ CREATE TABLE t_authority (
 	id bigint(20) NOT NULL,  
 	code varchar(64) NOT NULL COMMENT '权限编码',
 	name varchar(64) NOT NULL COMMENT '权限名称',
-	authority_desc varchar(100) NOT NULL DEFAULT '' COMMENT '权限描述',
+	authority_desc varchar(128) NOT NULL DEFAULT '' COMMENT '权限描述',
 	pid bigint(20) NULL COMMENT '父节点Id',
-	show_order int NOT NULL DEFAULT 1 COMMENT '更新时间',
+	show_order int NOT NULL DEFAULT 1 COMMENT '显示顺序',
 	update_user bigint(20) not null DEFAULT 1 COMMENT '更新人',
-	update_date datetime not null DEFAULT now() COMMENT '更新时间'
+	update_date timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间'
 ) 
 ENGINE=InnoDB 
 DEFAULT CHARSET=utf8 
 COLLATE=utf8_general_ci
 COMMENT='权限表' ;
+
+DROP TABLE IF EXISTS t_schedule_job;
+CREATE TABLE t_schedule_job (  
+	id bigint(20) NOT NULL,  
+	job_id varchar(64) not null COMMENT '任务编号',
+	job_name varchar(256) not null COMMENT '任务名称',
+	job_class varchar(256) not null COMMENT '任务执行类',
+	job_desc varchar(2048) not null COMMENT '任务描述',
+	cron varchar(64) not null COMMENT '定时表达式',
+	previous_fire_time timestamp COMMENT '上次执行时间',
+	fire_time timestamp COMMENT '触发时间',
+	next_fire_time timestamp COMMENT '下次执行时间',
+	start_time timestamp COMMENT '开始执行时间',
+	start_job int not null default 1 COMMENT '是否启动任务',
+	fail_reason varchar(8000) COMMENT '任务失败原因',
+	update_user bigint(20) not null DEFAULT 1 COMMENT '更新人',
+	update_date timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+	CONSTRAINT un_t_schedule_job_job_id UNIQUE KEY (job_id)
+) 
+ENGINE=InnoDB 
+DEFAULT CHARSET=utf8 
+COLLATE=utf8_general_ci
+COMMENT='定时任务表' ;
+
+alter table t_schedule_job add constraint pk_t_schedule_job primary key (id) ;
+alter table t_schedule_job modify column id bigint(20) not null auto_increment;
