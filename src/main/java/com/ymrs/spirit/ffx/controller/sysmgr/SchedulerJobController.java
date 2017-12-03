@@ -20,7 +20,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @RestController
-@RequestMapping("/scheduler")
+@RequestMapping("/sysmgr/scheduler")
 public class SchedulerJobController extends SpiritController {
 	
 	@Autowired

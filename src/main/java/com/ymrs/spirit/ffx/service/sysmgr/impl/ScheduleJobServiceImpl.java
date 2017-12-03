@@ -65,14 +65,35 @@ public class ScheduleJobServiceImpl extends SpiritServiceTemplate<ScheduleJobDTO
 	@Override
 	@Transactional
 	public ScheduleJobDTO persist(ScheduleJobDTO reqDTO) throws SpiritServiceException {
-		ScheduleJobPO po = scheduleJobDAO.save(convertReqDtoToPo(reqDTO));
-		return convertPoToRespDto(po);
+		ScheduleJobPO jobPO = convertReqDtoToPo(reqDTO);
+		boolean startJob = jobPO.getStartJob() != null ? jobPO.getStartJob().booleanValue() : false;
+		if(jobPO.getId() != null) {
+			ScheduleJobPO oldPO = scheduleJobDAO.findOne(jobPO.getId());
+			jobPO.setStartJob(startJob);
+			jobPO.setFireTime(oldPO.getFireTime());
+			jobPO.setPreviousFireTime(oldPO.getPreviousFireTime());
+			jobPO.setNextFireTime(oldPO.getNextFireTime());
+			jobPO.setFailReason(oldPO.getFailReason());
+			if(startJob) {
+				spiritScheduler.updateJobCron(jobPO.getJobId(), jobPO.getCron(), jobPO.getStartTime());
+				spiritScheduler.resumeJob(jobPO.getJobId());
+			} else {
+				spiritScheduler.pauseJob(jobPO.getJobId());
+			}
+		} else {
+			spiritScheduler.addJob(jobPO.getJobId(), jobPO.getJobClass(), jobPO.getCron(), jobPO.getStartTime(), startJob);
+		}
+		return convertPoToRespDto(scheduleJobDAO.save(jobPO));
 	}
 
 	@Override
 	@Transactional
 	public void deleteById(Long id) throws SpiritServiceException {
-		scheduleJobDAO.delete(id);
+		ScheduleJobPO po = scheduleJobDAO.findOne(id);
+		if(po != null) {
+			scheduleJobDAO.delete(id);
+			spiritScheduler.removeJob(po.getJobId());
+		}
 	}
 
 	@Override

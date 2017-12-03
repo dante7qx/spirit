@@ -36,6 +36,8 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter {
 		registry.addViewController("/sysmgr/role").setViewName("sysmgr/role/rolelist");
 		registry.addViewController("/sysmgr/editrole").setViewName("sysmgr/role/roledetail");
 		registry.addViewController("/sysmgr/menu").setViewName("sysmgr/resource/resourcemanager");
+		registry.addViewController("/sysmgr/scheduler").setViewName("sysmgr/scheduler/schedulerlist");
+		registry.addViewController("/sysmgr/editscheduler").setViewName("sysmgr/scheduler/schedulerdetail");
 		registry.addViewController("/sysmgr/online").setViewName("sysmgr/online/onlinelist");
 		registry.addViewController("/sysmgr/syslog").setViewName("sysmgr/syslog/sysloglist");
 	}

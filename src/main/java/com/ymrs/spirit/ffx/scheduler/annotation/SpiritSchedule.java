@@ -9,7 +9,7 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ ElementType.TYPE, ElementType.METHOD })
 @Documented
-public @interface EnableSpiritSchedule {
+public @interface SpiritSchedule {
 
 	/**
 	 * 任务编号，全局必须唯一

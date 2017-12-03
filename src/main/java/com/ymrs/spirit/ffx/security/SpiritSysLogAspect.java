@@ -33,6 +33,7 @@ public class SpiritSysLogAspect {
 
 	private static final String ACCOUNT = "匿名用户"; 
 	private static final String LOGOUT_URI = "/syslogout";
+	private static final String SHORT_PKG = "c.y.s.f.c";
 	
 	ThreadLocal<Long> startTime = new ThreadLocal<>();
 	ThreadLocal<String> logId = new ThreadLocal<>();
@@ -54,7 +55,7 @@ public class SpiritSysLogAspect {
 		final String uri = request.getRequestURI();
 		final String ip = IPUtils.getIpAddr(request);
 		final String account = loginUser != null ? loginUser.getAccount() : "匿名用户";
-		final String clazz = joinPoint.getSignature().getDeclaringTypeName().replaceAll("com.ymrs.spirit.ffx.controller", "c.y.s.f.c");
+		final String clazz = joinPoint.getSignature().getDeclaringTypeName().replaceAll("com.ymrs.spirit.ffx.controller", SHORT_PKG);
 		final String methodName = joinPoint.getSignature().getName();
 		final Object[] args = joinPoint.getArgs();
 		final String params = Arrays.toString(args);
@@ -70,7 +71,8 @@ public class SpiritSysLogAspect {
 	@Async("syslogAsync")
 	private void recordLog(SysLogPO sysLog, String id, Long spendTime) {
 		if (sysLog != null) {
-			if("c.y.s.f.c.sysmgr.SysLogController".equals(sysLog.getClazz())) {
+			if ((SHORT_PKG.concat(".sysmgr.SysLogController")).equals(sysLog.getClazz())
+					|| (SHORT_PKG.concat(".SpiritController")).equals(sysLog.getClazz())) {
 				return;
 			}
 			if(ACCOUNT.equals(sysLog.getAccount()) || LOGOUT_URI.equals(sysLog.getUri())) {
