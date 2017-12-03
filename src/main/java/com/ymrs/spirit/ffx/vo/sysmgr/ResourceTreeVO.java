@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.google.common.collect.Lists;
 import com.ymrs.spirit.ffx.constant.EasyUITreeConsts;
-import com.ymrs.spirit.ffx.dto.resp.sysmgr.ResourceRespDTO;
+import com.ymrs.spirit.ffx.dto.sysmgr.resp.ResourceRespDTO;
 
 import lombok.Data;
 

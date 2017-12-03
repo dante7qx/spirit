@@ -11,9 +11,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.google.common.collect.Lists;
-import com.ymrs.spirit.ffx.dto.req.sysmgr.UserModifyPasswordReqDTO;
-import com.ymrs.spirit.ffx.dto.req.sysmgr.UserReqDTO;
-import com.ymrs.spirit.ffx.dto.resp.sysmgr.UserRespDTO;
+import com.ymrs.spirit.ffx.dto.sysmgr.req.UserModifyPasswordReqDTO;
+import com.ymrs.spirit.ffx.dto.sysmgr.req.UserReqDTO;
+import com.ymrs.spirit.ffx.dto.sysmgr.resp.UserRespDTO;
 import com.ymrs.spirit.ffx.exception.SpiritServiceException;
 import com.ymrs.spirit.ffx.pub.BaseResp;
 import com.ymrs.spirit.ffx.pub.PageReq;

@@ -2,9 +2,9 @@ package com.ymrs.spirit.ffx.service.sysmgr;
 
 import java.util.List;
 
-import com.ymrs.spirit.ffx.dto.req.sysmgr.ResourceReqDTO;
-import com.ymrs.spirit.ffx.dto.resp.sysmgr.ResourceRespDTO;
-import com.ymrs.spirit.ffx.dto.resp.sysmgr.UserResourceRespDTO;
+import com.ymrs.spirit.ffx.dto.sysmgr.req.ResourceReqDTO;
+import com.ymrs.spirit.ffx.dto.sysmgr.resp.ResourceRespDTO;
+import com.ymrs.spirit.ffx.dto.sysmgr.resp.UserResourceRespDTO;
 import com.ymrs.spirit.ffx.exception.SpiritServiceException;
 import com.ymrs.spirit.ffx.pub.EasyUIDragTreeReq;
 import com.ymrs.spirit.ffx.template.SpiritAbstractService;

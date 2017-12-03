@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.google.common.collect.Lists;
-import com.ymrs.spirit.ffx.dto.req.sysmgr.RoleReqDTO;
-import com.ymrs.spirit.ffx.dto.resp.sysmgr.RoleRespDTO;
+import com.ymrs.spirit.ffx.dto.sysmgr.req.RoleReqDTO;
+import com.ymrs.spirit.ffx.dto.sysmgr.resp.RoleRespDTO;
 import com.ymrs.spirit.ffx.exception.SpiritServiceException;
 import com.ymrs.spirit.ffx.pub.BaseResp;
 import com.ymrs.spirit.ffx.pub.PageReq;

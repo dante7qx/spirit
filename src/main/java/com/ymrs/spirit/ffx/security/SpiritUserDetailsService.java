@@ -9,7 +9,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import com.ymrs.spirit.ffx.dto.resp.sysmgr.UserAuthRespDTO;
+import com.ymrs.spirit.ffx.dto.sysmgr.resp.UserAuthRespDTO;
 import com.ymrs.spirit.ffx.exception.SpiritServiceException;
 import com.ymrs.spirit.ffx.service.sysmgr.UserService;
 

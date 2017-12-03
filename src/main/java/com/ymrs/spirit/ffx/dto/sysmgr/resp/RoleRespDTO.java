@@ -1,4 +1,4 @@
-package com.ymrs.spirit.ffx.dto.resp.sysmgr;
+package com.ymrs.spirit.ffx.dto.sysmgr.resp;
 
 import java.util.Set;
 

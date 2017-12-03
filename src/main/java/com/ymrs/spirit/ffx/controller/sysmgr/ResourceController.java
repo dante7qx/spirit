@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.google.common.collect.Lists;
 import com.ymrs.spirit.ffx.constant.EasyUITreeConsts;
-import com.ymrs.spirit.ffx.dto.req.sysmgr.ResourceReqDTO;
-import com.ymrs.spirit.ffx.dto.resp.sysmgr.ResourceRespDTO;
+import com.ymrs.spirit.ffx.dto.sysmgr.req.ResourceReqDTO;
+import com.ymrs.spirit.ffx.dto.sysmgr.resp.ResourceRespDTO;
 import com.ymrs.spirit.ffx.exception.SpiritServiceException;
 import com.ymrs.spirit.ffx.pub.BaseResp;
 import com.ymrs.spirit.ffx.pub.EasyUIDragTreeReq;

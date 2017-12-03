@@ -54,14 +54,12 @@ public class SpiritSysLogAspect {
 		final String uri = request.getRequestURI();
 		final String ip = IPUtils.getIpAddr(request);
 		final String account = loginUser != null ? loginUser.getAccount() : "匿名用户";
-		final String clazz = joinPoint.getSignature().getDeclaringTypeName();
+		final String clazz = joinPoint.getSignature().getDeclaringTypeName().replaceAll("com.ymrs.spirit.ffx.controller", "c.y.s.f.c");
 		final String methodName = joinPoint.getSignature().getName();
 		final Object[] args = joinPoint.getArgs();
 		final String params = Arrays.toString(args);
-
 		recordLog(new SysLogPO(logId.get(), account, ip, method, url, uri, clazz, methodName, DateUtils.currentDate(),
 				0L, params), null, null);
-
 	}
 
 	@AfterReturning(returning = "ret", pointcut = "spiritSysLog()")
@@ -72,6 +70,9 @@ public class SpiritSysLogAspect {
 	@Async("syslogAsync")
 	private void recordLog(SysLogPO sysLog, String id, Long spendTime) {
 		if (sysLog != null) {
+			if("c.y.s.f.c.sysmgr.SysLogController".equals(sysLog.getClazz())) {
+				return;
+			}
 			if(ACCOUNT.equals(sysLog.getAccount()) || LOGOUT_URI.equals(sysLog.getUri())) {
 				sysLog.setParams("");
 			}

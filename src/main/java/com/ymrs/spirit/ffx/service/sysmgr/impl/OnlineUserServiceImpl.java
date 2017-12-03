@@ -27,7 +27,7 @@ public class OnlineUserServiceImpl implements OnlineUserService {
 
 	@PostConstruct
 	public void init() {
-		LOGGER.info("每次重启时，清楚Redis中的在线用户！");
+//		LOGGER.info("每次重启时，清楚Redis中的在线用户！");
 //		JedisUtils.delKey(OnlineUserConsts.ONLINE_KEY);
 	}
 

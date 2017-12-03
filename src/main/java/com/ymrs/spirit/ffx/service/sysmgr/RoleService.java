@@ -2,8 +2,8 @@ package com.ymrs.spirit.ffx.service.sysmgr;
 
 import java.util.List;
 
-import com.ymrs.spirit.ffx.dto.req.sysmgr.RoleReqDTO;
-import com.ymrs.spirit.ffx.dto.resp.sysmgr.RoleRespDTO;
+import com.ymrs.spirit.ffx.dto.sysmgr.req.RoleReqDTO;
+import com.ymrs.spirit.ffx.dto.sysmgr.resp.RoleRespDTO;
 import com.ymrs.spirit.ffx.exception.SpiritServiceException;
 import com.ymrs.spirit.ffx.template.SpiritAbstractService;
 import com.ymrs.spirit.ffx.vo.sysmgr.AuthorityRoleTreeVO;

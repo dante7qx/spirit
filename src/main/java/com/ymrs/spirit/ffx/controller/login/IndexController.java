@@ -10,7 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.google.common.collect.Lists;
-import com.ymrs.spirit.ffx.dto.resp.sysmgr.UserResourceRespDTO;
+import com.ymrs.spirit.ffx.dto.sysmgr.resp.UserResourceRespDTO;
 import com.ymrs.spirit.ffx.exception.SpiritServiceException;
 import com.ymrs.spirit.ffx.security.SpiritLoginUser;
 import com.ymrs.spirit.ffx.service.sysmgr.ResourceService;

@@ -1,4 +1,4 @@
-package com.ymrs.spirit.ffx.dto.req.sysmgr.specification;
+package com.ymrs.spirit.ffx.specification.sysmgr;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;

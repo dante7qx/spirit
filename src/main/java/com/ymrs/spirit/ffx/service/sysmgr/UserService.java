@@ -2,10 +2,10 @@ package com.ymrs.spirit.ffx.service.sysmgr;
 
 import java.util.List;
 
-import com.ymrs.spirit.ffx.dto.req.sysmgr.UserModifyPasswordReqDTO;
-import com.ymrs.spirit.ffx.dto.req.sysmgr.UserReqDTO;
-import com.ymrs.spirit.ffx.dto.resp.sysmgr.UserAuthRespDTO;
-import com.ymrs.spirit.ffx.dto.resp.sysmgr.UserRespDTO;
+import com.ymrs.spirit.ffx.dto.sysmgr.req.UserModifyPasswordReqDTO;
+import com.ymrs.spirit.ffx.dto.sysmgr.req.UserReqDTO;
+import com.ymrs.spirit.ffx.dto.sysmgr.resp.UserAuthRespDTO;
+import com.ymrs.spirit.ffx.dto.sysmgr.resp.UserRespDTO;
 import com.ymrs.spirit.ffx.exception.SpiritServiceException;
 import com.ymrs.spirit.ffx.template.SpiritAbstractService;
 

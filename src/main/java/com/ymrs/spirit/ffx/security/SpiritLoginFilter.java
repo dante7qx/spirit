@@ -12,7 +12,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import com.ymrs.spirit.ffx.constant.SecurityConsts;
-import com.ymrs.spirit.ffx.dto.resp.sysmgr.UserAuthRespDTO;
+import com.ymrs.spirit.ffx.dto.sysmgr.resp.UserAuthRespDTO;
 import com.ymrs.spirit.ffx.exception.KaptchaException;
 import com.ymrs.spirit.ffx.exception.SpiritServiceException;
 import com.ymrs.spirit.ffx.prop.SpiritProperties;

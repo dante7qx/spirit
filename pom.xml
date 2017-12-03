@@ -28,6 +28,8 @@
 		<pagehelper.version>4.2.1</pagehelper.version>
 		<kaptcha.version>0.0.9</kaptcha.version>
 		<jasypt.version>1.16</jasypt.version>
+		<quartz.version>2.3.0</quartz.version>
+		
 		<!-- Thymeleaf 3 -->
 		<thymeleaf.version>3.0.8.RELEASE</thymeleaf.version>
 		<thymeleaf-layout-dialect.version>2.2.2</thymeleaf-layout-dialect.version>
@@ -116,6 +118,16 @@
 			<groupId>com.github.ulisesbocchio</groupId>
 			<artifactId>jasypt-spring-boot-starter</artifactId>
 			<version>${jasypt.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.quartz-scheduler</groupId>
+			<artifactId>quartz</artifactId>
+			<version>${quartz.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.quartz-scheduler</groupId>
+			<artifactId>quartz-jobs</artifactId>
+			<version>${quartz.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
