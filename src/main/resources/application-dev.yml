@@ -34,7 +34,7 @@ spring:
         login-username: druid
         login-password: 123456
   jpa:
-    show-sql: false
+    show-sql: true
     properties:
       hibernate:
         format_sql: true
