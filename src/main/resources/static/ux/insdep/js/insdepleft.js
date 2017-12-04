@@ -44,8 +44,8 @@ var MainPage = {
 	},
 	openTab2: function(url, text, iconCls) {
 		if ($("#mainTabs").tabs("exists", text)) {
-//	        $("#mainTabs").tabs("close", text);
-//	        this.addTab(url, text, iconCls);
+	        $("#mainTabs").tabs("close", text);
+	        this.addTab(url, text, iconCls);
 	        $("#mainTabs").tabs("select", text);
 	    } else {
 //	        this.addTab(url, text, iconCls);
