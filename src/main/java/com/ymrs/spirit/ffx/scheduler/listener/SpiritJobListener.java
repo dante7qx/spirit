@@ -3,16 +3,22 @@ package com.ymrs.spirit.ffx.scheduler.listener;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 import org.quartz.JobListener;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.ymrs.spirit.ffx.exception.SpiritServiceException;
+import com.ymrs.spirit.ffx.service.sysmgr.ScheduleJobService;
 import com.ymrs.spirit.ffx.util.ExceptionUtils;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @Component
 public class SpiritJobListener implements JobListener {
 	
-//	@Autowired
-//	private SchedulerJobService schedulerJobService;
-
+	@Autowired
+	private ScheduleJobService scheduleJobService;
+	
 	@Override
 	public String getName() {
 		return "SpiritJobListener";
@@ -33,7 +39,11 @@ public class SpiritJobListener implements JobListener {
 		if(jobException != null) {
 			failReason = ExceptionUtils.getStackMsg(jobException);
 		}
-//		schedulerJobService.updateJob(jobId, context.getFireTime(), context.getPreviousFireTime(), context.getNextFireTime(), failReason);
+		try {
+			scheduleJobService.updateRuntimeJob(jobId, context.getFireTime(), context.getPreviousFireTime(), context.getNextFireTime(), failReason);
+		} catch (SpiritServiceException e) {
+			log.error("updateRuntimeJob {} error", jobId, e);
+		}
 
 	}
 

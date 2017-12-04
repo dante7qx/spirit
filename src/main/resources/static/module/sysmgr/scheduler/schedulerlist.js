@@ -19,14 +19,12 @@ var SchedulerPage = {
 		    toolbar: '#schedulerGridToolbar',
 		    sortName: 'updateDate',
 		    sortOrder: 'desc',
-		    remoteSort: false,
 		    height: $(window).height() - 20,
 		    columns:[[
-		    	{field:'jobId',title:'任务编号',width:100,halign:'center',align:'left',sortable:true,formatter:function(value,row,index) {
+		    	{field:'jobId',title:'任务编号',width:100,halign:'center',align:'left',formatter:function(value,row,index) {
 		        	return '<a class="bdhref" href="javascript:;" onclick="SchedulerPage.editScheduler('+row['id']+')">'+value+'</a>';
 		        }},
 		        {field:'jobName',title:'任务名称',width:120,halign:'center'},
-		        {field:'jobDesc',title:'任务描述',width:200,halign:'center'},
 		        {field:'startJob',title:'启动状态',width:60,halign:'center',align:'center',formatter:function(val) {
 		        	return val ? "启动" : "停止";
 		        }},
@@ -34,15 +32,14 @@ var SchedulerPage = {
 		        {field:'fireTime',title:'触发时间',width:110,halign:'center',align:'left'},
 		        {field:'previousFireTime',title:'上次执行时间',width:110,halign:'center',align:'left'},
 		        {field:'nextFireTime',title:'下次执行时间',width:110,halign:'center',align:'left'},
-		        {field:'updateDate',title:'更新时间',width:110,halign:'center',align:'left'},
 		        {field:'updateUserName',title:'更新人',width:80,halign:'center',align:'left'},
-		        {field:'updateDate',title:'更新时间',width:100,halign:'center',align:'left'}
+		        {field:'updateDate',title:'更新时间',width:100,halign:'center',align:'left',sortable:true}
 		    ]]
 		});
 	},
 	search: function() {
 		$('#schedulerGridlist').datagrid('load', {
-			'q[name]': $('#queryName','#schedulerGridToolbar').textbox("getValue")
+			'q[jobName]': $('#queryJobName','#schedulerGridToolbar').textbox("getValue")
 		});
 	},
 	reset: function() {

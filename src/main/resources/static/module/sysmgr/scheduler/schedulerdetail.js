@@ -3,7 +3,20 @@ var SchedulerDetailPage = {
 		paramSchedulerId: '',
 		initPage: function(paramSchedulerId) {
 			this.paramSchedulerId = paramSchedulerId;
+			this.initJobIdCombo();
 			this.loadData();
+		},
+		initJobIdCombo: function() {
+			$('#jobId','#schedulerDetailForm').combobox({
+				url: ctx+'/sysmgr/scheduler/query_combo',
+			    valueField: 'jobId',
+			    textField: 'jobName',
+			    onSelect: function(record) {
+			    	$('#jobName','#schedulerDetailForm').textbox('setValue', record['jobName']);
+			    	$('#jobClass','#schedulerDetailForm').val(record['jobClass']);
+			    	$('#tmpJobId','#schedulerDetailForm').val(record['jobId']);
+			    }
+			});
 		},
 		loadData: function() {
 			if(this.paramSchedulerId) {
@@ -11,7 +24,6 @@ var SchedulerDetailPage = {
 				this.loadDataById(false);
 			} else {
 				spirit.util.controlFormBtn(true, 'schedulerFormBtnContainer');
-				$('#schedulerDetailForm').form('clear');
 			}
 		},
 		loadDataById: function(editable) {
@@ -44,11 +56,9 @@ var SchedulerDetailPage = {
 			if($('#schedulerDetailForm').form('validate')) {
 				SchedulerDetailPage.SUBMIT_FLAG = true;
 			}
-			var checkNodeIds = this.getSelectedAuthority();
-			$('#authorityIds','#schedulerDetailForm').val(checkNodeIds);
 			$('#schedulerDetailForm').form('submit', {
 				iframe: false,
-			    url: 'scheduler/update_scheduler',
+			    url: ctx+'/sysmgr/scheduler/update_scheduler',
 			    success:function(result){
 			    	SchedulerDetailPage.SUBMIT_FLAG = false;
 			    	var result = eval('(' + result + ')');
@@ -63,16 +73,9 @@ var SchedulerDetailPage = {
 		},
 		reset: function() {
 			if(this.paramSchedulerId) {
-				this.initPageWidget();
 				this.loadDataById(true);
 			} else {
 				$('#schedulerDetailForm').form('clear');
-				var nodes = $('#authorityTree').tree('getChecked');
-				if(nodes) {
-					$.each(nodes, function(i, node) {
-						$('#authorityTree').tree('uncheck', node.target);
-					}); 
-				}
 			}
 			SchedulerDetailPage.SUBMIT_FLAG = false;
 		},
@@ -100,15 +103,29 @@ var SchedulerDetailPage = {
 		edit: function() {
 			spirit.util.controlFormBtn(true, 'schedulerFormBtnContainer');
 			spirit.util.isEditForm('schedulerDetailForm', true);
-		},
-		getSelectedAuthority: function() {
-			var checkNodeIds = [];
-			var nodes = $('#authorityTree').tree('getChecked');
-			if(nodes) {
-				$.each(nodes, function(i, node) {
-					checkNodeIds.push(node['id']);
-				}); 
-			}
-			return checkNodeIds;
 		}
 };
+$.extend($.fn.validatebox.defaults.rules, {
+	uniqueJobId: {
+		validator: function(value, param){
+			if(!value) return true;
+			var id = $('#id','#schedulerDetailForm').val();
+			var jobId = $('#tmpJobId','#schedulerDetailForm').val();
+			var result = JSON.parse($.ajax({
+				url: ctx+'/sysmgr/scheduler/check_job_exist',
+				type: 'post',
+				async: false,
+				cache: false,
+				data: {
+					id: id,
+					jobId: jobId
+				}
+			}).responseText);
+			if(result) {
+				return false;
+			}
+			return true;
+        },
+        message: '该任务已存在，请重新输入！'
+	}
+});

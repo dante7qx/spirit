@@ -1,5 +1,7 @@
 package com.ymrs.spirit.ffx.service.sysmgr.impl;
 
+import java.lang.annotation.Annotation;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -11,6 +13,8 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.google.common.collect.Lists;
+import com.ymrs.spirit.ffx.constant.sysmgr.SchedulerJobConsts;
 import com.ymrs.spirit.ffx.dao.sysmgr.ScheduleJobDAO;
 import com.ymrs.spirit.ffx.dto.sysmgr.ScheduleJobDTO;
 import com.ymrs.spirit.ffx.exception.SpiritDaoException;
@@ -20,9 +24,14 @@ import com.ymrs.spirit.ffx.po.sysmgr.UserPO;
 import com.ymrs.spirit.ffx.pub.PageReq;
 import com.ymrs.spirit.ffx.pub.PageResult;
 import com.ymrs.spirit.ffx.scheduler.SpiritScheduler;
+import com.ymrs.spirit.ffx.scheduler.annotation.SpiritSchedule;
 import com.ymrs.spirit.ffx.service.sysmgr.ScheduleJobService;
+import com.ymrs.spirit.ffx.specification.sysmgr.SchedulerJobSpecification;
 import com.ymrs.spirit.ffx.template.SpiritServiceTemplate;
+import com.ymrs.spirit.ffx.util.AnnotationUtils;
+import com.ymrs.spirit.ffx.util.CollectionUtils;
 import com.ymrs.spirit.ffx.util.DateUtils;
+import com.ymrs.spirit.ffx.vo.sysmgr.ScheduleJobVO;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -128,6 +137,46 @@ public class ScheduleJobServiceImpl extends SpiritServiceTemplate<ScheduleJobDTO
 		}
 		return exists;
 	}
+	
+	@Override
+	public List<ScheduleJobVO> findScheduleJobCombo() {
+		List<ScheduleJobVO> vos = Lists.newArrayList();
+		List<Class<?>> clsList = AnnotationUtils.getClasses(SchedulerJobConsts.JOB_PKG);
+		if(CollectionUtils.isNotEmpty(clsList)) {
+			clsList.stream().forEach(c -> {
+				Annotation[] annotations = c.getAnnotations();
+				if (annotations != null && annotations.length > 0) {
+					if (annotations[0] instanceof SpiritSchedule) {
+						SpiritSchedule annotation = (SpiritSchedule) annotations[0];
+						ScheduleJobVO vo = new ScheduleJobVO();
+						vo.setJobId(annotation.jobId());
+						vo.setJobName(annotation.jobName());
+						vo.setJobClass(c.getName());
+						vos.add(vo);
+					}
+				}
+			});
+		}
+		return vos;
+	}
+
+	@Override
+	@Transactional
+	public void updateRuntimeJob(String jobId, Date fireTime, Date previousFireTime, Date nextFireTime,
+			String failReason) throws SpiritServiceException {
+		ScheduleJobPO job = findByJobId(jobId);
+		if(job == null) {
+			return;
+		}
+		job.setFireTime(fireTime);
+		if(previousFireTime != null) {
+			job.setPreviousFireTime(previousFireTime);
+		}
+		job.setNextFireTime(nextFireTime);
+		job.setFailReason(failReason);
+		job.setUpdateDate(DateUtils.currentDate());
+		scheduleJobDAO.save(job);
+	}
 
 	@Override
 	protected ScheduleJobPO convertReqDtoToPo(ScheduleJobDTO reqDTO) {
@@ -154,8 +203,7 @@ public class ScheduleJobServiceImpl extends SpiritServiceTemplate<ScheduleJobDTO
 
 	@Override
 	protected Specification<ScheduleJobPO> buildSpecification(Map<String, Object> filter) {
-		// TODO Auto-generated method stub
-		return null;
+		return SchedulerJobSpecification.querySpecification(filter);
 	}
 
 }

@@ -29,14 +29,13 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
 					</td>
 					<td align="right">
 						<a sec:authorize="hasAuthority('sysmgr.scheduler.update')" href="javascript:;" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="SchedulerPage.editScheduler('');">新增</a>
-						<a sec:authorize="hasAuthority('sysmgr.scheduler.delete')" href="javascript:;" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="SchedulerPage.del();">删除</a>
 					</td>
 				</tr>
 			</table>
 		</form>
 	</div>
 	<div id="schedulerWindow" class="easyui-window" modal="true" collapsible="false"
-		minimizable="true" maximizable="true" resizable="false" closed="true"
+		minimizable="true" maximizable="false" resizable="false" closed="true"
 		style="height:500px; width: 750px; display: none;"></div>
 	<script th:src="@{/ux/spirit/spirit-util.js}" type="text/javascript"></script>
 	<script th:src="@{/module/sysmgr/scheduler/schedulerlist.js}" type="text/javascript"></script>

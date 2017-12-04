@@ -41,7 +41,7 @@ public class SchedulerJobController extends SpiritController {
 	@PreAuthorize("hasAuthority('sysmgr.scheduler.query')")
 	@PostMapping("/query_combo")
 	public List<ScheduleJobVO> queryCombo() {
-		return null;
+		return scheduleJobService.findScheduleJobCombo();
 	}
 	
 	@PreAuthorize("hasAuthority('sysmgr.scheduler.query')")

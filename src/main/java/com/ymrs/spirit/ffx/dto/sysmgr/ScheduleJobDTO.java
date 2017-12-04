@@ -26,5 +26,5 @@ public class ScheduleJobDTO {
 	private String failReason;
 	private Long updateUser;
 	private String updateUserName;
-	private String updateDate;
+	private Date updateDate;
 }

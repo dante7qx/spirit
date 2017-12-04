@@ -9,6 +9,11 @@ package com.ymrs.spirit.ffx.util;
 public final class ExceptionUtils {
 
 	/**
+	 * 错误堆栈记录长度
+	 */
+	private static final int EXCEPTION_STACK_LEN = 8000;
+	
+	/**
 	 * 将异常堆栈信息转为字符串
 	 * 
 	 * @param e
@@ -21,7 +26,7 @@ public final class ExceptionUtils {
             StackTraceElement element = stackArray[i];    
             sb.append(element.toString() + "\n");    
         }    
-        return sb.toString();    
+        return extractStack(sb.toString());    
     }    
     
     /**
@@ -37,7 +42,12 @@ public final class ExceptionUtils {
             StackTraceElement element = stackArray[i];    
             sb.append(element.toString() + "\n");    
         }    
-        return sb.toString();    
+        return extractStack(sb.toString());    
     } 
+    
+    private static String extractStack(String stack) {
+    	int len = stack.length() < EXCEPTION_STACK_LEN ? stack.length() : EXCEPTION_STACK_LEN;
+    	return stack.substring(0, len);
+    }
 	
 }

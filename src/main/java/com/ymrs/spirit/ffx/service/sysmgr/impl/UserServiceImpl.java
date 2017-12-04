@@ -13,7 +13,7 @@ import org.springframework.util.CollectionUtils;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
-import com.ymrs.spirit.ffx.constant.UserConsts;
+import com.ymrs.spirit.ffx.constant.sysmgr.UserConsts;
 import com.ymrs.spirit.ffx.dao.sysmgr.UserDAO;
 import com.ymrs.spirit.ffx.dto.sysmgr.req.UserModifyPasswordReqDTO;
 import com.ymrs.spirit.ffx.dto.sysmgr.req.UserReqDTO;

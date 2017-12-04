@@ -1,4 +1,4 @@
-package com.ymrs.spirit.ffx.constant;
+package com.ymrs.spirit.ffx.constant.sysmgr;
 
 /**
  * 系统管理 - 用户常量
@@ -6,7 +6,7 @@ package com.ymrs.spirit.ffx.constant;
  * @author dante
  *
  */
-public class UserConsts {
+public final class UserConsts {
 	
 	private UserConsts() {
 		throw new IllegalAccessError("UserConsts 常量类，不能实例化！");

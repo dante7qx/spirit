@@ -153,31 +153,4 @@ public class AnnotationUtils {
 		}
 	}
 
-	/*
-	public static List<SchedulerVO> getAnnotation(List<Class<?>> clsList) {
-		List<SchedulerVO> vos = Lists.newArrayList();
-		if (clsList != null && clsList.size() > 0) {
-			for (Class<?> cls : clsList) {
-				Annotation[] annotations = cls.getAnnotations();
-				if (annotations != null && annotations.length > 0) {
-					if (annotations[0] instanceof SpiritQuartz) {
-						SpiritQuartz annotation = (SpiritQuartz) annotations[0];
-						SchedulerVO vo = new SchedulerVO();
-						vo.setJobId(annotation.jobId());
-						vo.setJobName(annotation.jobName());
-						vo.setJobClass(cls.getName());
-						vos.add(vo);
-					}
-				}
-			}
-		}
-		return vos;
-	}
-	
-
-	public static List<SchedulerVO> getAnnotation(String packageName) {
-		return getAnnotation(getClasses(packageName));
-	}
-	*/
-
 }
