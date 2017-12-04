@@ -34,7 +34,7 @@ public class SchedulerConfig {
     public Properties quartzProperties() throws IOException {
         PropertiesFactoryBean propertiesFactory = new PropertiesFactoryBean();
         propertiesFactory.setLocation(new ClassPathResource("/quartz.properties"));
-        propertiesFactory.afterPropertiesSet();
+        propertiesFactory.afterPropertiesSet(); // 必须手动触发
         return propertiesFactory.getObject();
     }
 	
