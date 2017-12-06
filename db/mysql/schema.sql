@@ -53,7 +53,7 @@ CREATE TABLE t_resource (
 	authority_id bigint(20) NOT NULL COMMENT '权限Id', 
 	show_order int NOT NULL DEFAULT 1 COMMENT '显示顺序', 
 	resource_desc varchar(128) NOT NULL DEFAULT '' COMMENT '资源描述',
-	icon_class varchar(64) NOT NULL DEFAULT '' COMMENT '资源图标',
+	icon_class varchar(64) NOT NULL DEFAULT 'fa fa-file' COMMENT '资源图标',
 	update_user bigint(20) not null DEFAULT 1 COMMENT '更新人',
 	update_date timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间'
 ) 

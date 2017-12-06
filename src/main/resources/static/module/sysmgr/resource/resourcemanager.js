@@ -79,6 +79,7 @@ var ResourcePage = {
 		$('#resourceContainer').show();
 		$('#resourceForm').form('clear');
 		$('#pid','#resourceForm').val(curNode['id'] > 0 ? curNode['id'] : '');
+		$('#iconClass','#resourceForm').textbox('setValue','fa fa-file');
 	},
 	delNode: function() {
 		var curNode = $('#resourceTree').tree('getSelected');
