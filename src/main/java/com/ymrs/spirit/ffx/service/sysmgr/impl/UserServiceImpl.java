@@ -74,6 +74,9 @@ public class UserServiceImpl extends SpiritServiceTemplate<UserReqDTO, UserRespD
 		UserAuthRespDTO userAuthRespDTO = null;
 		try {
 			UserPO userPO = userDAO.findByAccount(account);
+			if(userPO == null) {
+				return null;
+			}
 			userAuthRespDTO = new UserAuthRespDTO();
 			BeanUtils.copyProperties(userPO, userAuthRespDTO);
 			Set<RolePO> roles = userPO.getRoles();

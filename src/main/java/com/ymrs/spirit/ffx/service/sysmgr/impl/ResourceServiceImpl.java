@@ -147,7 +147,7 @@ public class ResourceServiceImpl implements ResourceService {
 		List<UserResourceRespDTO> userResources = Lists.newLinkedList();
 		List<UserResourceRespDTO> menus = buildUserResourceTree(pids, menuTreeMap);
 		for (UserResourceRespDTO menu : menus) {
-			if (!menu.getChildren().isEmpty() || !pids.contains(menu.getPid())) {
+			if (!menu.getChildren().isEmpty() && !pids.contains(menu.getPid())) {
 				userResources.add(menu);
 			}
 		}
