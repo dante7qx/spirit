@@ -20,6 +20,7 @@ import org.springframework.security.web.session.SessionInformationExpiredStrateg
 import org.springframework.security.web.session.SimpleRedirectSessionInformationExpiredStrategy;
 
 import com.ymrs.spirit.ffx.constant.SecurityConsts;
+import com.ymrs.spirit.ffx.prop.SpiritProperties;
 import com.ymrs.spirit.ffx.security.SpiritLoginFilter;
 import com.ymrs.spirit.ffx.security.SpiritPasswordEncoder;
 import com.ymrs.spirit.ffx.security.SpiritSessionBackedSessionRegistry;
@@ -30,6 +31,8 @@ import com.ymrs.spirit.ffx.security.SpiritUserDetailsService;
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	
+	@Autowired
+	private SpiritProperties spiritProperties;
 	@Autowired
 	private AuthenticationManager authenticationManager;
 	@Autowired
@@ -128,7 +131,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	private ConcurrentSessionControlAuthenticationStrategy concurrentSessionControlAuthenticationStrategy() {
 		ConcurrentSessionControlAuthenticationStrategy concurrentSessionControlAuthenticationStrategy = new ConcurrentSessionControlAuthenticationStrategy(
 				this.sessionRegistry);
-		concurrentSessionControlAuthenticationStrategy.setMaximumSessions(3); // 单个用户最大并行会话数
+		if(spiritProperties.getSingleUser() != null && spiritProperties.getSingleUser().booleanValue()) {
+			concurrentSessionControlAuthenticationStrategy.setMaximumSessions(1);
+		} else {
+			concurrentSessionControlAuthenticationStrategy.setMaximumSessions(-1);
+		}
 		concurrentSessionControlAuthenticationStrategy.setExceptionIfMaximumExceeded(false); // 设置为true时会报错且后登录的会话不能登录，默认为false不报错且将前一会话置为失效
 		return concurrentSessionControlAuthenticationStrategy;
 	}

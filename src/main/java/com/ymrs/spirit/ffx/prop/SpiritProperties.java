@@ -21,4 +21,9 @@ public class SpiritProperties {
 	 * 安全检查
 	 */
 	private Boolean safeCheck;
+	
+	/**
+	 * 单用户登录
+	 */
+	private Boolean singleUser;
 }

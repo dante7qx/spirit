@@ -63,5 +63,6 @@ mybatis:
   config-location: classpath:mybatis/mybatis-config.xml
 spirit:
   kaptcha: true
+  singleUser: true
   safeCheck: true
   ldapurl: ldap://hna.net:389/
