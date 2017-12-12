@@ -20,7 +20,7 @@ var MainPage = {
         var left_control_panel=$("#master-layout").layout("panel",'west');
         $(".left-control-switch").on("click",function(){
             if(left_control_status){
-                left_control_panel.panel('resize',{width:70});
+                left_control_panel.panel('resize',{width:60});
                 left_control_status=false;
                 $(".theme-left-normal").hide();
                 $(".theme-left-minimal").show();
@@ -37,10 +37,12 @@ var MainPage = {
 	},
 	currentTabTitle: null,
 	openTab: function(target) {
-		var url=$(target).attr("url");
-		var text=$(target).text();
-		var iconCls=$("i",$(target).parent()).attr("class");
-		this.openTab2(url,text,iconCls);
+		if(!$(target).next().length){
+			var url=$(target).attr("url");
+			var text=$(target).text();
+			var iconCls=$("i",$(target).parent()).attr("class");
+			this.openTab2(url,text,iconCls);
+		}
 	},
 	openTab2: function(url, text, iconCls) {
 		if ($("#mainTabs").tabs("exists", text)) {

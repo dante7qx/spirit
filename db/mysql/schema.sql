@@ -100,9 +100,9 @@ CREATE TABLE t_schedule_job (
 	job_desc varchar(2048) not null COMMENT '任务描述',
 	cron varchar(64) not null COMMENT '定时表达式',
 	previous_fire_time timestamp COMMENT '上次执行时间',
-	fire_time timestamp COMMENT '触发时间',
-	next_fire_time timestamp COMMENT '下次执行时间',
-	start_time timestamp COMMENT '开始执行时间',
+	fire_time timestamp null COMMENT '触发时间',
+	next_fire_time timestamp null COMMENT '下次执行时间',
+	start_time timestamp null COMMENT '开始执行时间',
 	start_job int not null default 1 COMMENT '是否启动任务',
 	fail_reason varchar(8000) COMMENT '任务失败原因',
 	update_user bigint(20) not null DEFAULT 1 COMMENT '更新人',
@@ -113,6 +113,7 @@ ENGINE=InnoDB
 DEFAULT CHARSET=utf8 
 COLLATE=utf8_general_ci
 COMMENT='定时任务表' ;
+
 
 alter table t_schedule_job add constraint pk_t_schedule_job primary key (id) ;
 alter table t_schedule_job modify column id bigint(20) not null auto_increment;
