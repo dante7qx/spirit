@@ -1,5 +1,5 @@
 i{margin-right:6px;}
-theme-left-fold .l-btn-text{ color:#c3c3c3; margin: 3px 5px;}
+.theme-left-fold .l-btn-text{ color:#c3c3c3; margin: 3px 5px;}
 .theme-left-fold .l-btn,.theme-left-fold .l-btn:hover{border:none;background:#000000;}
 .theme-left-fold .l-btn:hover,.theme-navigate .m-btn-plain-active{ background:#000000;}
 .panel-icon{margin-top:-6px;padding-left:5px;}
@@ -10,22 +10,33 @@ theme-left-fold .l-btn-text{ color:#c3c3c3; margin: 3px 5px;}
 
 
 #master-layout  .panel{overflow:visible;}
+
+#master-layout .layout{overflow:visible;position:static;}
+#master-layout .accordion{overflow:visible;}
+#master-layout .theme-left-normal .panel-noscroll{overflow:visible;}
 .c-accordion-nav .datagrid-cell-group, .c-accordion-nav .datagrid-header-rownumber, .c-accordion-nav .datagrid-cell-rownumber,.c-accordion-nav .datagrid-cell{
 	overflow:visible;
 }
-#master-layout .layout{overflow:visible;position:static;}
-#master-layout .accordion{overflow:visible;}
-#master-layout .panel-noscroll{overflow:visible;}
 .c-accordion-nav .panel-body{overflow:visible;}
 .c-accordion-nav .datagrid .panel-body{overflow:visible;}
 .c-accordion-nav .layout-panel{overflow:visible;}
 .c-accordion-nav .datagrid-view1, .c-accordion-nav .datagrid-view2{overflow:visible;}
 .c-accordion-nav .datagrid-view{overflow:visible;}
-.c-accordion-nav .datagrid-body{overflow:visible !important;}
+.c-accordion-nav .datagrid-body{overflow:visible !important;} */
 
 
-.theme-left-layout .theme-left-minimal .datalist{padding:0px;}
-.theme-left-layout .theme-left-minimal .datalist .datagrid-cell{padding:5px 0px;}
+.theme-left-layout .theme-left-minimal .datalist{
+	padding:0px;
+}
+.theme-navigate .sys-logo{
+	font-size:24px;
+	height:100%;
+}
+.theme-left-user-panel{padding:13px 0 !important;}
+
+.theme-left-layout .theme-left-minimal .datalist .datagrid-cell{
+	padding:5px 0px;
+}
 
 .subMenu{
 	width:0px;
