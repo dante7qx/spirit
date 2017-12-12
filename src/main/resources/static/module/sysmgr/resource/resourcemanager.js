@@ -139,6 +139,7 @@ var ResourcePage = {
 		var newNodeAttr = {};
 		newNodeAttr['id'] = data['id'];
 		newNodeAttr['name'] = data['name'];
+		newNodeAttr['iconClass'] = data['iconClass'];
 		newNodeAttr['url'] = data['url'];
 		newNodeAttr['authorityId'] = data['authorityId'];
 		newNodeAttr['pid'] = data['pid'];

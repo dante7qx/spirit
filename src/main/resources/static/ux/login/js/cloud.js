@@ -18,7 +18,7 @@ var LoginPage = {
             }
 		});
 		
-		$("form").submit( function(event){
+		$("#loginForm").submit(function(event){
 	          var account = $(".name").val(); 
 	          var pwd = $(".pwd").val();
 	          var code = $("#valid").val();
