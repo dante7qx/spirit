@@ -99,7 +99,7 @@ CREATE TABLE t_schedule_job (
 	job_class varchar(256) not null COMMENT '任务执行类',
 	job_desc varchar(2048) not null COMMENT '任务描述',
 	cron varchar(64) not null COMMENT '定时表达式',
-	previous_fire_time timestamp COMMENT '上次执行时间',
+	previous_fire_time timestamp null COMMENT '上次执行时间',
 	fire_time timestamp null COMMENT '触发时间',
 	next_fire_time timestamp null COMMENT '下次执行时间',
 	start_time timestamp null COMMENT '开始执行时间',

@@ -11,6 +11,16 @@ var ResourcePage = {
 		    onSelect: function(node){
 		    	ResourcePage.loadData(node, false);
 			},
+			onBeforeDrop: function(target,source,point) {
+				if(point == 'append') {
+					var level = ResourcePage.getNodeLevel($('#resourceTree').tree('getNode',target))['count'];
+					if(level == ResourcePage.MENU_MAX_LEVEL) {
+						$.messager.alert('提示','系统只支持3级菜单！');
+						return false;
+					}
+				}
+				return true;
+			},
 			onDrop: function(target,source,point) {
 				ResourcePage.dragNode($('#resourceTree').tree('getNode',target), source, point);
 			},

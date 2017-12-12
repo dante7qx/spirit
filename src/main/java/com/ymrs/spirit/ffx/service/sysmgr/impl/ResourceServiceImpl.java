@@ -175,6 +175,7 @@ public class ResourceServiceImpl implements ResourceService {
 	}
 
 	@Override
+	@Transactional
 	public void updateResourceWhenDrag(EasyUIDragTreeReq dragTreeReq) throws SpiritServiceException {
 		String point = dragTreeReq.getPoint();
 		if (EasyUITreeConsts.POINT_APPEND.equalsIgnoreCase(point)) {
