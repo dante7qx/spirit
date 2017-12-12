@@ -114,5 +114,6 @@ DEFAULT CHARSET=utf8
 COLLATE=utf8_general_ci
 COMMENT='定时任务表' ;
 
+
 alter table t_schedule_job add constraint pk_t_schedule_job primary key (id) ;
 alter table t_schedule_job modify column id bigint(20) not null auto_increment;

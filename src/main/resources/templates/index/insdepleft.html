@@ -58,9 +58,15 @@
                         <div class="easyui-accordion c-accordion-nav" data-options="border:false,fit:true">
                     		<div th:each="menu,menuStat : ${menus}" th:title="${menu.name}" th:attr="iconCls=${menu.iconClass}" >
                     			<ul th:unless="${#lists.isEmpty(menu.children)}" class="easyui-datalist cdatalist" data-options="border:false,fit:true">
-                    				<li th:if="${#lists.isEmpty(childmenu.children)}" th:each="childmenu : ${menu.children}">
+                    				<li th:each="childmenu : ${menu.children}">
                     					<i th:class="${childmenu.iconClass}"></i>
-                    					<a onclick="javascript:MainPage.openTab(this)" th:url="@{'/'+${childmenu.url}}" th:text="${childmenu.name}"></a>
+                    					<a onclick="javascript:MainPage.openTab(this)" th:url="@{'/'+${childmenu.url}}" th:text="${childmenu.name}" ></a>
+                    					<ul class="subMenu" th:if="${!#lists.isEmpty(childmenu.children)}">
+                    						<li th:each="subChild : ${childmenu.children}">
+												<i th:class="${subChild.iconClass}"></i>
+                    							<a onclick="javascript:MainPage.openTab(this)" th:url="@{'/'+${subChild.url}}" th:text="${subChild.name}" ></a>
+											</li>
+                    					</ul>
                     				</li>
                     			</ul>
                     		</div>
@@ -88,10 +94,10 @@
             <div class="theme-left-minimal">
                 <ul class="easyui-datalist" data-options="border:false,fit:true">
                     <li><a class="left-control-switch"><i class="fa fa-bars fa-lg"></i></a></li>
-                    <li><i class="fa fa-home fa-2x"></i><p>主题</p></li>
+                    <!-- <li><i class="fa fa-home fa-2x"></i><p>主题</p></li>
                     <li><i class="fa fa-book fa-2x"></i><p>组件</p></li>
                     <li><i class="fa fa-pencil fa-2x"></i><p>编辑</p></li>
-                    <li><i class="fa fa-cog fa-2x"></i><p>设置</p></li>
+                    <li><i class="fa fa-cog fa-2x"></i><p>设置</p></li> -->
                 </ul>
             </div>
         </div>
