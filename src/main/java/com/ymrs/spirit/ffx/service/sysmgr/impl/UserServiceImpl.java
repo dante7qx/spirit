@@ -252,6 +252,9 @@ public class UserServiceImpl extends SpiritServiceTemplate<UserReqDTO, UserRespD
 		UserPO userPO = new UserPO();
 		BeanUtils.copyProperties(userReqDto, userPO, "updateUser");
 		userPO.setUpdateDate(DateUtils.currentDate());
+		if(userReqDto.getLdapUser() == null) {
+			userReqDto.setLdapUser(false);
+		}
 		if (userReqDto.getUpdateUser() != null) {
 			userPO.setUpdateUser(new UserPO(userReqDto.getUpdateUser()));
 		}

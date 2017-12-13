@@ -57,6 +57,10 @@ public class UserPO implements Serializable {
 	 */
 	private String status;
 	/**
+	 * 域登录
+	 */
+	private Boolean ldapUser;
+	/**
 	 * 更新人
 	 */
 	@ManyToOne(cascade = { CascadeType.REFRESH }, fetch = FetchType.LAZY)
