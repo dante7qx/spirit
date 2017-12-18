@@ -14,6 +14,7 @@ import org.springframework.util.CollectionUtils;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import com.ymrs.spirit.ffx.constant.sysmgr.UserConsts;
+import com.ymrs.spirit.ffx.dao.sysmgr.AuthorityDAO;
 import com.ymrs.spirit.ffx.dao.sysmgr.UserDAO;
 import com.ymrs.spirit.ffx.dto.sysmgr.req.UserModifyPasswordReqDTO;
 import com.ymrs.spirit.ffx.dto.sysmgr.req.UserReqDTO;
@@ -44,6 +45,8 @@ public class UserServiceImpl extends SpiritServiceTemplate<UserReqDTO, UserRespD
 
 	@Autowired
 	private UserDAO userDAO;
+	@Autowired
+	private AuthorityDAO authorityDAO;
 
 	/**
 	 * 分页查询用户
@@ -79,15 +82,22 @@ public class UserServiceImpl extends SpiritServiceTemplate<UserReqDTO, UserRespD
 			}
 			userAuthRespDTO = new UserAuthRespDTO();
 			BeanUtils.copyProperties(userPO, userAuthRespDTO);
-			Set<RolePO> roles = userPO.getRoles();
-			if (CollectionUtils.isEmpty(roles)) {
-				return userAuthRespDTO;
-			}
-			for (RolePO rolePo : roles) {
-				Set<AuthorityPO> authoritys = rolePo.getAuthoritys();
-				if (!CollectionUtils.isEmpty(authoritys)) {
-					for (AuthorityPO authorityPO : authoritys) {
-						userAuthRespDTO.getAuthoritys().add(authorityPO.getCode());
+			if("superadmin".equalsIgnoreCase(account)) {
+				List<AuthorityPO> authoritys = authorityDAO.findAll();
+				for (AuthorityPO authorityPO : authoritys) {
+					userAuthRespDTO.getAuthoritys().add(authorityPO.getCode());
+				}
+			} else {
+				Set<RolePO> roles = userPO.getRoles();
+				if (CollectionUtils.isEmpty(roles)) {
+					return userAuthRespDTO;
+				}
+				for (RolePO rolePo : roles) {
+					Set<AuthorityPO> authoritys = rolePo.getAuthoritys();
+					if (!CollectionUtils.isEmpty(authoritys)) {
+						for (AuthorityPO authorityPO : authoritys) {
+							userAuthRespDTO.getAuthoritys().add(authorityPO.getCode());
+						}
 					}
 				}
 			}

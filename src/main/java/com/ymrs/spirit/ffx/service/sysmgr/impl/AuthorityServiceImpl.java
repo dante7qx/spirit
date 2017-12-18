@@ -135,6 +135,7 @@ public class AuthorityServiceImpl implements AuthorityService {
 	}
 
 	@Override
+	@Transactional
 	public void updateAuthorityWhenDrag(EasyUIDragTreeReq dragTreeReq) throws SpiritServiceException {
 		String point = dragTreeReq.getPoint();
 		if(EasyUITreeConsts.POINT_APPEND.equalsIgnoreCase(point)) {
@@ -194,6 +195,8 @@ public class AuthorityServiceImpl implements AuthorityService {
 		AuthorityPO authorityPO = authorityDAO.findOne(sourceId);
 		if(targetId > 0) {
 			authorityPO.setParentAuthority(new AuthorityPO(targetId));
+		} else {
+			authorityPO.setParentAuthority(null);
 		}
 		authorityPO.setUpdateUser(new UserPO(updateUser));
 		authorityDAO.save(authorityPO);

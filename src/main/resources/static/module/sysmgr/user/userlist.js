@@ -1,4 +1,5 @@
 var UserPage = {
+		ADMIN: 'superadmin',
 		STATUS: {
 			NORMAL: 'NORMAL',
 			LOCK: 'LOCK',
@@ -32,13 +33,23 @@ var UserPage = {
                 ]],
 			    columns:[[
 			        {field:'account',title:'帐号',width:80,halign:'center',align:'center',formatter:function(value,row,index) {
+			        	if(UserPage.ADMIN == value) {
+			        		return value;
+			        	}
 			        	return '<a class="bdhref" href="javascript:;" onclick="UserPage.editUser('+row['id']+')">'+value+'</a>';
 			        }},
 			        {field:'name',title:'姓名',width:80,halign:'center',sortable:true},
 			        {field:'email',title:'邮箱',width:100,halign:'center',align:'left'},
 			        {field:'updateUserName',title:'更新人',width:80,halign:'center',align:'left'},
 			        {field:'updateDate',title:'更新时间',width:100,halign:'center',align:'left'}
-			    ]]
+			    ]],
+			    onSelect: function(index,row) {
+			    	if(row['account'] != UserPage.ADMIN) {
+			    		$('#editCommonUserSpan').show();
+			    	} else {
+			    		$('#editCommonUserSpan').hide();
+			    	}
+			    }
 			});
 		},
 		search: function() {

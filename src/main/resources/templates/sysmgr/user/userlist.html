@@ -34,9 +34,11 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
 					<td align="right">
 						<span sec:authorize="hasAuthority('sysmgr.user.update')">
 							<a href="javascript:;" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="UserPage.editUser('');">新增</a>
-							<a href="javascript:;" class="easyui-linkbutton" iconCls="icon-edit" plain="true" onclick="UserPage.modifyPassword();">修改密码</a>
-							<a href="javascript:;" class="easyui-linkbutton" iconCls="icon-lock" plain="true" onclick="UserPage.lockUser();">锁定</a>
-							<a href="javascript:;" class="easyui-linkbutton" iconCls="icon-redo" plain="true" onclick="UserPage.releaseLock();">解锁</a>
+							<span id="editCommonUserSpan">
+								<a href="javascript:;" class="easyui-linkbutton" iconCls="icon-edit" plain="true" onclick="UserPage.modifyPassword();">修改密码</a>
+								<a href="javascript:;" class="easyui-linkbutton" iconCls="icon-lock" plain="true" onclick="UserPage.lockUser();">锁定</a>
+								<a href="javascript:;" class="easyui-linkbutton" iconCls="icon-redo" plain="true" onclick="UserPage.releaseLock();">解锁</a>
+							</span>
 						</span>
 					</td>
 				</tr>

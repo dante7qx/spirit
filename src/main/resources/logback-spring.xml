@@ -28,7 +28,7 @@
 		<prudent>false</prudent>
 	</appender>
 	
-	<springProfile name="dev">
+	<springProfile name="local,dev">
 		<root level="INFO">
 			<appender-ref ref="STDOUT" />
 		</root>
@@ -57,7 +57,7 @@
 		<logger name="org.springframework" level="INFO" additivity="false">
 			<appender-ref ref="FILE" />
 		</logger>
-		<logger name="com.spirit.amp" level="INFO" additivity="false">
+		<logger name="com.ymrs.spirit.ffx" level="INFO" additivity="false">
 			<appender-ref ref="STDOUT" />
 			<appender-ref ref="FILE" />
 		</logger>

@@ -46,7 +46,7 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
 						<a href="javascript:;" class="easyui-linkbutton" iconCls="icon-edit" plain="false" onclick="AuthorityPage.edit();">编辑</a>
 					</span>
 					<span class="buttonGaps formEdit" sec:authorize="hasAuthority('sysmgr.authority.delete')">
-						<a href="javascript:;" class="easyui-linkbutton" iconCls="icon-remove" plain="false" onclick="AuthorityPage.del();">删除</a>
+						<a href="javascript:;" class="easyui-linkbutton" iconCls="icon-remove" plain="false" onclick="AuthorityPage.delNode();">删除</a>
 					</span>
 					<span class="buttonGaps formPersist" sec:authorize="hasAuthority('sysmgr.authority.update')">
 						<a href="javascript:;" class="easyui-linkbutton" iconCls="icon-save" plain="false" onclick="AuthorityPage.submit();">保存</a>

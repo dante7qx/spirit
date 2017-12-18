@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.config.PropertiesFactoryBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.DependsOn;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.scheduling.quartz.SchedulerFactoryBean;
 
@@ -38,9 +39,10 @@ public class SchedulerConfig {
         return propertiesFactory.getObject();
     }
 	
+	/**
 	@Bean
 	public SpiritJobListener spiritJobListener() {
 		return new SpiritJobListener();
 	}
-	
+	**/
 }
