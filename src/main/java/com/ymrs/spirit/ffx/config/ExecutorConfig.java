@@ -15,7 +15,7 @@ public class ExecutorConfig {
 	private int maxPoolSize = 200;
 	private int queueCapacity = 20;
 
-	@Bean
+	@Bean("syslogAsync")
 	public Executor syslogAsync() {
 		ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
 		executor.setCorePoolSize(corePoolSize);
