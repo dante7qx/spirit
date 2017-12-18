@@ -21,7 +21,6 @@ import com.ymrs.spirit.ffx.dao.sysmgr.SysLogDAO;
 import com.ymrs.spirit.ffx.po.sysmgr.SysLogPO;
 import com.ymrs.spirit.ffx.util.DateUtils;
 import com.ymrs.spirit.ffx.util.IPUtils;
-import com.ymrs.spirit.ffx.util.JedisUtils;
 import com.ymrs.spirit.ffx.util.LoginUserUtils;
 
 @Aspect
@@ -31,8 +30,6 @@ public class SpiritSysLogAspect {
 
 	@Autowired
 	private SysLogDAO sysLogDAO;
-	@Autowired
-	private JedisUtils jedisUtils;
 
 	private static final String ACCOUNT = "匿名用户"; 
 	private static final String LOGOUT_URI = "/syslogout";
