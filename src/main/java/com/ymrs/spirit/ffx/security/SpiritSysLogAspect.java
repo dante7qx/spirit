@@ -12,13 +12,12 @@ import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.annotation.Order;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
-import com.ymrs.spirit.ffx.dao.sysmgr.SysLogDAO;
 import com.ymrs.spirit.ffx.po.sysmgr.SysLogPO;
+import com.ymrs.spirit.ffx.service.sysmgr.SysLogService;
 import com.ymrs.spirit.ffx.util.DateUtils;
 import com.ymrs.spirit.ffx.util.IPUtils;
 import com.ymrs.spirit.ffx.util.LoginUserUtils;
@@ -29,11 +28,11 @@ import com.ymrs.spirit.ffx.util.LoginUserUtils;
 public class SpiritSysLogAspect {
 
 	@Autowired
-	private SysLogDAO sysLogDAO;
+	private SysLogService sysLogService;
 
-	private static final String ACCOUNT = "匿名用户"; 
-	private static final String LOGOUT_URI = "/syslogout";
-	private static final String SHORT_PKG = "c.y.s.f.c";
+	public static final String ACCOUNT = "匿名用户"; 
+	public static final String LOGOUT_URI = "/syslogout";
+	public static final String SHORT_PKG = "c.y.s.f.c";
 	
 	ThreadLocal<Long> startTime = new ThreadLocal<>();
 	ThreadLocal<String> logId = new ThreadLocal<>();
@@ -59,33 +58,13 @@ public class SpiritSysLogAspect {
 		final String methodName = joinPoint.getSignature().getName();
 		final Object[] args = joinPoint.getArgs();
 		final String params = Arrays.toString(args);
-		recordLog(new SysLogPO(logId.get(), account, ip, method, url, uri, clazz, methodName, DateUtils.currentDate(),
+		sysLogService.recordLog(new SysLogPO(logId.get(), account, ip, method, url, uri, clazz, methodName, DateUtils.currentDate(),
 				0L, params), null, null);
 	}
 
 	@AfterReturning(returning = "ret", pointcut = "spiritSysLog()")
 	public void doAfterReturning(Object ret) throws Throwable {
-		recordLog(null, logId.get(), System.currentTimeMillis() - startTime.get());
+		sysLogService.recordLog(null, logId.get(), System.currentTimeMillis() - startTime.get());
 	}
-
-	@Async("syslogAsync")
-	private void recordLog(SysLogPO sysLog, String id, Long spendTime) {
-		if (sysLog != null) {
-			if ((SHORT_PKG.concat(".sysmgr.SysLogController")).equals(sysLog.getClazz())
-					|| (SHORT_PKG.concat(".SpiritController")).equals(sysLog.getClazz())) {
-				return;
-			}
-			if(ACCOUNT.equals(sysLog.getAccount()) || LOGOUT_URI.equals(sysLog.getUri())) {
-				sysLog.setParams("");
-			}
-			sysLogDAO.save(sysLog);
-		} else {
-			SysLogPO logPO = sysLogDAO.findOne(id);
-			if (logPO != null) {
-				logPO.setSpendTime(spendTime);
-				sysLogDAO.save(logPO);
-			}
-		}
-
-	}
+	
 }

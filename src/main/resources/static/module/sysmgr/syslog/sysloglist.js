@@ -31,6 +31,10 @@ var SysLogPage = {
 		    sortOrder: 'desc',
 		    remoteSort: true,
 		    height: $(window).height() - 20,
+		    queryParams: {
+		    	'q[startDate]': $('#queryStartDate','#sysLogGridToolbar').datebox("getValue"),
+				'q[endDate]': $('#queryEndDate','#sysLogGridToolbar').datebox("getValue")
+		    },
 		    columns:[[
 		    	{field:'spendTime',title:'请求耗时',width:70,halign:'center',align:'center',sortable:true},
 		        {field:'url',title:'URL',width:280,halign:'center'},
