@@ -30,6 +30,7 @@ $(function() {
 		    	}
 			} else if(xhr.status == "403") {
 				alert('没有权限！');
+				top.location.replace('loginpage');
 			} else if(xhr.status == "420") {
 				alert('请求参数非法！');
 			}
