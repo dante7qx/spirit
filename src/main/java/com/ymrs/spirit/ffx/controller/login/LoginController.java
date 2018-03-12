@@ -21,10 +21,6 @@ import com.ymrs.spirit.ffx.prop.SpiritProperties;
 @Controller
 public class LoginController {
 	
-	private static final Logger LOGGER = LoggerFactory.getLogger(LoginController.class);
-	
-//	@Autowired
-//	private SysLogService sysLogService;
 	@Autowired
 	private SpiritProperties spiritProperties;
 	

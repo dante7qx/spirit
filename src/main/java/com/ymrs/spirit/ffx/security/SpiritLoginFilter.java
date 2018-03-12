@@ -13,9 +13,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 import com.ymrs.spirit.ffx.constant.SecurityConsts;
 import com.ymrs.spirit.ffx.dto.sysmgr.resp.UserAuthRespDTO;
-import com.ymrs.spirit.ffx.exception.KaptchaException;
 import com.ymrs.spirit.ffx.exception.SpiritServiceException;
-import com.ymrs.spirit.ffx.prop.SpiritProperties;
 import com.ymrs.spirit.ffx.service.login.LdapAuthenticationService;
 import com.ymrs.spirit.ffx.service.sysmgr.OnlineUserService;
 import com.ymrs.spirit.ffx.service.sysmgr.UserService;
@@ -29,18 +27,12 @@ import com.ymrs.spirit.ffx.util.EncryptUtils;
  */
 public class SpiritLoginFilter extends UsernamePasswordAuthenticationFilter {
 	
-//	private static final Logger LOGGER = LoggerFactory.getLogger(SpiritLoginFilter.class);
-	
 	@Autowired
 	private UserService userService;
 	@Autowired
 	private LdapAuthenticationService ldapAuthenticationService;
-//	@Autowired
-//	private SysLogService sysLogService;
 	@Autowired
 	private OnlineUserService onlineUserService;
-	@Autowired
-	private SpiritProperties spiritProperties;
 
 	public Authentication attemptAuthentication(HttpServletRequest request,
 			HttpServletResponse response) throws AuthenticationException {
@@ -48,7 +40,6 @@ public class SpiritLoginFilter extends UsernamePasswordAuthenticationFilter {
 			throw new AuthenticationServiceException(
 					"Authentication method not supported: " + request.getMethod());
 		}
-		checkKaptcha(request);
 		String username = obtainUsername(request);
 		String password = obtainPassword(request);
 		if (username == null) {
@@ -86,36 +77,11 @@ public class SpiritLoginFilter extends UsernamePasswordAuthenticationFilter {
 		Authentication authentication = this.getAuthenticationManager().authenticate(authRequest);
 		if(authentication.isAuthenticated()) {
 			onlineUserService.addOnlineUser(username, request);
-			/*
-			try {
-				sysLogService.recordUserVisitLog(SysLogUtils.buildSysLoginLog(username, loginUser.getLdapUser(), request));
-			} catch (SpiritServiceException e) {
-				LOGGER.error("系统日志记录失败，{}", username, e);
-			}
-			*/
 		}
 		
 		
 		return authentication;
 	}
 	
-	/**
-	 * 验证码校验
-	 * 
-	 * @param request
-	 */
-	private void checkKaptcha(HttpServletRequest request) {
-		if(spiritProperties.getKaptcha()) {
-			String kaptchaCode = request.getParameter("kaptcha");
-			String genKaptcha = obtainGenKaptcha(request);
-			if(!genKaptcha.equalsIgnoreCase(kaptchaCode)) {
-				throw new KaptchaException("验证码错误");
-			}
-		}
-	}
-	
-	private String obtainGenKaptcha(HttpServletRequest request) {
-		return (String) request.getSession().getAttribute(com.google.code.kaptcha.Constants.KAPTCHA_SESSION_KEY);
-	}
 	
 }
