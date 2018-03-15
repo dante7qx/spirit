@@ -20,11 +20,11 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 
 @Component
-public class JwtTokenUtils implements Serializable {
+public class SpiritJwtTokenUtils implements Serializable {
 
 	private static final long serialVersionUID = 6940696655173940036L;
 
-	private static final Logger LOGGER = LoggerFactory.getLogger(JwtTokenUtils.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(SpiritJwtTokenUtils.class);
 	
     @Autowired
     private SpiritProperties spiritProperties;
@@ -129,7 +129,7 @@ public class JwtTokenUtils implements Serializable {
         SpiritLoginUser loginUser = user.getSpiritLoginUser();
         String sub = loginUser.getAccount() + JWTConsts.TOKEN_SPLIT + loginUser.getId();
 //        Date lastPwdUpdateDate = loginUser.getLastPwdUpdateDate();
-        //final Date expiration = getExpirationDateFromToken(token);
+//        final Date expiration = getExpirationDateFromToken(token);
         return (
                 username.equals(sub)
                         && !isTokenExpired(token));

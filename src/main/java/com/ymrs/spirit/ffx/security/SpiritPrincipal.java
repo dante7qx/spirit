@@ -24,7 +24,6 @@ public class SpiritPrincipal implements UserDetails {
 	private String password;
 
 	public SpiritPrincipal() {
-		// TODO Auto-generated constructor stub
 	}
 
 	public SpiritPrincipal(SpiritLoginUser spiritLoginUser, String password) {

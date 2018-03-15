@@ -14,25 +14,23 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import com.tornado.common.api.prop.TornadoProperties;
-import com.tornado.common.api.security.JwtTokenUtils;
+import com.ymrs.spirit.ffx.prop.SpiritProperties;
 
 
 public class SpiritUserAuthenticationTokenFilter extends OncePerRequestFilter {
 
 	@Autowired
-	private JwtTokenUtils jwtTokenUtils;
+	private SpiritJwtTokenUtils jwtTokenUtils;
 	@Autowired
-	private UserAuthDetailsService userAuthDetailsService;
+	private SpiritUserDetailsService spiritUserDetailsService;
 	@Autowired
-	private TornadoProperties tornadoProperties;
-	
+	private SpiritProperties spiritProperties;
 
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
 			throws ServletException, IOException {
-		String tokenHead = tornadoProperties.getJwt().getTokenHead();
-		String authHeader = request.getHeader(tornadoProperties.getJwt().getHeader());
+		String tokenHead = spiritProperties.getJwt().getTokenHead();
+		String authHeader = request.getHeader(spiritProperties.getJwt().getHeader());
 		if (authHeader != null && authHeader.startsWith(tokenHead)) {
 			// The part after "Bearer"
 			final String authToken = authHeader.substring(tokenHead.length()); 
@@ -42,7 +40,7 @@ public class SpiritUserAuthenticationTokenFilter extends OncePerRequestFilter {
 
 			if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
 
-				UserDetails userDetails = userAuthDetailsService.loadUserByUsername(username);
+				UserDetails userDetails = spiritUserDetailsService.loadUserByUsername(username);
 
 				if (jwtTokenUtils.validateToken(authToken, userDetails)) {
 					UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
@@ -55,7 +53,6 @@ public class SpiritUserAuthenticationTokenFilter extends OncePerRequestFilter {
 		}
 
 		filterChain.doFilter(request, response);
-
 	}
 
 }

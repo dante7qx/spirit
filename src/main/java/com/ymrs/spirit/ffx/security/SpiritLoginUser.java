@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.Set;
 
 /**
- * 当前登录用户（登录后存入redis session）
+ * 当前登录用户
  * 
  * @author dante
  *

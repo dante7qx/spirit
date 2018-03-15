@@ -3,6 +3,7 @@ package com.ymrs.spirit.ffx.controller.sysmgr;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -24,7 +25,7 @@ public class SysLogController {
 	
 	@PreAuthorize("hasAuthority('sysmgr.syslog.query')")
 	@PostMapping(value = "/query_page")
-	public PageResult<SysLogPO> querySysLogPage(PageReq pageReq) {
+	public PageResult<SysLogPO> querySysLogPage(@RequestBody PageReq pageReq) {
 		PageResult<SysLogPO> result = null;
 		try {
 			result = sysLogService.findPage(pageReq);

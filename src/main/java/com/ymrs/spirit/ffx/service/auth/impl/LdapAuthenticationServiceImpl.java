@@ -1,4 +1,4 @@
-package com.ymrs.spirit.ffx.service.login.impl;
+package com.ymrs.spirit.ffx.service.auth.impl;
 
 import javax.naming.directory.DirContext;
 
@@ -10,7 +10,7 @@ import org.springframework.ldap.core.LdapTemplate;
 import org.springframework.ldap.support.LdapUtils;
 import org.springframework.stereotype.Service;
 
-import com.ymrs.spirit.ffx.service.login.LdapAuthenticationService;
+import com.ymrs.spirit.ffx.service.auth.LdapAuthenticationService;
 
 
 @Service

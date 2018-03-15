@@ -29,13 +29,13 @@ public class SpiritProperties {
 	private Jwt jwt = new Jwt();
 
 	public static class Jwt {
-		private String header;
+		private String header = "Authorization";
 
 		private String secret;
 
-		private Long expiration;
+		private Long expiration = 3600L;
 
-		private String tokenHead;
+		private String tokenHead = "Bearer ";
 
 		public String getHeader() {
 			return header;

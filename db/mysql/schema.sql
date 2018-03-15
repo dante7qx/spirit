@@ -1,6 +1,6 @@
-CREATE DATABASE IF NOT EXISTS `spirit_ffx` DEFAULT CHARSET utf8 COLLATE utf8_general_ci;
+CREATE DATABASE IF NOT EXISTS `spirit_jwt` DEFAULT CHARSET utf8 COLLATE utf8_general_ci;
 
-USE `spirit_ffx`;
+USE `spirit_jwt`;
 
 DROP TABLE IF EXISTS t_user_role;
 CREATE TABLE t_user_role (
@@ -32,7 +32,7 @@ CREATE TABLE t_user (
 	password varchar(256) NOT NULL COMMENT '密码', 
 	email varchar(128) NOT NULL COMMENT '邮箱', 
 	status varchar(6) NOT NULL DEFAULT 'NORMAL' COMMENT 'NORMAL: 正常。LOCK: 锁定。DEL: 删除。',
-	ladp_user tinyint NOT NULL DEFAULT 0 COMMENT '集团域登录',
+	ldap_user tinyint NOT NULL DEFAULT 0 COMMENT '集团域登录',
 	last_pwd_update_date datetime NOT NULL COMMENT '密码最后修改时间',
 	update_user bigint(20) NOT NULL default 1 COMMENT '更新人',
 	update_date timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',

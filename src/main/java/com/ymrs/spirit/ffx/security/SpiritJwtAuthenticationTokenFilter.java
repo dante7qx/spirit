@@ -14,13 +14,14 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.web.filter.OncePerRequestFilter;
 
+import com.ymrs.spirit.ffx.constant.JWTConsts;
 import com.ymrs.spirit.ffx.prop.SpiritProperties;
 
 
-public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
+public class SpiritJwtAuthenticationTokenFilter extends OncePerRequestFilter {
 
 	@Autowired
-	private JwtTokenUtils jwtTokenUtils;
+	private SpiritJwtTokenUtils jwtTokenUtils;
 	@Autowired
 	private SpiritUserDetailsService spiritUserDetailsService;
 	@Autowired
@@ -35,7 +36,7 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
 		if (authHeader != null && authHeader.startsWith(tokenHead)) {
 			// The part after "Bearer"
 			final String authToken = authHeader.substring(tokenHead.length()); 
-			String username = jwtTokenUtils.getUsernameFromToken(authToken);
+			String username = jwtTokenUtils.getUsernameFromToken(authToken).split(JWTConsts.TOKEN_SPLIT)[0];
 
 			logger.info("checking authentication " + username);
 

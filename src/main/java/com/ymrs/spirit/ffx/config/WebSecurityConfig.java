@@ -13,8 +13,8 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-import com.ymrs.spirit.ffx.security.JwtAuthenticationTokenFilter;
-import com.ymrs.spirit.ffx.security.JwtEntryPoint;
+import com.ymrs.spirit.ffx.security.SpiritJwtAuthenticationTokenFilter;
+import com.ymrs.spirit.ffx.security.SpiritJwtEntryPoint;
 import com.ymrs.spirit.ffx.security.SpiritPasswordEncoder;
 import com.ymrs.spirit.ffx.security.SpiritUserDetailsService;
 
@@ -72,13 +72,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	}
 	
 	@Bean
-	public JwtEntryPoint jwtEntryPoint() {
-		return new JwtEntryPoint();
+	public SpiritJwtEntryPoint jwtEntryPoint() {
+		return new SpiritJwtEntryPoint();
 	}
 	
 	@Bean
-    public JwtAuthenticationTokenFilter authenticationTokenFilter() throws Exception {
-        return new JwtAuthenticationTokenFilter();
+    public SpiritJwtAuthenticationTokenFilter authenticationTokenFilter() throws Exception {
+        return new SpiritJwtAuthenticationTokenFilter();
     }
 	
 	

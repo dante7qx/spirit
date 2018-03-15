@@ -14,7 +14,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import com.ymrs.spirit.ffx.constant.SecurityConsts;
 import com.ymrs.spirit.ffx.dto.sysmgr.resp.UserAuthRespDTO;
 import com.ymrs.spirit.ffx.exception.SpiritServiceException;
-import com.ymrs.spirit.ffx.service.login.LdapAuthenticationService;
+import com.ymrs.spirit.ffx.service.auth.LdapAuthenticationService;
 import com.ymrs.spirit.ffx.service.sysmgr.OnlineUserService;
 import com.ymrs.spirit.ffx.service.sysmgr.UserService;
 import com.ymrs.spirit.ffx.util.EncryptUtils;
