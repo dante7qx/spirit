@@ -6,7 +6,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -62,7 +64,7 @@ public class AuthorityController {
 	
 	@PreAuthorize("hasAuthority('sysmgr.authority.update')")
 	@PostMapping("/update_authority")
-	public BaseResp<AuthorityRespDTO> updateAuthority(AuthorityReqDTO authorityVO) {
+	public BaseResp<AuthorityRespDTO> updateAuthority(@RequestBody AuthorityReqDTO authorityVO) {
 		BaseResp<AuthorityRespDTO> result = new BaseResp<>();
 		try {
 			authorityVO.setUpdateUser(LoginUserUtils.loginUserId());
@@ -77,7 +79,7 @@ public class AuthorityController {
 	
 	@PreAuthorize("hasAuthority('sysmgr.authority.update')")
 	@PostMapping("/update_when_drag")
-	public BaseResp<?> updateAuthorityWhenDrap(EasyUIDragTreeReq dragTreeReq) {
+	public BaseResp<?> updateAuthorityWhenDrap(@RequestBody EasyUIDragTreeReq dragTreeReq) {
 		BaseResp<?> result = new BaseResp<>();
 		try {
 			dragTreeReq.setUpdateUser(LoginUserUtils.loginUserId());
@@ -90,8 +92,8 @@ public class AuthorityController {
 	}
 	
 	@PreAuthorize("hasAuthority('sysmgr.authority.delete')")
-	@PostMapping("/delete_by_id")
-	public BaseResp<?> deleteByAuthorityId(Long id) {
+	@PostMapping("/delete_by_id/{id}")
+	public BaseResp<?> deleteByAuthorityId(@PathVariable("id") Long id) {
 		BaseResp<?> result = new BaseResp<>();
 		try {
 			authorityService.deleteById(id);

@@ -59,8 +59,8 @@ public class UserController {
 	}
 
 	@PreAuthorize("hasAuthority('sysmgr.user.query')")
-	@PostMapping(value = "/query_by_account")
-	public BaseResp<UserRespDTO> queryByAccount(String account) {
+	@PostMapping(value = "/query_by_account/{account}")
+	public BaseResp<UserRespDTO> queryByAccount(@PathVariable("account") String account) {
 		BaseResp<UserRespDTO> result = new BaseResp<>();
 		try {
 			UserRespDTO userVO = userService.findByAccount(account);
@@ -73,8 +73,8 @@ public class UserController {
 	}
 
 	@PreAuthorize("hasAuthority('sysmgr.user.query')")
-	@PostMapping(value = "/query_by_role_id")
-	public List<UserRespDTO> queryByRoleId(Long roleId) {
+	@PostMapping(value = "/query_by_role_id/{roleId}")
+	public List<UserRespDTO> queryByRoleId(@PathVariable("roleId") Long roleId) {
 		List<UserRespDTO> result = Lists.newArrayList();
 		try {
 			result = userService.findByRoleId(roleId);
@@ -115,7 +115,7 @@ public class UserController {
 	
 	@PreAuthorize("hasAuthority('sysmgr.user.update')")
 	@PostMapping(value = "/lock_user")
-	public BaseResp<?> lockUser(UserReqDTO userVO) {
+	public BaseResp<?> lockUser(@RequestBody UserReqDTO userVO) {
 		BaseResp<?> result = new BaseResp<>();
 		try {
 			userVO.setUpdateUser(LoginUserUtils.loginUserId());
@@ -129,7 +129,7 @@ public class UserController {
 	
 	@PreAuthorize("hasAuthority('sysmgr.user.update')")
 	@PostMapping(value = "/release_lock_user")
-	public BaseResp<?> releaseLockUser(UserReqDTO userVO) {
+	public BaseResp<?> releaseLockUser(@RequestBody UserReqDTO userVO) {
 		BaseResp<?> result = new BaseResp<>();
 		try {
 			userVO.setUpdateUser(LoginUserUtils.loginUserId());
@@ -143,7 +143,7 @@ public class UserController {
 	
 	@PreAuthorize("hasAuthority('sysmgr.user.update')")
 	@PostMapping(value = "/check_password")
-	public BaseResp<Boolean> checkPassword(UserModifyPasswordReqDTO userModifyPasswordVO) {
+	public BaseResp<Boolean> checkPassword(@RequestBody UserModifyPasswordReqDTO userModifyPasswordVO) {
 		BaseResp<Boolean> result = new BaseResp<Boolean>();
 		try {
 			userModifyPasswordVO.setUpdateUser(LoginUserUtils.loginUserId());
@@ -157,7 +157,7 @@ public class UserController {
 	
 	@PreAuthorize("hasAuthority('sysmgr.user.update')")
 	@PostMapping(value = "/modify_password")
-	public BaseResp<?> modifyPassword(UserModifyPasswordReqDTO userModifyPasswordVO) {
+	public BaseResp<?> modifyPassword(@RequestBody UserModifyPasswordReqDTO userModifyPasswordVO) {
 		BaseResp<?> result = new BaseResp<>();
 		try {
 			userModifyPasswordVO.setUpdateUser(LoginUserUtils.loginUserId());

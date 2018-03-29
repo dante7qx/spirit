@@ -3,7 +3,9 @@ package com.ymrs.spirit.ffx.controller.sysmgr;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.ymrs.spirit.ffx.controller.SpiritController;
@@ -28,7 +30,7 @@ public class SchedulerJobController extends SpiritController {
 	
 	@PreAuthorize("hasAuthority('sysmgr.scheduler.query')")
 	@PostMapping(value = "/query_page")
-	public PageResult<ScheduleJobDTO> queryScheduleJobPage(PageReq pageReq) {
+	public PageResult<ScheduleJobDTO> queryScheduleJobPage(@RequestBody PageReq pageReq) {
 		PageResult<ScheduleJobDTO> result = null;
 		try {
 			result = scheduleJobService.findPage(pageReq);
@@ -45,8 +47,8 @@ public class SchedulerJobController extends SpiritController {
 	}
 	
 	@PreAuthorize("hasAuthority('sysmgr.scheduler.query')")
-	@PostMapping(value = "/query_by_id")
-	public BaseResp<ScheduleJobDTO> queryByScheduleId(Long id) {
+	@PostMapping(value = "/query_by_id/{id}")
+	public BaseResp<ScheduleJobDTO> queryByScheduleId(@PathVariable("id") Long id) {
 		BaseResp<ScheduleJobDTO> result = new BaseResp<>();
 		try {
 			ScheduleJobDTO job = scheduleJobService.findById(id);
@@ -60,7 +62,7 @@ public class SchedulerJobController extends SpiritController {
 	
 	@PreAuthorize("hasAuthority('sysmgr.scheduler.update')")
 	@PostMapping(value = "/update_scheduler")
-	public BaseResp<ScheduleJobDTO> updateScheduler(ScheduleJobDTO job) {
+	public BaseResp<ScheduleJobDTO> updateScheduler(@RequestBody ScheduleJobDTO job) {
 		BaseResp<ScheduleJobDTO> result = new BaseResp<>();
 		try {
 			job.setUpdateUser(LoginUserUtils.loginUserId());
@@ -74,8 +76,8 @@ public class SchedulerJobController extends SpiritController {
 	}
 	
 	@PreAuthorize("hasAuthority('sysmgr.scheduler.delete')")
-	@PostMapping(value = "/delete_by_id")
-	public BaseResp<?> deleteByScheduleId(Long id) {
+	@PostMapping(value = "/delete_by_id/{id}")
+	public BaseResp<?> deleteByScheduleId(@PathVariable("id") Long id) {
 		BaseResp<?> result = new BaseResp<>();
 		try {
 			scheduleJobService.deleteById(id);
@@ -88,7 +90,7 @@ public class SchedulerJobController extends SpiritController {
 	
 	@PreAuthorize("hasAuthority('sysmgr.scheduler.query')")
 	@PostMapping("/check_job_exist")
-	public boolean checkJobExist(ScheduleJobDTO schedulerDTO) {
+	public boolean checkJobExist(@RequestBody ScheduleJobDTO schedulerDTO) {
 		boolean exist = true;
 		Long id = schedulerDTO.getId();
 		String jobId = schedulerDTO.getJobId();

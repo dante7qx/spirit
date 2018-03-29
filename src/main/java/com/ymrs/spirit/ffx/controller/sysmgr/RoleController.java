@@ -6,7 +6,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -34,7 +36,7 @@ public class RoleController {
 	
 	@PreAuthorize("hasAuthority('sysmgr.role.query')")
 	@PostMapping(value = "/query_page")
-	public PageResult<RoleRespDTO> queryRolePage(PageReq pageReq) {
+	public PageResult<RoleRespDTO> queryRolePage(@RequestBody PageReq pageReq) {
 		PageResult<RoleRespDTO> result = null;
 		try {
 			result = roleService.findPage(pageReq);
@@ -60,8 +62,8 @@ public class RoleController {
 	}
 	
 	@PreAuthorize("hasAuthority('sysmgr.role.query')")
-	@PostMapping(value = "/query_by_id")
-	public BaseResp<RoleRespDTO> queryByRoleId(Long id) {
+	@PostMapping(value = "/query_by_id/{id}")
+	public BaseResp<RoleRespDTO> queryByRoleId(@PathVariable("id") Long id) {
 		BaseResp<RoleRespDTO> result = new BaseResp<>();
 		try {
 			RoleRespDTO roleVO = roleService.findById(id);
@@ -75,7 +77,7 @@ public class RoleController {
 	
 	@PreAuthorize("hasAuthority('sysmgr.role.update')")
 	@PostMapping(value = "/update_role")
-	public BaseResp<RoleRespDTO> updateRole(RoleReqDTO roleVO) {
+	public BaseResp<RoleRespDTO> updateRole(@RequestBody RoleReqDTO roleVO) {
 		BaseResp<RoleRespDTO> result = new BaseResp<>();
 		try {
 			roleVO.setUpdateUser(LoginUserUtils.loginUserId());
@@ -89,8 +91,8 @@ public class RoleController {
 	}
 	
 	@PreAuthorize("hasAuthority('sysmgr.role.delete')")
-	@PostMapping(value = "/delete_by_id")
-	public BaseResp<?> deleteByRoleId(Long id) {
+	@PostMapping(value = "/delete_by_id/{id}")
+	public BaseResp<?> deleteByRoleId(@PathVariable("id") Long id) {
 		BaseResp<?> result = new BaseResp<>();
 		try {
 			roleService.deleteById(id);
@@ -102,8 +104,8 @@ public class RoleController {
 	}
 	
 	@PreAuthorize("hasAuthority('sysmgr.role.query')")
-	@PostMapping(value = "/query_role_authority")
-	public List<AuthorityRoleTreeVO> findAuthorityRoleByRoleId(Long roleId) {
+	@PostMapping(value = "/query_role_authority/{roleId}")
+	public List<AuthorityRoleTreeVO> findAuthorityRoleByRoleId(@PathVariable("roleId") Long roleId) {
 		List<AuthorityRoleTreeVO> trees = null;
 		try {
 			trees = roleService.findAuthoritysByRoleId(roleId);
