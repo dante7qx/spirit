@@ -58,17 +58,17 @@ public class UserAuthServiceImpl implements UserAuthService {
 				throw new SpiritServiceException("用户[" + account + "]不存在。");
 			}
 			if(SecurityConsts.STATUS_LOCK.equalsIgnoreCase(userPO.getStatus())) {
-				throw new UsernameNotFoundException("用户名[" + userPO + "]被锁定！");
+				throw new SpiritServiceException("用户名[" + userPO + "]被锁定！");
 			} else if(SecurityConsts.STATUS_DEL.equalsIgnoreCase(userPO.getStatus())) {
-				throw new UsernameNotFoundException("用户名[" + account + "]已被删除！");
+				throw new SpiritServiceException("用户名[" + account + "]已被删除！");
 			}
 			Boolean ldapUser = userPO.getLdapUser();
 			if(ldapUser != null && ldapUser.booleanValue()) {
 				if(!ldapAuthenticationService.authenticate(account, password)) {
-					throw new UsernameNotFoundException("用户名或密码错误");
+					throw new SpiritServiceException("用户名或密码错误");
 				}
 			} else if(!EncryptUtils.match(password, userPO.getPassword())) {
-				throw new UsernameNotFoundException("密码错误");
+				throw new SpiritServiceException("密码错误");
 			}
 			
 			final String token = spiritJwtTokenUtils.generateToken(userPO.getId(), account);

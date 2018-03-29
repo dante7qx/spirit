@@ -30,10 +30,12 @@ public class SpiritJwtTokenUtils implements Serializable {
     private SpiritProperties spiritProperties;
     
     public String getUsernameFromToken(String token) {
-        String username;
+        String username = null;
         try {
             final Claims claims = getClaimsFromToken(token);
-            username = claims.getSubject();
+            if(claims != null) {
+            	username = claims.getSubject();
+            }
         } catch (Exception e) {
             username = null;
         }

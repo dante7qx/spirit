@@ -6,7 +6,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -32,7 +34,7 @@ public class UserController {
 
 	@PreAuthorize("hasAuthority('sysmgr.user.query')")
 	@PostMapping(value = "/query_page")
-	public PageResult<UserRespDTO> queryUserPage(PageReq pageReq) {
+	public PageResult<UserRespDTO> queryUserPage(@RequestBody PageReq pageReq) {
 		PageResult<UserRespDTO> result = null;
 		try {
 			result = userService.findPage(pageReq);
@@ -43,8 +45,8 @@ public class UserController {
 	}
 
 	@PreAuthorize("hasAuthority('sysmgr.user.query')")
-	@PostMapping(value = "/query_by_id")
-	public BaseResp<UserRespDTO> queryByUserId(Long id) {
+	@PostMapping(value = "/query_by_id/{id}")
+	public BaseResp<UserRespDTO> queryByUserId(@PathVariable("id") Long id) {
 		BaseResp<UserRespDTO> result = new BaseResp<UserRespDTO>();
 		try {
 			UserRespDTO userVO = userService.findById(id);
@@ -84,7 +86,7 @@ public class UserController {
 
 	@PreAuthorize("hasAuthority('sysmgr.user.update')")
 	@PostMapping(value = "/update_user")
-	public BaseResp<UserRespDTO> updateUser(UserReqDTO userVO) {
+	public BaseResp<UserRespDTO> updateUser(@RequestBody UserReqDTO userVO) {
 		BaseResp<UserRespDTO> result = new BaseResp<>();
 		try {
 			userVO.setUpdateUser(LoginUserUtils.loginUserId());
@@ -99,7 +101,7 @@ public class UserController {
 
 	@PreAuthorize("hasAuthority('sysmgr.user.delete')")
 	@PostMapping(value = "/delete_user")
-	public BaseResp<?> deleteUser(UserReqDTO userVO) {
+	public BaseResp<?> deleteUser(@RequestBody UserReqDTO userVO) {
 		BaseResp<?> result = new BaseResp<>();
 		try {
 			userVO.setUpdateUser(LoginUserUtils.loginUserId());

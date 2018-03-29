@@ -2,7 +2,6 @@ package com.ymrs.spirit.ffx.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -12,6 +11,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsUtils;
 
 import com.ymrs.spirit.ffx.security.SpiritJwtAuthenticationTokenFilter;
 import com.ymrs.spirit.ffx.security.SpiritJwtEntryPoint;
@@ -30,21 +30,23 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		http.headers()
-				.frameOptions()
-				.sameOrigin()
-			.and()
-				.csrf().disable()
+//		http.headers()
+//				.frameOptions()
+//				.sameOrigin()
+//			.and()
+		http.csrf()
+				.disable()
 				.exceptionHandling().authenticationEntryPoint(jwtEntryPoint())
 			.and()
 				.authorizeRequests()
-				.antMatchers(HttpMethod.OPTIONS).permitAll()
+				.requestMatchers(CorsUtils::isPreFlightRequest).permitAll() 
 				.antMatchers("/druid/**").permitAll()
 				.antMatchers("/auth/**").permitAll()
 				.anyRequest().authenticated()
 			.and()
 				.addFilterBefore(authenticationTokenFilter(), UsernamePasswordAuthenticationFilter.class)
 				.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+		http.headers().cacheControl();
 	}
 	
 	@Override
