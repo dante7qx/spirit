@@ -20,6 +20,7 @@
 *.project
 *.classpath
 *.rdb
+*.factorypath
 
 logs/
 target/
