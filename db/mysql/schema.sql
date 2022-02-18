@@ -1,4 +1,4 @@
-CREATE DATABASE IF NOT EXISTS `spirit_jwt` DEFAULT CHARSET utf8 COLLATE utf8_general_ci;
+CREATE DATABASE IF NOT EXISTS `spirit_jwt` DEFAULT CHARSET utf8mb4 COLLATE utf8mb4_general_ci;
 
 USE `spirit_jwt`;
 
@@ -9,8 +9,8 @@ CREATE TABLE t_user_role (
 	role_id bigint(20) NOT NULL COMMENT '角色Id'
 ) 
 ENGINE=InnoDB 
-DEFAULT CHARSET=utf8
-COLLATE=utf8_general_ci
+DEFAULT CHARSET=utf8mb4
+COLLATE=utf8mb4_general_ci
 COMMENT='用户角色表' ;
 
 DROP TABLE IF EXISTS t_role_authority;
@@ -20,8 +20,8 @@ CREATE TABLE t_role_authority (
 	authority_id bigint(20) NOT NULL COMMENT '权限Id'
 ) 
 ENGINE=InnoDB 
-DEFAULT CHARSET=utf8
-COLLATE=utf8_general_ci
+DEFAULT CHARSET=utf8mb4
+COLLATE=utf8mb4_general_ci
 COMMENT='角色权限表' ;
 
 DROP TABLE IF EXISTS t_user;
@@ -40,8 +40,8 @@ CREATE TABLE t_user (
 	CONSTRAINT un_t_user_email UNIQUE KEY (email)
 ) 
 ENGINE=InnoDB 
-DEFAULT CHARSET=utf8 
-COLLATE=utf8_general_ci
+DEFAULT CHARSET=utf8mb4 
+COLLATE=utf8mb4_general_ci
 COMMENT='用户表' ;
 
 DROP TABLE IF EXISTS t_resource;
@@ -59,8 +59,8 @@ CREATE TABLE t_resource (
 	update_date timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间'
 ) 
 ENGINE=InnoDB 
-DEFAULT CHARSET=utf8 
-COLLATE=utf8_general_ci
+DEFAULT CHARSET=utf8mb4 
+COLLATE=utf8mb4_general_ci
 COMMENT='资源表' ;
 
 DROP TABLE IF EXISTS t_role;
@@ -72,8 +72,8 @@ CREATE TABLE t_role (
 	update_date timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间'
 ) 
 ENGINE=InnoDB 
-DEFAULT CHARSET=utf8 
-COLLATE=utf8_general_ci
+DEFAULT CHARSET=utf8mb4 
+COLLATE=utf8mb4_general_ci
 COMMENT='角色表' ;
 
 DROP TABLE IF EXISTS t_authority;
@@ -88,8 +88,8 @@ CREATE TABLE t_authority (
 	update_date timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间'
 ) 
 ENGINE=InnoDB 
-DEFAULT CHARSET=utf8 
-COLLATE=utf8_general_ci
+DEFAULT CHARSET=utf8mb4 
+COLLATE=utf8mb4_general_ci
 COMMENT='权限表' ;
 
 DROP TABLE IF EXISTS t_schedule_job;
@@ -111,8 +111,8 @@ CREATE TABLE t_schedule_job (
 	CONSTRAINT un_t_schedule_job_job_id UNIQUE KEY (job_id)
 ) 
 ENGINE=InnoDB 
-DEFAULT CHARSET=utf8 
-COLLATE=utf8_general_ci
+DEFAULT CHARSET=utf8mb4 
+COLLATE=utf8mb4_general_ci
 COMMENT='定时任务表' ;
 
 
