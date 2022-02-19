@@ -1,6 +1,10 @@
 package com.ymrs.spirit.ffx.service.sysmgr.impl;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -14,9 +18,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
-import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
-import com.google.common.collect.Sets;
 import com.ymrs.spirit.ffx.bo.sysmgr.AuthorityRoleBO;
 import com.ymrs.spirit.ffx.dao.sysmgr.RoleDAO;
 import com.ymrs.spirit.ffx.dto.sysmgr.req.RoleReqDTO;
@@ -76,10 +77,10 @@ public class RoleServiceImpl extends SpiritServiceTemplate<RoleReqDTO, RoleRespD
 	
 	@Override
 	public List<AuthorityRoleTreeVO> findAuthoritysByRoleId(Long roleId) throws SpiritServiceException {
-		List<AuthorityRoleTreeVO> authRoleTrees = Lists.newArrayList();
+		List<AuthorityRoleTreeVO> authRoleTrees = new ArrayList<>();
 		try {
 			List<AuthorityRoleBO> authorityRoleBOs = authorityMapper.findAuthorityRoleByRoleId(roleId);
-			Map<String, AuthorityRoleTreeVO> treeMap = Maps.newLinkedHashMap();
+			Map<String, AuthorityRoleTreeVO> treeMap = new LinkedHashMap<>();
 			for (AuthorityRoleBO authorityRole : authorityRoleBOs) {
 				AuthorityRoleTreeVO roleAuthTree = new AuthorityRoleTreeVO(authorityRole);
 				treeMap.put("_"+authorityRole.getId(), roleAuthTree);
@@ -100,7 +101,9 @@ public class RoleServiceImpl extends SpiritServiceTemplate<RoleReqDTO, RoleRespD
 						AuthorityRoleTreeVO sameTree = treeMap.get(childKey);
 						if(childKey.equals("_"+pid)) {
 							if(CollectionUtils.isEmpty(sameTree.getChildren())) {
-								sameTree.setChildren(Lists.newArrayList(tempTree));
+								List<AuthorityRoleTreeVO> subTrees = new ArrayList<>();
+								subTrees.add(tempTree);
+								sameTree.setChildren(subTrees);
 							} else {
 								sameTree.getChildren().add(tempTree);
 							}
@@ -116,7 +119,7 @@ public class RoleServiceImpl extends SpiritServiceTemplate<RoleReqDTO, RoleRespD
 
 	@Override
 	public List<RoleRespDTO> findAllRoles() throws SpiritServiceException {
-		List<RoleRespDTO> roleRespDTOs = Lists.newLinkedList();
+		List<RoleRespDTO> roleRespDTOs = new LinkedList<>();
 		List<RolePO> rolePOs = roleDAO.findAll(Sort.by(Direction.ASC, "name"));
 		if (!CollectionUtils.isEmpty(rolePOs)) {
 			for (RolePO rolePO : rolePOs) {
@@ -129,7 +132,7 @@ public class RoleServiceImpl extends SpiritServiceTemplate<RoleReqDTO, RoleRespD
 	@Override
 	public List<RoleTreeVO> findRoleTree() throws SpiritServiceException {
 		List<RolePO> rolePOs = roleDAO.findAll(Sort.by(Direction.ASC, "name"));
-		List<RoleTreeVO> roleTreeVOs = Lists.newLinkedList();
+		List<RoleTreeVO> roleTreeVOs = new LinkedList<>();
 		if(!CollectionUtils.isEmpty(rolePOs)) {
 			for (RolePO rolePO : rolePOs) {
 				RoleTreeVO roleTreeVO = new RoleTreeVO();
@@ -152,7 +155,7 @@ public class RoleServiceImpl extends SpiritServiceTemplate<RoleReqDTO, RoleRespD
 			}
 			Set<Long> authorityIds = roleReqDTO.getAuthorityIds();
 			if (!CollectionUtils.isEmpty(authorityIds)) {
-				Set<AuthorityPO> authorityPOs = Sets.newHashSet();
+				Set<AuthorityPO> authorityPOs = new HashSet<>();
 				for (Long authorityId : authorityIds) {
 					authorityPOs.add(new AuthorityPO(authorityId));
 				}

@@ -1,5 +1,8 @@
 package com.ymrs.spirit.ffx.service.sysmgr.impl;
 
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -12,8 +15,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
-import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
 import com.ymrs.spirit.ffx.constant.EasyUITreeConsts;
 import com.ymrs.spirit.ffx.dao.sysmgr.ResourceDAO;
 import com.ymrs.spirit.ffx.dto.sysmgr.req.ResourceReqDTO;
@@ -54,7 +55,7 @@ public class ResourceServiceImpl implements ResourceService {
 
 	@Override
 	public List<ResourceRespDTO> findRootResource() throws SpiritServiceException {
-		List<ResourceRespDTO> resourceRespDTOs = Lists.newArrayList();
+		List<ResourceRespDTO> resourceRespDTOs = new ArrayList<>();
 		try {
 			List<ResourcePO> pos = resourceDAO.findRootResource();
 			for (ResourcePO po : pos) {
@@ -69,7 +70,7 @@ public class ResourceServiceImpl implements ResourceService {
 
 	@Override
 	public List<ResourceRespDTO> findByPid(Long pid) throws SpiritServiceException {
-		List<ResourceRespDTO> resourceRespDTOs = Lists.newArrayList();
+		List<ResourceRespDTO> resourceRespDTOs = new ArrayList<>();
 		try {
 			List<ResourcePO> pos = resourceDAO.findByPid(pid);
 			for (ResourcePO po : pos) {
@@ -131,7 +132,7 @@ public class ResourceServiceImpl implements ResourceService {
 
 	@Override
 	public List<UserResourceRespDTO> findUserResourceByUserId(Long userId) throws SpiritServiceException {
-		List<Long> pids = Lists.newArrayList();
+		List<Long> pids = new ArrayList<>();
 		try {
 			pids = resourceDAO.findAllParentId();
 		} catch (SpiritDaoException e) {
@@ -140,11 +141,11 @@ public class ResourceServiceImpl implements ResourceService {
 		}
 		List<ResourcePO> resourcePOs = resourceDAO.findAll(ResourceSpecification.findResourceTreeByUserId(userId));
 
-		Map<Long, UserResourceRespDTO> menuTreeMap = Maps.newLinkedHashMap();
+		Map<Long, UserResourceRespDTO> menuTreeMap = new LinkedHashMap<>();
 		for (ResourcePO resource : resourcePOs) {
 			menuTreeMap.put(resource.getId(), convertPoToUserResourceRespDTO(resource));
 		}
-		List<UserResourceRespDTO> userResources = Lists.newLinkedList();
+		List<UserResourceRespDTO> userResources = new LinkedList<>();
 		List<UserResourceRespDTO> menus = buildUserResourceTree(pids, menuTreeMap);
 		for (UserResourceRespDTO menu : menus) {
 			if (!menu.getChildren().isEmpty() && !pids.contains(menu.getPid())) {
@@ -156,7 +157,7 @@ public class ResourceServiceImpl implements ResourceService {
 	
 	@Override
 	public List<ResourceTreeVO> findResourceTrees() throws SpiritServiceException {
-		List<ResourceTreeVO> roots = Lists.newArrayList();
+		List<ResourceTreeVO> roots = new ArrayList<>();
 		try {
 			List<ResourcePO> resourcePOs = resourceDAO.findRootResource();
 			if (CollectionUtils.isEmpty(resourcePOs)) {
@@ -261,7 +262,7 @@ public class ResourceServiceImpl implements ResourceService {
 
 	private List<UserResourceRespDTO> buildUserResourceTree(List<Long> pids,
 			Map<Long, UserResourceRespDTO> menuTreeMap) {
-		List<UserResourceRespDTO> menus = Lists.newLinkedList();
+		List<UserResourceRespDTO> menus = new LinkedList<>();
 		Set<Long> keySet = menuTreeMap.keySet();
 		for (Long key : keySet) {
 			UserResourceRespDTO menu = menuTreeMap.get(key);

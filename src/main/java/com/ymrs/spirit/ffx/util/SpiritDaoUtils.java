@@ -1,5 +1,6 @@
 package com.ymrs.spirit.ffx.util;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
@@ -11,8 +12,6 @@ import javax.persistence.criteria.Root;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.util.StringUtils;
-
-import com.google.common.collect.Lists;
 
 /**
  * JPA Specification 工具类
@@ -67,7 +66,7 @@ public final class SpiritDaoUtils {
 	public static void buildSpecificationOrder(Root<? extends Object> root, CriteriaQuery<? extends Object> query,
 			CriteriaBuilder cb, String sortCol, String sortDir) {
 		if (StringUtils.hasLength(sortCol)) {
-			List<Order> orders = Lists.newArrayList();
+			List<Order> orders = new ArrayList<>();
 			String[] sortColArr = sortCol.trim().split(",");
 			String[] sortDirArr = sortDir.trim().split(",");
 			int sortColLength = sortColArr.length;

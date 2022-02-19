@@ -1,5 +1,6 @@
 package com.ymrs.spirit.ffx.controller.sysmgr;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -12,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.google.common.collect.Lists;
 import com.ymrs.spirit.ffx.dto.sysmgr.req.RoleReqDTO;
 import com.ymrs.spirit.ffx.dto.sysmgr.resp.RoleRespDTO;
 import com.ymrs.spirit.ffx.exception.SpiritServiceException;
@@ -58,7 +58,9 @@ public class RoleController {
 		} catch (Exception e) {
 			logger.error("queryRoleTree error.", e);
 		}
-		return Lists.newArrayList(root);
+		List<RoleTreeVO> trees = new ArrayList<>();
+		trees.add(root);
+		return trees;
 	}
 	
 	@PreAuthorize("hasAuthority('sysmgr.role.query')")

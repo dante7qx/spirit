@@ -1,8 +1,8 @@
 package com.ymrs.spirit.ffx.vo.sysmgr;
 
+import java.util.ArrayList;
 import java.util.List;
 
-import com.google.common.collect.Lists;
 import com.ymrs.spirit.ffx.constant.EasyUITreeConsts;
 import com.ymrs.spirit.ffx.dto.sysmgr.resp.ResourceRespDTO;
 
@@ -19,7 +19,7 @@ public class ResourceTreeVO {
 
 	public List<ResourceTreeVO> getChildren() {
 		if(children == null) {
-			children = Lists.newArrayList();
+			children = new ArrayList<>();
 		}
 		return children;
 	}

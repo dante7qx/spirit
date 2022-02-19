@@ -3,6 +3,7 @@ package com.ymrs.spirit.ffx.security;
 import java.io.Serializable;
 import java.time.Instant;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Map;
 
 import org.slf4j.Logger;
@@ -11,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
-import com.google.common.collect.Maps;
 import com.ymrs.spirit.ffx.constant.JWTConsts;
 import com.ymrs.spirit.ffx.prop.SpiritProperties;
 
@@ -65,7 +65,7 @@ public class SpiritJwtTokenUtils implements Serializable {
     }
     
     public String generateToken(Long id, String account) {
-        Map<String, Object> claims = Maps.newHashMap();
+        Map<String, Object> claims = new HashMap<>();
         claims.put(Claims.SUBJECT, account + JWTConsts.TOKEN_SPLIT + id);
         claims.put(Claims.ISSUED_AT, new Date());
         return generateToken(claims);
@@ -127,7 +127,7 @@ public class SpiritJwtTokenUtils implements Serializable {
     public Boolean validateToken(String token, UserDetails userDetails) {
     	SpiritPrincipal user = (SpiritPrincipal) userDetails;
         final String username = getUsernameFromToken(token);
-        final Date created = getCreatedDateFromToken(token);
+//        final Date created = getCreatedDateFromToken(token);
         SpiritLoginUser loginUser = user.getSpiritLoginUser();
         String sub = loginUser.getAccount() + JWTConsts.TOKEN_SPLIT + loginUser.getId();
 //        Date lastPwdUpdateDate = loginUser.getLastPwdUpdateDate();

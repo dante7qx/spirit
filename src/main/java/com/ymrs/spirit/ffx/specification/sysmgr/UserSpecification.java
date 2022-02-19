@@ -1,5 +1,6 @@
 package com.ymrs.spirit.ffx.specification.sysmgr;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -13,7 +14,6 @@ import javax.persistence.criteria.SetJoin;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.util.StringUtils;
 
-import com.google.common.collect.Lists;
 import com.ymrs.spirit.ffx.po.sysmgr.RolePO;
 import com.ymrs.spirit.ffx.po.sysmgr.UserPO;
 
@@ -39,27 +39,29 @@ public class UserSpecification {
 	 */
 	public static Specification<UserPO> querySpecification(Map<String, Object> filter) {
 		return new Specification<UserPO>(){
+			private static final long serialVersionUID = 1L;
+
 			@Override
 			public Predicate toPredicate(Root<UserPO> root, CriteriaQuery<? extends Object> query, CriteriaBuilder cb) {
-				List<Predicate> predicates = Lists.newArrayList();
+				List<Predicate> predicates = new ArrayList<>();
 				String account = (String) filter.get("account");
 				String name = (String) filter.get("name");
 				String email = (String) filter.get("email");
 				String status = (String) filter.get("status");
 				
-				if(!StringUtils.isEmpty(account)) {
+				if(StringUtils.hasLength(account)) {
 					Predicate accountLike = cb.like(root.get("account").as(String.class), "%"+account.trim()+"%");
 					predicates.add(accountLike);
 				}
-				if(!StringUtils.isEmpty(name)) {
+				if(StringUtils.hasLength(name)) {
 					Predicate nameLike = cb.like(root.get("name").as(String.class), "%"+name.trim()+"%");
 					predicates.add(nameLike);
 				}
-				if(!StringUtils.isEmpty(email)) {
+				if(StringUtils.hasLength(email)) {
 					Predicate emailLike = cb.like(root.get("email").as(String.class), "%"+email.trim()+"%");
 					predicates.add(emailLike);
 				}
-				if(!StringUtils.isEmpty(status)) {
+				if(StringUtils.hasLength(status)) {
 					Predicate statusEq = cb.equal(root.get("status").as(String.class), status.trim());
 					predicates.add(statusEq);
 				}
@@ -75,6 +77,8 @@ public class UserSpecification {
 	 */
 	public static Specification<UserPO> queryUserByRoleId(Long roleId) {
 		return new Specification<UserPO>() {
+			private static final long serialVersionUID = 1L;
+
 			@Override
 			public Predicate toPredicate(Root<UserPO> root, CriteriaQuery<? extends Object> query, CriteriaBuilder cb) {
 				SetJoin<UserPO, RolePO> roleJoin = root.join(root.getModel().getSet("roles", RolePO.class),

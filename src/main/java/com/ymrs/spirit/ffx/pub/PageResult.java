@@ -1,8 +1,7 @@
 package com.ymrs.spirit.ffx.pub;
 
+import java.util.ArrayList;
 import java.util.List;
-
-import com.google.common.collect.Lists;
 
 public class PageResult<T> {
 
@@ -20,7 +19,7 @@ public class PageResult<T> {
 
 	public List<T> getRows() {
 		if(rows == null) {
-			rows = Lists.newArrayList();
+			rows = new ArrayList<>();
 		}
 		return rows;
 	}

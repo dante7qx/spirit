@@ -1,5 +1,6 @@
 package com.ymrs.spirit.ffx.controller.sysmgr;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -12,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.google.common.collect.Lists;
 import com.ymrs.spirit.ffx.dto.sysmgr.req.UserModifyPasswordReqDTO;
 import com.ymrs.spirit.ffx.dto.sysmgr.req.UserReqDTO;
 import com.ymrs.spirit.ffx.dto.sysmgr.resp.UserRespDTO;
@@ -75,7 +75,7 @@ public class UserController {
 	@PreAuthorize("hasAuthority('sysmgr.user.query')")
 	@PostMapping(value = "/query_by_role_id/{roleId}")
 	public List<UserRespDTO> queryByRoleId(@PathVariable("roleId") Long roleId) {
-		List<UserRespDTO> result = Lists.newArrayList();
+		List<UserRespDTO> result = new ArrayList<>();
 		try {
 			result = userService.findByRoleId(roleId);
 		} catch (SpiritServiceException e) {

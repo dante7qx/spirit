@@ -1,5 +1,6 @@
 package com.ymrs.spirit.ffx.service.sysmgr.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -10,7 +11,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
-import com.google.common.collect.Lists;
 import com.ymrs.spirit.ffx.constant.EasyUITreeConsts;
 import com.ymrs.spirit.ffx.dao.sysmgr.AuthorityDAO;
 import com.ymrs.spirit.ffx.dto.sysmgr.req.AuthorityReqDTO;
@@ -48,7 +48,7 @@ public class AuthorityServiceImpl implements AuthorityService {
 
 	@Override
 	public List<AuthorityRespDTO> findRootAuthority() throws SpiritServiceException {
-		List<AuthorityRespDTO> authorityRespDTOs = Lists.newArrayList();
+		List<AuthorityRespDTO> authorityRespDTOs = new ArrayList<>();
 		try {
 			List<AuthorityPO> pos = authorityDAO.findRootAuthority();
 			for (AuthorityPO po : pos) {
@@ -63,7 +63,7 @@ public class AuthorityServiceImpl implements AuthorityService {
 
 	@Override
 	public List<AuthorityRespDTO> findByPid(Long pid) throws SpiritServiceException {
-		List<AuthorityRespDTO> authorityRespDTOs = Lists.newArrayList();
+		List<AuthorityRespDTO> authorityRespDTOs = new ArrayList<>();
 		try {
 			List<AuthorityPO> pos = authorityDAO.findByParentId(pid);
 			for (AuthorityPO po : pos) {
@@ -107,7 +107,7 @@ public class AuthorityServiceImpl implements AuthorityService {
 	
 	@Override
 	public List<AuthorityTreeVO> findAuthorityTrees() throws SpiritServiceException {
-		List<AuthorityTreeVO> trees = Lists.newArrayList();
+		List<AuthorityTreeVO> trees = new ArrayList<>();
 		List<AuthorityRespDTO> authoritys = findRootAuthority();
 		if(CollectionUtils.isEmpty(authoritys)) {
 			return trees;

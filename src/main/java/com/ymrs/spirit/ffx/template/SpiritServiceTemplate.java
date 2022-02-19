@@ -1,5 +1,6 @@
 package com.ymrs.spirit.ffx.template;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -12,7 +13,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.util.CollectionUtils;
 
-import com.google.common.collect.Lists;
 import com.ymrs.spirit.ffx.exception.SpiritServiceException;
 import com.ymrs.spirit.ffx.pub.PageReq;
 import com.ymrs.spirit.ffx.pub.PageResp;
@@ -58,7 +58,7 @@ public abstract class SpiritServiceTemplate<REQ, RESP, P> {
 		PageResp<RESP> pageResp = new PageResp<>();
 		List<P> dbList = page.getContent();
 		if(!CollectionUtils.isEmpty(dbList)) {
-			List<RESP> list = Lists.newArrayList();
+			List<RESP> list = new ArrayList<>();
 			for (P po : dbList) {
 				RESP t = convertPoToRespDto(po);
 				list.add(t);

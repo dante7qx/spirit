@@ -1,8 +1,7 @@
 package com.ymrs.spirit.ffx.vo.login;
 
+import java.util.LinkedList;
 import java.util.List;
-
-import com.google.common.collect.Lists;
 
 import lombok.Data;
 
@@ -22,7 +21,7 @@ public class LoginUserMenuVO {
 
 	public List<LoginUserMenuVO> getChildren() {
 		if (this.children == null) {
-			this.children = Lists.newLinkedList();
+			this.children = new LinkedList<>();
 		}
 		return children;
 	}

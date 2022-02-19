@@ -1,5 +1,6 @@
 package com.ymrs.spirit.ffx.controller.sysmgr;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -12,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.google.common.collect.Lists;
 import com.ymrs.spirit.ffx.constant.EasyUITreeConsts;
 import com.ymrs.spirit.ffx.dto.sysmgr.req.ResourceReqDTO;
 import com.ymrs.spirit.ffx.dto.sysmgr.resp.ResourceRespDTO;
@@ -35,7 +35,7 @@ public class ResourceController {
 	@PreAuthorize("hasAuthority('sysmgr.resource.query')")
 	@PostMapping("/query_tree")
 	public List<ResourceTreeVO> queryResourceTree() {
-		List<ResourceTreeVO> trees = Lists.newArrayList();
+		List<ResourceTreeVO> trees = new ArrayList<>();
 		try {
 			ResourceTreeVO root = new ResourceTreeVO();
 			root.setId(-1L);

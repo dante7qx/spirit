@@ -1,8 +1,7 @@
 package com.ymrs.spirit.ffx.dto.sysmgr.resp;
 
+import java.util.HashSet;
 import java.util.Set;
-
-import com.google.common.collect.Sets;
 
 import lombok.Data;
 
@@ -26,7 +25,7 @@ public class UserRespDTO {
 	
 	public Set<Long> getRoleIds() {
 		if(this.roleIds == null) {
-			this.roleIds = Sets.newHashSet();
+			this.roleIds = new HashSet<>();
 		}
 		return this.roleIds;
 	}

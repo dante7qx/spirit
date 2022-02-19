@@ -34,6 +34,8 @@ public class ResourceSpecification {
 	 */
 	public static Specification<ResourcePO> findResourceTreeByUserId(Long userId) {
 		return new Specification<ResourcePO>() {
+			private static final long serialVersionUID = 1L;
+
 			@Override
 			public Predicate toPredicate(Root<ResourcePO> root, CriteriaQuery<? extends Object> query, CriteriaBuilder cb) {
 				Join<ResourcePO, ResourcePO> parentResourceJoin = root

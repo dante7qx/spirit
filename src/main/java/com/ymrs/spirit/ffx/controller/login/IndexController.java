@@ -1,5 +1,6 @@
 package com.ymrs.spirit.ffx.controller.login;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -9,7 +10,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.google.common.collect.Lists;
 import com.ymrs.spirit.ffx.dto.sysmgr.resp.UserResourceRespDTO;
 import com.ymrs.spirit.ffx.exception.SpiritServiceException;
 import com.ymrs.spirit.ffx.security.SpiritLoginUser;
@@ -27,7 +27,7 @@ public class IndexController {
 	@RequestMapping("/")
 	public String index(Model model) {
 		SpiritLoginUser loginUser = LoginUserUtils.loginUser();
-		List<UserResourceRespDTO> menus = Lists.newLinkedList();
+		List<UserResourceRespDTO> menus = new ArrayList<>();
 		try {
 			menus = resourceService.findUserResourceByUserId(loginUser.getId());
 		} catch (SpiritServiceException e) {

@@ -1,9 +1,8 @@
 package com.ymrs.spirit.ffx.pub;
 
 import java.io.Serializable;
+import java.util.HashMap;
 import java.util.Map;
-
-import com.google.common.collect.Maps;
 
 /**
  * 分页公共请求类
@@ -72,7 +71,7 @@ public class PageReq implements Serializable {
 
 	public Map<String, Object> getQ() {
 		if(q == null) {
-			q = Maps.newHashMap();
+			q = new HashMap<>();
 		}
 		return q;
 	}

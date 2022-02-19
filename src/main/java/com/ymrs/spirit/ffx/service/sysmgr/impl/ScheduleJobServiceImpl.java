@@ -1,6 +1,7 @@
 package com.ymrs.spirit.ffx.service.sysmgr.impl;
 
 import java.lang.annotation.Annotation;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -13,7 +14,6 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.google.common.collect.Lists;
 import com.ymrs.spirit.ffx.constant.sysmgr.SchedulerJobConsts;
 import com.ymrs.spirit.ffx.dao.sysmgr.ScheduleJobDAO;
 import com.ymrs.spirit.ffx.dto.sysmgr.ScheduleJobDTO;
@@ -140,7 +140,7 @@ public class ScheduleJobServiceImpl extends SpiritServiceTemplate<ScheduleJobDTO
 	
 	@Override
 	public List<ScheduleJobVO> findScheduleJobCombo() {
-		List<ScheduleJobVO> vos = Lists.newArrayList();
+		List<ScheduleJobVO> vos = new ArrayList<>();
 		List<Class<?>> clsList = AnnotationUtils.getClasses(SchedulerJobConsts.JOB_PKG);
 		if(CollectionUtils.isNotEmpty(clsList)) {
 			clsList.stream().forEach(c -> {

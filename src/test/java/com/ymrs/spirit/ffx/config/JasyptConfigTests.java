@@ -5,6 +5,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.ymrs.spirit.ffx.SpiritApplicationTests;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 public class JasyptConfigTests extends SpiritApplicationTests {
 	
 	@Autowired
@@ -12,8 +15,13 @@ public class JasyptConfigTests extends SpiritApplicationTests {
 
 	@Test
 	public void testEncrypt() {
-		String decrypt = jasypt.stringEncryptor().decrypt("ENC@[rDGU93pTlUIbTcYYQJq9cdF4yCP74ykj]");
-		System.out.println("======================> " + decrypt);
+		String password = "12345678";
+		String encrypt = jasypt.stringEncryptor().encrypt(password);
+		log.info("encrypt ======================> {}", encrypt);
+		String decrypt = jasypt.stringEncryptor().decrypt(encrypt);
+		log.info("decrypt ======================> {}", decrypt);
+		
+		
 	}
 	
 }

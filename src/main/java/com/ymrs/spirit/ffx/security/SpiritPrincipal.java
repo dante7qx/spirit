@@ -1,6 +1,7 @@
 package com.ymrs.spirit.ffx.security;
 
 import java.util.Collection;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
@@ -8,8 +9,6 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.util.CollectionUtils;
-
-import com.google.common.collect.Lists;
 
 /**
  * 认证实体类
@@ -36,7 +35,7 @@ public class SpiritPrincipal implements UserDetails {
 	 */
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
-		List<GrantedAuthority> grantedAuthoritys = Lists.newLinkedList();
+		List<GrantedAuthority> grantedAuthoritys = new LinkedList<>();
 		Set<String> authoritys = this.getSpiritLoginUser().getAuthoritys();
 		if (!CollectionUtils.isEmpty(authoritys)) {
 			grantedAuthoritys = AuthorityUtils.createAuthorityList(authoritys.toArray(new String[authoritys.size()]));

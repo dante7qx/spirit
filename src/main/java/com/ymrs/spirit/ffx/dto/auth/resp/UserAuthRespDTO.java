@@ -1,8 +1,7 @@
 package com.ymrs.spirit.ffx.dto.auth.resp;
 
+import java.util.HashSet;
 import java.util.Set;
-
-import com.google.common.collect.Sets;
 
 import lombok.Data;
 
@@ -26,7 +25,7 @@ public class UserAuthRespDTO {
 
 	public Set<String> getAuthoritys() {
 		if (this.authoritys == null) {
-			this.authoritys = Sets.newHashSet();
+			this.authoritys = new HashSet<>();
 		}
 		return authoritys;
 	}

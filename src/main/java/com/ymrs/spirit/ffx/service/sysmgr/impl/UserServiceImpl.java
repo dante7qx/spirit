@@ -1,5 +1,7 @@
 package com.ymrs.spirit.ffx.service.sysmgr.impl;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -11,8 +13,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
-import com.google.common.collect.Lists;
-import com.google.common.collect.Sets;
 import com.ymrs.spirit.ffx.constant.sysmgr.UserConsts;
 import com.ymrs.spirit.ffx.dao.sysmgr.AuthorityDAO;
 import com.ymrs.spirit.ffx.dao.sysmgr.UserDAO;
@@ -112,7 +112,7 @@ public class UserServiceImpl extends SpiritServiceTemplate<UserReqDTO, UserRespD
 	 */
 	@Override
 	public List<UserRespDTO> findByRoleId(Long roleId) throws SpiritServiceException {
-		List<UserRespDTO> userResps = Lists.newArrayList();
+		List<UserRespDTO> userResps = new ArrayList<>();
 		List<UserPO> users = userDAO.findAll(UserSpecification.queryUserByRoleId(roleId));
 		if (!CollectionUtils.isEmpty(users)) {
 			for (UserPO userPO : users) {
@@ -270,7 +270,7 @@ public class UserServiceImpl extends SpiritServiceTemplate<UserReqDTO, UserRespD
 		}
 		Set<Long> roleIds = userReqDto.getRoleIds();
 		if (!CollectionUtils.isEmpty(roleIds)) {
-			Set<RolePO> roles = Sets.newHashSet();
+			Set<RolePO> roles = new HashSet<>();
 			for (Long roleId : roleIds) {
 				if (roleId < 0) {
 					continue;

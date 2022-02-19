@@ -1,8 +1,7 @@
 package com.ymrs.spirit.ffx.pub;
 
+import java.util.ArrayList;
 import java.util.List;
-
-import com.google.common.collect.Lists;
 
 /**
  * 公共分页返回基类
@@ -33,7 +32,7 @@ public class PageResp<T> {
 
 	public List<T> getResult() {
 		if(result == null) {
-			this.result = Lists.newArrayList();
+			this.result = new ArrayList<>();
 		}
 		return result;
 	}
