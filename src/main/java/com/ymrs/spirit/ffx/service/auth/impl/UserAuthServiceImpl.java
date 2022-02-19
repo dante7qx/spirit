@@ -106,7 +106,7 @@ public class UserAuthServiceImpl implements UserAuthService {
 		try {
 			final String token = oldToken.substring(spiritProperties.getJwt().getTokenHead().length());
 			String account = spiritJwtTokenUtils.getUsernameFromToken(token);
-			UserPO userPO = userDAO.findOne(Long.parseLong(account.split(JWTConsts.TOKEN_SPLIT)[1]));
+			UserPO userPO = userDAO.findById(Long.parseLong(account.split(JWTConsts.TOKEN_SPLIT)[1])).get();
 			Date lastPwdUpdateDate = userPO.getLastPwdUpdateDate();
 			if (spiritJwtTokenUtils.canTokenBeRefreshed(token, lastPwdUpdateDate)) {
 				refreshedToken = spiritJwtTokenUtils.refreshToken(token);

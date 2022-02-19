@@ -3,7 +3,7 @@ package com.ymrs.spirit.ffx.dao.sysmgr;
 import java.time.Instant;
 import java.util.Date;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.ymrs.spirit.ffx.SpiritApplicationTests;
@@ -26,6 +26,6 @@ public class SysLogDAOTests extends SpiritApplicationTests {
 	
 	@Test
 	public void delete() {
-		sysLogDAO.delete(id);
+		sysLogDAO.deleteById(id);
 	}
 }

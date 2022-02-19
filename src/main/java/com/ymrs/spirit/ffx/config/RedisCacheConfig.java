@@ -20,6 +20,7 @@ import org.springframework.data.redis.serializer.StringRedisSerializer;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.jsontype.impl.LaissezFaireSubTypeValidator;
 
 @Configuration
 @EnableCaching
@@ -32,9 +33,10 @@ public class RedisCacheConfig extends CachingConfigurerSupport {
 	 * 缓存管理器
 	 */
 	@Bean
-	public CacheManager cacheManager() {
-		RedisCacheManager cacheManager = new RedisCacheManager(cacheRedisTemplate());
-		return cacheManager;
+	public CacheManager cacheManager(RedisConnectionFactory connectionFactory) {
+//		RedisCacheManager cacheManager = new RedisCacheManager(cacheRedisTemplate());
+//		return cacheManager;
+		return RedisCacheManager.create(connectionFactory);
 	}
 	
 	@Bean(name = "redisTemplate")
@@ -55,7 +57,7 @@ public class RedisCacheConfig extends CachingConfigurerSupport {
 		Jackson2JsonRedisSerializer<?> jackson2JsonRedisSerializer = new Jackson2JsonRedisSerializer<>(Object.class);  
         ObjectMapper om = new ObjectMapper();  
         om.setVisibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.ANY);  
-        om.enableDefaultTyping(ObjectMapper.DefaultTyping.NON_FINAL);  
+        om.activateDefaultTyping(LaissezFaireSubTypeValidator.instance, ObjectMapper.DefaultTyping.NON_FINAL);  
         jackson2JsonRedisSerializer.setObjectMapper(om);  
         template.setValueSerializer(jackson2JsonRedisSerializer); 
         // Redis key 序列化

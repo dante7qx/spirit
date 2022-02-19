@@ -146,7 +146,7 @@ public class UserServiceImpl extends SpiritServiceTemplate<UserReqDTO, UserRespD
 			userPO.setLastPwdUpdateDate(DateUtils.currentDate());
 			userPO.setStatus(UserConsts.STATUS_NORMAL);
 		} else {
-			UserPO oldUserPo = userDAO.findOne(id);
+			UserPO oldUserPo = userDAO.getById(id);
 			userPO.setPassword(oldUserPo.getPassword());
 			userPO.setLastPwdUpdateDate(oldUserPo.getLastPwdUpdateDate());
 			userPO.setStatus(oldUserPo.getStatus());
@@ -178,7 +178,7 @@ public class UserServiceImpl extends SpiritServiceTemplate<UserReqDTO, UserRespD
 	@Override
 	@Transactional
 	public void delete(UserReqDTO userReqDTO) throws SpiritServiceException {
-		UserPO userPO = userDAO.findOne(userReqDTO.getId());
+		UserPO userPO = userDAO.getById(userReqDTO.getId());
 		userPO.setStatus(UserConsts.STATUS_DEL);
 		userPO.setUpdateDate(DateUtils.currentDate());
 		userPO.setUpdateUser(new UserPO(userReqDTO.getUpdateUser()));
@@ -192,7 +192,7 @@ public class UserServiceImpl extends SpiritServiceTemplate<UserReqDTO, UserRespD
 	@Override
 	@Transactional
 	public void lockUser(UserReqDTO userReqDTO) throws SpiritServiceException {
-		UserPO userPO = userDAO.findOne(userReqDTO.getId());
+		UserPO userPO = userDAO.getById(userReqDTO.getId());
 		userPO.setStatus(UserConsts.STATUS_LOCK);
 		userPO.setUpdateDate(DateUtils.currentDate());
 		userPO.setUpdateUser(new UserPO(userReqDTO.getUpdateUser()));
@@ -205,7 +205,7 @@ public class UserServiceImpl extends SpiritServiceTemplate<UserReqDTO, UserRespD
 	@Override
 	@Transactional
 	public void releaseLockUser(UserReqDTO userReqDTO) throws SpiritServiceException {
-		UserPO userPO = userDAO.findOne(userReqDTO.getId());
+		UserPO userPO = userDAO.getById(userReqDTO.getId());
 		userPO.setStatus(UserConsts.STATUS_NORMAL);
 		userPO.setUpdateDate(DateUtils.currentDate());
 		userPO.setUpdateUser(new UserPO(userReqDTO.getUpdateUser()));
@@ -217,7 +217,7 @@ public class UserServiceImpl extends SpiritServiceTemplate<UserReqDTO, UserRespD
 	 */
 	@Override
 	public UserRespDTO findById(Long id) throws SpiritServiceException {
-		UserPO userPO = userDAO.findOne(id);
+		UserPO userPO = userDAO.getById(id);
 		return convertPoToRespDto(userPO);
 	}
 
@@ -226,7 +226,7 @@ public class UserServiceImpl extends SpiritServiceTemplate<UserReqDTO, UserRespD
 	 */
 	@Override
 	public Boolean checkPassword(UserModifyPasswordReqDTO userModifyPasswordReqDTO) throws SpiritServiceException {
-		UserPO userPO = userDAO.findOne(userModifyPasswordReqDTO.getId());
+		UserPO userPO = userDAO.getById(userModifyPasswordReqDTO.getId());
 		String oldPassword = userModifyPasswordReqDTO.getOldPassword();
 		String dbUserPassword = userPO.getPassword();
 		return EncryptUtils.match(oldPassword, dbUserPassword);
@@ -238,7 +238,7 @@ public class UserServiceImpl extends SpiritServiceTemplate<UserReqDTO, UserRespD
 	@Override
 	@Transactional
 	public void modifyPassword(UserModifyPasswordReqDTO userModifyPasswordReqDTO) throws SpiritServiceException {
-		UserPO userPO = userDAO.findOne(userModifyPasswordReqDTO.getId());
+		UserPO userPO = userDAO.getById(userModifyPasswordReqDTO.getId());
 		String oldPassword = userModifyPasswordReqDTO.getOldPassword();
 		String dbUserPassword = userPO.getPassword();
 		if (!EncryptUtils.match(oldPassword, dbUserPassword)) {

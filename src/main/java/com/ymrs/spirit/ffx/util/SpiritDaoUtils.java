@@ -34,8 +34,8 @@ public final class SpiritDaoUtils {
 	 * @return
 	 */
 	public static Sort buildJPABasicOrder(String sortCol, String sortDir) {
-		if (StringUtils.isEmpty(sortCol)) {
-			return new Sort(Direction.DESC, "id");
+		if (! StringUtils.hasLength(sortCol)) {
+			return Sort.by(Direction.DESC, "id");
 		}
 		Sort sort = null;
 		String[] sortColArr = sortCol.trim().split(",");
@@ -45,11 +45,11 @@ public final class SpiritDaoUtils {
 			String col = sortColArr[i].trim();
 			String dir = sortDirArr[i];
 			if (i == 0) {
-				sort = new Sort(buildDirection(dir), col);
+				sort = Sort.by(buildDirection(dir), col);
 				continue;
 			}
 			if (sort != null) {
-				sort.and(new Sort(buildDirection(dir), col));
+				sort.and(Sort.by(buildDirection(dir), col));
 			}
 		}
 		return sort;
@@ -66,7 +66,7 @@ public final class SpiritDaoUtils {
 	 */
 	public static void buildSpecificationOrder(Root<? extends Object> root, CriteriaQuery<? extends Object> query,
 			CriteriaBuilder cb, String sortCol, String sortDir) {
-		if (!StringUtils.isEmpty(sortCol)) {
+		if (StringUtils.hasLength(sortCol)) {
 			List<Order> orders = Lists.newArrayList();
 			String[] sortColArr = sortCol.trim().split(",");
 			String[] sortDirArr = sortDir.trim().split(",");

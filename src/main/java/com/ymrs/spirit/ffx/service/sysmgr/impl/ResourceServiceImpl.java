@@ -105,9 +105,9 @@ public class ResourceServiceImpl implements ResourceService {
 			throw new SpiritServiceException("ResourceDAO findByParentId error.", e);
 		}
 		if (!CollectionUtils.isEmpty(resources)) {
-			resourceDAO.deleteInBatch(resources);
+			resourceDAO.deleteAllInBatch(resources);
 		}
-		resourceDAO.delete(id);
+		resourceDAO.deleteById(id);
 	}
 
 	private void buildFullId(Long pid, StringBuilder fullIdBuilder) {
@@ -118,7 +118,7 @@ public class ResourceServiceImpl implements ResourceService {
 			return;
 		}
 		fullIdBuilder.append("-").append(pid);
-		ResourcePO parentResource = resourceDAO.findOne(pid);
+		ResourcePO parentResource = resourceDAO.getById(pid);
 		if (parentResource.getParentResource() != null) {
 			buildFullId(parentResource.getParentResource().getId(), fullIdBuilder);
 		}
@@ -126,7 +126,7 @@ public class ResourceServiceImpl implements ResourceService {
 
 	@Override
 	public ResourceRespDTO findById(Long id) throws SpiritServiceException {
-		return convertPoToRespDto(resourceDAO.findOne(id));
+		return convertPoToRespDto(resourceDAO.getById(id));
 	}
 
 	@Override
@@ -313,7 +313,7 @@ public class ResourceServiceImpl implements ResourceService {
 	 */
 	private void handleDragTop(Long targetPid, int targetShowOrder, Long sourceId, Long updateUser)
 			throws SpiritServiceException {
-		ResourcePO sourceResource = resourceDAO.findOne(sourceId);
+		ResourcePO sourceResource = resourceDAO.getById(sourceId);
 		sourceResource.setParentResource(new ResourcePO(targetPid));
 		sourceResource.setShowOrder(targetShowOrder > 1 ? targetShowOrder - 1 : 1);
 		sourceResource.setUpdateUser(new UserPO(updateUser));
@@ -331,7 +331,7 @@ public class ResourceServiceImpl implements ResourceService {
 	 */
 	private void handleDragBottom(Long targetPid, int targetShowOrder, Long sourceId, Long updateUser)
 			throws SpiritServiceException {
-		ResourcePO sourceResource = resourceDAO.findOne(sourceId);
+		ResourcePO sourceResource = resourceDAO.getById(sourceId);
 		sourceResource.setParentResource(new ResourcePO(targetPid));
 		sourceResource.setShowOrder(targetShowOrder + 1);
 		sourceResource.setUpdateUser(new UserPO(updateUser));
@@ -346,7 +346,7 @@ public class ResourceServiceImpl implements ResourceService {
 	 * @throws SpiritServiceException
 	 */
 	private void handleDragAppend(Long targetId, Long sourceId, Long updateUser) throws SpiritServiceException {
-		ResourcePO sourceResource = resourceDAO.findOne(sourceId);
+		ResourcePO sourceResource = resourceDAO.getById(sourceId);
 		if (targetId > 0) {
 			sourceResource.setParentResource(new ResourcePO(targetId));
 		} else {

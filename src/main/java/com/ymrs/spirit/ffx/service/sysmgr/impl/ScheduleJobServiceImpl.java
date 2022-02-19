@@ -77,7 +77,7 @@ public class ScheduleJobServiceImpl extends SpiritServiceTemplate<ScheduleJobDTO
 		ScheduleJobPO jobPO = convertReqDtoToPo(reqDTO);
 		boolean startJob = jobPO.getStartJob() != null ? jobPO.getStartJob().booleanValue() : false;
 		if(jobPO.getId() != null) {
-			ScheduleJobPO oldPO = scheduleJobDAO.findOne(jobPO.getId());
+			ScheduleJobPO oldPO = scheduleJobDAO.getById(jobPO.getId());
 			jobPO.setStartJob(startJob);
 			jobPO.setFireTime(oldPO.getFireTime());
 			jobPO.setPreviousFireTime(oldPO.getPreviousFireTime());
@@ -98,9 +98,9 @@ public class ScheduleJobServiceImpl extends SpiritServiceTemplate<ScheduleJobDTO
 	@Override
 	@Transactional
 	public void deleteById(Long id) throws SpiritServiceException {
-		ScheduleJobPO po = scheduleJobDAO.findOne(id);
+		ScheduleJobPO po = scheduleJobDAO.getById(id);
 		if(po != null) {
-			scheduleJobDAO.delete(id);
+			scheduleJobDAO.deleteById(id);
 			spiritScheduler.removeJob(po.getJobId());
 		}
 	}
@@ -112,7 +112,7 @@ public class ScheduleJobServiceImpl extends SpiritServiceTemplate<ScheduleJobDTO
 
 	@Override
 	public ScheduleJobDTO findById(Long id) throws SpiritServiceException {
-		return convertPoToRespDto(scheduleJobDAO.findOne(id));
+		return convertPoToRespDto(scheduleJobDAO.getById(id));
 	}
 	
 	@Override

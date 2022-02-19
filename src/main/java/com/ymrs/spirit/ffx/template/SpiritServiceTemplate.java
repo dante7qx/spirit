@@ -97,7 +97,7 @@ public abstract class SpiritServiceTemplate<REQ, RESP, P> {
 	 * @return
 	 */
 	private Pageable buildPageRequest(int pageNo, int pageSize, String sortCol, String sortDir) {
-		return new PageRequest(pageNo - 1, pageSize, SpiritDaoUtils.buildJPABasicOrder(sortCol, sortDir));
+		return PageRequest.of(pageNo - 1, pageSize, SpiritDaoUtils.buildJPABasicOrder(sortCol, sortDir));
 	}
 	
 	/**

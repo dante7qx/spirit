@@ -34,7 +34,7 @@ public class SpiritMongoPageable implements Serializable, Pageable {
 
     // 第二页所需要增加的数量
     @Override
-    public int getOffset() {
+    public long getOffset() {
         return (getPagenumber() - 1) * getPagesize();
     }
 
@@ -82,4 +82,9 @@ public class SpiritMongoPageable implements Serializable, Pageable {
     public Pageable previousOrFirst() {
         return null;
     }
+
+	@Override
+	public Pageable withPage(int pageNumber) {
+		return null;
+	}
 }

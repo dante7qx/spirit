@@ -16,7 +16,7 @@ import org.springframework.web.filter.CorsFilter;
 @Configuration
 public class CorsConfig {
     @Bean
-    public FilterRegistrationBean corsFilter() {
+    public FilterRegistrationBean<CorsFilter> corsFilter() {
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         CorsConfiguration config = new CorsConfiguration();
         config.setAllowCredentials(false);
@@ -27,7 +27,7 @@ public class CorsConfig {
         config.addAllowedMethod("*");
         config.setMaxAge(3600L);
         source.registerCorsConfiguration("/**", config);
-        FilterRegistrationBean bean = new FilterRegistrationBean(new CorsFilter(source));
+        FilterRegistrationBean<CorsFilter> bean = new FilterRegistrationBean<>(new CorsFilter(source));
         // 这个顺序很重要哦，为避免麻烦请设置在最前
         bean.setOrder(0);
         return bean;

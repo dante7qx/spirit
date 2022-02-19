@@ -50,7 +50,7 @@ public class SysLogService extends SpiritMongoTemplate<SysLogPO>{
 			}
 			sysLogDAO.save(sysLog);
 		} else {
-			SysLogPO logPO = sysLogDAO.findOne(id);
+			SysLogPO logPO = sysLogDAO.findById(id).get();
 			if (logPO != null) {
 				logPO.setSpendTime(spendTime);
 				sysLogDAO.save(logPO);

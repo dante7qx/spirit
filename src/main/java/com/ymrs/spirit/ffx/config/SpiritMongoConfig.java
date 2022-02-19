@@ -3,7 +3,7 @@ package com.ymrs.spirit.ffx.config;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.data.mongodb.MongoDbFactory;
+import org.springframework.data.mongodb.MongoDatabaseFactory;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.convert.DefaultDbRefResolver;
 import org.springframework.data.mongodb.core.convert.DefaultMongoTypeMapper;
@@ -14,14 +14,14 @@ import org.springframework.data.mongodb.core.mapping.MongoMappingContext;
 public class SpiritMongoConfig {
 
 	@Autowired
-	private MongoDbFactory mongoDbFactory;
+	private MongoDatabaseFactory mongoDatabaseFactory;
 
 	@Bean
 	MongoTemplate mongoTemplate() {
-		MappingMongoConverter converter = new MappingMongoConverter(new DefaultDbRefResolver(mongoDbFactory),
+		MappingMongoConverter converter = new MappingMongoConverter(new DefaultDbRefResolver(mongoDatabaseFactory),
 				new MongoMappingContext());
 		converter.setTypeMapper(new DefaultMongoTypeMapper(null));
-		return new MongoTemplate(mongoDbFactory, converter);
+		return new MongoTemplate(mongoDatabaseFactory, converter);
 
 	}
 }

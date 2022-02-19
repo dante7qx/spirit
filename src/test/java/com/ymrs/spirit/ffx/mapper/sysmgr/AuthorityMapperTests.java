@@ -1,14 +1,15 @@
 package com.ymrs.spirit.ffx.mapper.sysmgr;
 
+
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+
 import java.util.List;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import com.ymrs.spirit.ffx.SpiritApplicationTests;
 import com.ymrs.spirit.ffx.bo.sysmgr.AuthorityRoleBO;
 import com.ymrs.spirit.ffx.exception.SpiritDaoException;
 import lombok.extern.slf4j.Slf4j;
-
-import static org.junit.Assert.*;
 
 @Slf4j
 public class AuthorityMapperTests extends SpiritApplicationTests {

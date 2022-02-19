@@ -96,12 +96,12 @@ public class AuthorityServiceImpl implements AuthorityService {
 		if (!CollectionUtils.isEmpty(authoritys)) {
 			authorityDAO.deleteInBatch(authoritys);
 		}
-		authorityDAO.delete(id);
+		authorityDAO.deleteById(id);
 	}
 
 	@Override
 	public AuthorityRespDTO findById(Long id) throws SpiritServiceException {
-		AuthorityPO authorityPO = authorityDAO.findOne(id);
+		AuthorityPO authorityPO = authorityDAO.findById(id).orElse(null);
 		return convertPoToRespDto(authorityPO);
 	}
 	
@@ -159,7 +159,7 @@ public class AuthorityServiceImpl implements AuthorityService {
 	 * @throws SpiritServiceException 
 	 */
 	private void handleDragTop(Long targetPid, int targetShowOrder, Long sourceId, Long updateUser) throws SpiritServiceException {
-		AuthorityPO authorityPO = authorityDAO.findOne(sourceId);
+		AuthorityPO authorityPO = authorityDAO.findById(sourceId).orElse(null);
 		authorityPO.setParentAuthority(new AuthorityPO(targetPid));
 		authorityPO.setShowOrder(targetShowOrder > 1 ?  targetShowOrder - 1 : 1);
 		authorityPO.setUpdateUser(new UserPO(updateUser));
@@ -176,7 +176,7 @@ public class AuthorityServiceImpl implements AuthorityService {
 	 * @throws SpiritServiceException 
 	 */
 	private void handleDragBottom(Long targetPid, int targetShowOrder, Long sourceId, Long updateUser) throws SpiritServiceException {
-		AuthorityPO authorityPO = authorityDAO.findOne(sourceId);
+		AuthorityPO authorityPO = authorityDAO.findById(sourceId).orElse(null);
 		authorityPO.setParentAuthority(new AuthorityPO(targetPid));
 		authorityPO.setShowOrder(targetShowOrder + 1);
 		authorityPO.setUpdateUser(new UserPO(updateUser));
@@ -192,7 +192,7 @@ public class AuthorityServiceImpl implements AuthorityService {
 	 * @throws SpiritServiceException 
 	 */
 	private void handleDragAppend(Long targetId, Long sourceId, Long updateUser) throws SpiritServiceException {
-		AuthorityPO authorityPO = authorityDAO.findOne(sourceId);
+		AuthorityPO authorityPO = authorityDAO.findById(sourceId).orElse(null);
 		if(targetId > 0) {
 			authorityPO.setParentAuthority(new AuthorityPO(targetId));
 		} else {

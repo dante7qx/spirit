@@ -66,12 +66,12 @@ public class RoleServiceImpl extends SpiritServiceTemplate<RoleReqDTO, RoleRespD
 	@Override
 	@Transactional
 	public void deleteById(Long id) throws SpiritServiceException {
-		roleDAO.delete(id);
+		roleDAO.deleteById(id);
 	}
 
 	@Override
 	public RoleRespDTO findById(Long id) throws SpiritServiceException {
-		return convertPoToRespDto(roleDAO.findOne(id));
+		return convertPoToRespDto(roleDAO.getById(id));
 	}
 	
 	@Override
@@ -117,7 +117,7 @@ public class RoleServiceImpl extends SpiritServiceTemplate<RoleReqDTO, RoleRespD
 	@Override
 	public List<RoleRespDTO> findAllRoles() throws SpiritServiceException {
 		List<RoleRespDTO> roleRespDTOs = Lists.newLinkedList();
-		List<RolePO> rolePOs = roleDAO.findAll(new Sort(Direction.ASC, "name"));
+		List<RolePO> rolePOs = roleDAO.findAll(Sort.by(Direction.ASC, "name"));
 		if (!CollectionUtils.isEmpty(rolePOs)) {
 			for (RolePO rolePO : rolePOs) {
 				roleRespDTOs.add(convertPoToRespDto(rolePO));
@@ -128,7 +128,7 @@ public class RoleServiceImpl extends SpiritServiceTemplate<RoleReqDTO, RoleRespD
 	
 	@Override
 	public List<RoleTreeVO> findRoleTree() throws SpiritServiceException {
-		List<RolePO> rolePOs = roleDAO.findAll(new Sort(Direction.ASC, "name"));
+		List<RolePO> rolePOs = roleDAO.findAll(Sort.by(Direction.ASC, "name"));
 		List<RoleTreeVO> roleTreeVOs = Lists.newLinkedList();
 		if(!CollectionUtils.isEmpty(rolePOs)) {
 			for (RolePO rolePO : rolePOs) {
