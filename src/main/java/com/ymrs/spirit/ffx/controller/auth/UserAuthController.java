@@ -32,14 +32,14 @@ import com.ymrs.spirit.ffx.service.sysmgr.ResourceService;
 @RestController
 public class UserAuthController {
 	private static final Logger LOGGER = LoggerFactory.getLogger(UserAuthController.class);
-	
+
 	@Autowired
 	private UserAuthService userAuthService;
 	@Autowired
 	private ResourceService resourceService;
 	@Autowired
 	private SpiritProperties spiritProperties;
-	
+
 	/**
 	 * 用户认证
 	 * 
@@ -50,7 +50,7 @@ public class UserAuthController {
 	public BaseResp<UserAuthRespDTO> login(@RequestBody UserAuthReqDTO userReqDTO) {
 		BaseResp<UserAuthRespDTO> result = new BaseResp<>();
 		try {
-			if(!checkParams(userReqDTO)) {
+			if (!checkParams(userReqDTO)) {
 				throw new SpiritServiceException("请求参数非法，请检查后重试！");
 			}
 			UserAuthRespDTO authResp = userAuthService.login(userReqDTO);
@@ -61,7 +61,7 @@ public class UserAuthController {
 		}
 		return result;
 	}
-	
+
 	/**
 	 * 刷新JWT Token
 	 * 
@@ -73,25 +73,25 @@ public class UserAuthController {
 		BaseResp<String> result = new BaseResp<>();
 		try {
 			String oldToken = request.getHeader(spiritProperties.getJwt().getHeader());
-			if(StringUtils.isEmpty(oldToken)) {
+			if (!StringUtils.hasText(oldToken)) {
 				throw new SpiritServiceException("未发现Token信息。");
 			}
 			String refreshToken = userAuthService.refreshToken(oldToken);
 			result.setData(refreshToken);
 		} catch (SpiritServiceException e) {
 			result.setResultCode(RespCodeEnum.FAILURE.code());
-			LOGGER.error("refreshToken error.",  e);
+			LOGGER.error("refreshToken error.", e);
 		}
 		return result;
 	}
-	
+
 	/**
 	 * 根据 userId 获取用户菜单资源
 	 * 
 	 * @param userId
 	 * @return
 	 */
-	@PostMapping("/get_user_menu/{userId}") 
+	@PostMapping("/get_user_menu/{userId}")
 	public BaseResp<List<UserResourceRespDTO>> getUserMenus(@PathVariable("userId") Long userId) {
 		BaseResp<List<UserResourceRespDTO>> result = new BaseResp<>();
 		try {
@@ -99,11 +99,11 @@ public class UserAuthController {
 			result.setData(resources);
 		} catch (SpiritServiceException e) {
 			result.setResultCode(RespCodeEnum.FAILURE.code());
-			LOGGER.error("refreshToken error.",  e);
+			LOGGER.error("refreshToken error.", e);
 		}
 		return result;
 	}
-	
+
 	/**
 	 * 用户认证参数校验
 	 * 
@@ -112,10 +112,10 @@ public class UserAuthController {
 	 */
 	private boolean checkParams(UserAuthReqDTO userReqDTO) {
 		boolean valid = true;
-		if(StringUtils.isEmpty(userReqDTO.getAccount()) || StringUtils.isEmpty(userReqDTO.getPassword())) {
+		if (!StringUtils.hasText(userReqDTO.getAccount()) || !StringUtils.hasText(userReqDTO.getPassword())) {
 			valid = false;
 		}
 		return valid;
 	}
-	
+
 }

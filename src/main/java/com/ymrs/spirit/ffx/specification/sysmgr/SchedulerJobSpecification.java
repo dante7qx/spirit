@@ -35,7 +35,7 @@ public class SchedulerJobSpecification {
 				List<Predicate> predicates = new ArrayList<>();
 				String jobName = (String) filter.get("jobName");
 
-				if (StringUtils.hasLength(jobName)) {
+				if (StringUtils.hasText(jobName)) {
 					Predicate jobNameLike = cb.like(root.get("jobName").as(String.class), "%" + jobName.trim() + "%");
 					predicates.add(jobNameLike);
 				}

@@ -49,19 +49,19 @@ public class UserSpecification {
 				String email = (String) filter.get("email");
 				String status = (String) filter.get("status");
 				
-				if(StringUtils.hasLength(account)) {
+				if(StringUtils.hasText(account)) {
 					Predicate accountLike = cb.like(root.get("account").as(String.class), "%"+account.trim()+"%");
 					predicates.add(accountLike);
 				}
-				if(StringUtils.hasLength(name)) {
+				if(StringUtils.hasText(name)) {
 					Predicate nameLike = cb.like(root.get("name").as(String.class), "%"+name.trim()+"%");
 					predicates.add(nameLike);
 				}
-				if(StringUtils.hasLength(email)) {
+				if(StringUtils.hasText(email)) {
 					Predicate emailLike = cb.like(root.get("email").as(String.class), "%"+email.trim()+"%");
 					predicates.add(emailLike);
 				}
-				if(StringUtils.hasLength(status)) {
+				if(StringUtils.hasText(status)) {
 					Predicate statusEq = cb.equal(root.get("status").as(String.class), status.trim());
 					predicates.add(statusEq);
 				}

@@ -35,7 +35,7 @@ public class RoleSpecification {
 				List<Predicate> predicates = new ArrayList<>();
 				String name = (String) filter.get("name");
 
-				if (StringUtils.hasLength(name)) {
+				if (StringUtils.hasText(name)) {
 					Predicate nameLike = cb.like(root.get("name").as(String.class), "%" + name.trim() + "%");
 					predicates.add(nameLike);
 				}

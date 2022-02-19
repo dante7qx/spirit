@@ -94,7 +94,7 @@ public class AuthorityServiceImpl implements AuthorityService {
 		}
 
 		if (!CollectionUtils.isEmpty(authoritys)) {
-			authorityDAO.deleteInBatch(authoritys);
+			authorityDAO.deleteAllInBatch(authoritys);
 		}
 		authorityDAO.deleteById(id);
 	}

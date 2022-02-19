@@ -12,12 +12,12 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
+import org.springframework.util.StringUtils;
 import org.springframework.web.cors.CorsUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import com.ymrs.spirit.ffx.constant.JWTConsts;
 import com.ymrs.spirit.ffx.prop.SpiritProperties;
-import com.ymrs.spirit.ffx.util.StringUtils;
 
 
 public class SpiritJwtAuthenticationTokenFilter extends OncePerRequestFilter {
@@ -43,7 +43,7 @@ public class SpiritJwtAuthenticationTokenFilter extends OncePerRequestFilter {
 			// The part after "Bearer"
 			final String authToken = authHeader.substring(tokenHead.length()); 
 			String username = jwtTokenUtils.getUsernameFromToken(authToken);
-			if(StringUtils.isNotEmpty(username)) {
+			if(StringUtils.hasText(username)) {
 				username = username.split(JWTConsts.TOKEN_SPLIT)[0];
 				logger.info("checking authentication " + username);
 			}

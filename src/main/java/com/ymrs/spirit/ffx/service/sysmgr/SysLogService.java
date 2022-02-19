@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import com.ymrs.spirit.ffx.dao.sysmgr.SysLogDAO;
 import com.ymrs.spirit.ffx.exception.SpiritServiceException;
@@ -19,7 +20,6 @@ import com.ymrs.spirit.ffx.pub.PageReq;
 import com.ymrs.spirit.ffx.pub.PageResult;
 import com.ymrs.spirit.ffx.template.SpiritMongoTemplate;
 import com.ymrs.spirit.ffx.util.DateUtils;
-import com.ymrs.spirit.ffx.util.StringUtils;
 
 @Service
 public class SysLogService extends SpiritMongoTemplate<SysLogPO>{
@@ -66,10 +66,10 @@ public class SysLogService extends SpiritMongoTemplate<SysLogPO>{
 		String ip = (String) filter.get("ip");
 		String startDateStr = (String) filter.get("startDate");
 		String endDateStr = (String) filter.get("endDate");
-		if(StringUtils.isNotEmpty(account)) {
+		if(StringUtils.hasText(account)) {
 			criteria.and("account").regex(".*?"+account+".*");
 		}
-		if(StringUtils.isNotEmpty(ip)) {
+		if(StringUtils.hasText(ip)) {
 			criteria.and("ip").regex(".*?"+ip+".*");
 		}
 		
@@ -78,6 +78,13 @@ public class SysLogService extends SpiritMongoTemplate<SysLogPO>{
 			criteria.and("visitTime").gte(startDate).lte(endDate);;
 		
 		return criteria;
+	}
+	
+	public static void main(String[] args) {
+		String str = " ";
+		
+		System.out.println(StringUtils.hasLength(str));
+		System.out.println(StringUtils.hasText(str));
 	}
 
 }
