@@ -22,15 +22,15 @@ import com.ymrs.spirit.ffx.template.SpiritMongoTemplate;
 import com.ymrs.spirit.ffx.util.DateUtils;
 
 @Service
-public class SysLogService extends SpiritMongoTemplate<SysLogPO>{
+public class SysLogService extends SpiritMongoTemplate<SysLogPO> {
 
 	@Autowired
 	private SysLogDAO sysLogDAO;
-	
+
 	public PageResult<SysLogPO> findPage(PageReq pageReq) throws SpiritServiceException {
 		return super.findEasyUIPage(pageReq, SysLogPO.class);
 	}
-	
+
 	/**
 	 * 记录系统日志
 	 * 
@@ -45,7 +45,7 @@ public class SysLogService extends SpiritMongoTemplate<SysLogPO>{
 					|| (SHORT_PKG.concat(".SpiritController")).equals(sysLog.getClazz())) {
 				return;
 			}
-			if(ACCOUNT.equals(sysLog.getAccount()) || LOGOUT_URI.equals(sysLog.getUri())) {
+			if (ACCOUNT.equals(sysLog.getAccount()) || LOGOUT_URI.equals(sysLog.getUri())) {
 				sysLog.setParams("");
 			}
 			sysLogDAO.save(sysLog);
@@ -58,33 +58,27 @@ public class SysLogService extends SpiritMongoTemplate<SysLogPO>{
 		}
 
 	}
-	
+
 	@Override
 	protected Criteria buildCriteria(Map<String, Object> filter) {
-		Criteria criteria = new Criteria();  
+		Criteria criteria = new Criteria();
 		String account = (String) filter.get("account");
 		String ip = (String) filter.get("ip");
 		String startDateStr = (String) filter.get("startDate");
 		String endDateStr = (String) filter.get("endDate");
-		if(StringUtils.hasText(account)) {
-			criteria.and("account").regex(".*?"+account+".*");
+		if (StringUtils.hasText(account)) {
+			criteria.and("account").regex(".*?" + account + ".*");
 		}
-		if(StringUtils.hasText(ip)) {
-			criteria.and("ip").regex(".*?"+ip+".*");
+		if (StringUtils.hasText(ip)) {
+			criteria.and("ip").regex(".*?" + ip + ".*");
 		}
-		
-			Date startDate = DateUtils.parseDateTime(startDateStr + " 00:00:00");
-			Date endDate = DateUtils.parseDateTime(endDateStr + " 23:59:59");
-			criteria.and("visitTime").gte(startDate).lte(endDate);;
-		
+
+		Date startDate = DateUtils.parseDateTime(startDateStr + " 00:00:00");
+		Date endDate = DateUtils.parseDateTime(endDateStr + " 23:59:59");
+		criteria.and("visitTime").gte(startDate).lte(endDate);
+		;
+
 		return criteria;
-	}
-	
-	public static void main(String[] args) {
-		String str = " ";
-		
-		System.out.println(StringUtils.hasLength(str));
-		System.out.println(StringUtils.hasText(str));
 	}
 
 }
